@@ -1,0 +1,77 @@
+.login-page-green{
+    background-color: #00a65a!important;
+}
+
+a{
+    color: #00a65a;
+}
+
+.text-default{
+    color: #00a65a;
+}
+
+.btn-primary{
+    background-color: #00a65a;
+    border: solid 1px #00a65a;
+}
+
+label{
+    color: #464c52;
+    font-weight: 500 !important;
+}
+
+table th {
+    font-weight: 500;
+}
+
+.link-action{
+    margin-left: 15px;
+}
+a:hover,
+a.text-muted:hover{
+    color: #00a65a !important;
+}
+
+.page-link,
+.page-link:focus {
+  border-radius: 30px;
+  border: 0px solid #dee2e6;
+  line-height: 1.25;
+  box-shadow: none;
+  margin: 0 3px;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+/* .pagination .active a {
+} */
+.page-item.active .page-link {
+  background-color: #33b35a !important;
+  color: #fff !important;
+  margin: 0 3px;
+  font-size: 0.8rem;
+}
+.pagination .first .page-link,
+.pagination .last .page-link,
+.pagination .next .page-link,
+.pagination .previous .page-link {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.page-item:not(:active) .page-link {
+  color: #999;
+  margin: 0 3px;
+  font-size: 0.8rem;
+}
+
+.page-item:first-child .page-link,
+.page-item:last-child .page-link {
+  border-radius: 30px;
+  border-color: transparent;
+  font-size: 0.8rem;
+}
+
+.card-title{
+    font-weight: bold;
+}

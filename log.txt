@@ -1,0 +1,557 @@
+SELECT count(*) as Count
+        FROM information_schema.TABLES
+        WHERE (TABLE_SCHEMA = 'pos') AND (TABLE_NAME = 'migrations')  [2019-11-28 07:21:29]
+CREATE TABLE `migrations` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Version` Varchar(50) DEFAULT NULL  
+,`ExecutedAt` DATETIME DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-11-28 07:21:29]
+SELECT * FROM migrations  [2019-11-28 07:21:29]
+CREATE TABLE `m_groupusers` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`GroupName` Varchar(100) NOT NULL  
+,`Description` Varchar(100) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-11-28 07:21:29]
+CREATE TABLE `m_users` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`M_Groupuser_Id` int(11) DEFAULT NULL  
+,`Username` Varchar(100) NOT NULL  
+,`Password` Varchar(50) NOT NULL  
+,`IsLoggedIn` smallint(11)  DEFAULT '0' 
+,`IsActive` smallint(11)  DEFAULT '1' 
+,`Language` varchar(50)  DEFAULT 'id' 
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_users_M_Groupuser_Id_fk` (`M_Groupuser_Id`)
+,CONSTRAINT `m_users_M_Groupuser_Id_fk` FOREIGN KEY (`M_Groupuser_Id`) REFERENCES `m_groupusers` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-11-28 07:21:29]
+INSERT INTO migrations VALUES(null, '20190619034744', '2019-11-28 13:21:30')  [2019-11-28 07:21:30]
+CREATE TABLE `m_forms` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`FormName` Varchar(100) NOT NULL  
+,`AliasName` Varchar(100) NOT NULL  
+,`LocalName` Varchar(100) NOT NULL  
+,`ClassName` Varchar(100) NOT NULL  
+,`Resource` Varchar(100) DEFAULT NULL  
+,`IndexRoute` Varchar(100) DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-11-28 07:21:30]
+CREATE TABLE `g_transactionnumbers` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Format` Varchar(50) NOT NULL  
+,`Year` int(11) NOT NULL  
+,`Month` int(11) NOT NULL  
+,`LastNumber` int(11) NOT NULL  
+,`M_Form_Id` int(11) NOT NULL  
+,`TypeTrans` int(11) DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-11-28 07:21:30]
+CREATE TABLE `m_formsettings` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`M_Form_Id` int(11) NOT NULL  
+,`TypeTrans` int(11) DEFAULT NULL  
+,`Value` int(11) NOT NULL  
+,`Name` varchar(1000) NOT NULL  
+,`IntValue` int(11) DEFAULT NULL  
+,`StringValue` varchar(100) DEFAULT NULL  
+,`DecimalValue` decimal(18,2) DEFAULT NULL  
+,`DateTimeValue` datetime DEFAULT NULL  
+,`BooleanValue` smallint(11) DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_formsettings_M_Form_Id_fk` (`M_Form_Id`)
+,CONSTRAINT `m_formsettings_M_Form_Id_fk` FOREIGN KEY (`M_Form_Id`) REFERENCES `m_forms` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-11-28 07:21:30]
+CREATE TABLE `m_enums` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Name` varchar(100) NOT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-11-28 07:21:30]
+CREATE TABLE `m_enumdetails` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`M_Enum_Id` Int(11) NOT NULL  
+,`Value` Int(11) NOT NULL  
+,`EnumName` varchar(50) NOT NULL  
+,`Ordering` tinyint(11) NOT NULL  
+,`Resource` varchar(50) DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_enumdetails_M_Enum_Id_fk` (`M_Enum_Id`)
+,CONSTRAINT `m_enumdetails_M_Enum_Id_fk` FOREIGN KEY (`M_Enum_Id`) REFERENCES `m_enums` (`Id`) ON UPDATE CASCADE ON DELETE CASCADE
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-11-28 07:21:30]
+CREATE TABLE `m_accessroles` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`M_Form_Id` Int(11) NOT NULL  
+,`M_Groupuser_Id` Int(11) NOT NULL  
+,`Read` tinyint(1) DEFAULT NULL  
+,`Write` tinyint(1) DEFAULT NULL  
+,`Delete` tinyint(1) DEFAULT NULL  
+,`Print` tinyint(1) DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_accessroles_M_Form_Id_fk` (`M_Form_Id`)
+,CONSTRAINT `m_accessroles_M_Form_Id_fk` FOREIGN KEY (`M_Form_Id`) REFERENCES `m_forms` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+,KEY `m_accessroles_M_Groupuser_Id_fk` (`M_Groupuser_Id`)
+,CONSTRAINT `m_accessroles_M_Groupuser_Id_fk` FOREIGN KEY (`M_Groupuser_Id`) REFERENCES `m_groupusers` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-11-28 07:21:30]
+INSERT INTO migrations VALUES(null, '20190619104817', '2019-11-28 13:21:30')  [2019-11-28 07:21:30]
+CREATE OR REPLACE VIEW `view_m_accessroles` 
+                    AS 
+                    select `a`.`Id` AS `M_Groupuser_Id`,
+                            `b`.`Id` AS `M_Form_Id`,
+                            `b`.`FormName` AS `FormName`,
+                            `b`.`AliasName` AS `AliasName`,
+                            `b`.`LocalName` AS `LocalName`,
+                            ifnull(`c`.`Read`,0) AS `Readd`,
+                            ifnull(`c`.`Write`,0) AS `Writee`,
+                            ifnull(`c`.`Delete`,0) AS `Deletee`,
+                            ifnull(`c`.`Print`,0) AS `Printt`,
+                            `b`.`ClassName` AS `ClassName`,0 
+                            AS `Header` 
+                    from `m_groupusers` `a` 
+                    join `m_forms` `b` 
+                    left join `m_accessroles` `c` on `c`.`M_Form_Id` = `b`.`Id`
+                        and `c`.`M_Groupuser_Id` = `a`.`Id` 
+                        
+                    union all 
+                    select distinct NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        `m_forms`.`ClassName` AS `ClassName`,
+                        NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        `m_forms`.`ClassName` AS `ClassName`,
+                        1 AS `Header` 
+                    from `m_forms` 
+                    
+                    order by 10,11;  [2019-11-28 07:21:30]
+INSERT INTO migrations VALUES(null, '20190624072311', '2019-11-28 13:21:31')  [2019-11-28 07:21:31]
+SELECT count(*) as Count
+        FROM information_schema.TABLES
+        WHERE (TABLE_SCHEMA = 'pos') AND (TABLE_NAME = 'seeds')  [2019-11-28 07:21:40]
+CREATE TABLE `seeds` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Version` Varchar(50) DEFAULT NULL  
+,`ExecutedAt` DATETIME DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-11-28 07:21:40]
+SELECT * FROM seeds  [2019-11-28 07:21:41]
+SELECT count(*) as Count
+        FROM information_schema.TABLES
+        WHERE (TABLE_SCHEMA = 'pos') AND (TABLE_NAME = 'seeds')  [2019-11-28 07:21:57]
+SELECT * FROM seeds  [2019-11-28 07:21:57]
+SELECT count(*) as Count
+        FROM information_schema.TABLES
+        WHERE (TABLE_SCHEMA = 'pos') AND (TABLE_NAME = 'seeds')  [2019-11-28 07:24:05]
+SELECT * FROM seeds  [2019-11-28 07:24:05]
+INSERT INTO `m_users` ( `Username`,`Password` ) VALUES ( 'superadmin','b6b370cc69bcccdd8fa30f665f735b6a' )  [2019-11-28 07:24:05]
+INSERT INTO seeds VALUES(null, '20190619100642', '2019-11-28 13:24:05')  [2019-11-28 07:24:05]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_groupusers','Group User','Grup Pengguna','Master User','Form.groupuser','mgroupuser' )  [2019-11-28 07:24:05]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_users','User','Pengguna','Master User','Form.user','muser' )  [2019-11-28 07:24:05]
+INSERT INTO seeds VALUES(null, '20190619110706', '2019-11-28 13:24:05')  [2019-11-28 07:24:05]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_formsettings','Setting','Pengaturan','Setting','Form.setting','setting' )  [2019-11-28 07:24:05]
+INSERT INTO seeds VALUES(null, '20190620050358', '2019-11-28 13:24:05')  [2019-11-28 07:24:05]
+select m_users.* from m_users  WHERE `password`='b6b370cc69bcccdd8fa30f665f735b6a'  [2019-11-28 08:14:28]
+select m_users.* from m_users  WHERE `password`='b6b370cc69bcccdd8fa30f665f735b6a'  [2019-11-28 08:24:23]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies','m_villagedisasters','m_livestocks')  [2019-11-28 08:24:23]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:25:08]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:26:16]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:29:31]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:29:39]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:30:32]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:31:16]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:32:55]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:33:31]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:33:40]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:35:47]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:36:17]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:37:02]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:37:16]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:37:45]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:37:46]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:38:07]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:38:29]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:44:03]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:53:12]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:54:51]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 08:59:20]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 09:00:33]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 09:01:35]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 09:02:54]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 09:03:49]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 09:04:04]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_groupusers','m_users','m_companies')  [2019-11-28 09:05:16]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:05:59]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:06:57]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:07:39]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:08:23]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:12:20]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:12:29]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:12:46]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:13:51]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:14:25]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:14:53]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:15:27]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:16:14]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:20:10]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:22:59]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:23:54]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:25:45]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:25:47]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:26:57]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:32:20]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:33:30]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:33:35]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:34:06]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:43:20]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies','m_villagedisasters','m_livestocks')  [2019-11-28 09:43:20]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:43:24]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:44:41]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:45:25]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:45:25]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:45:37]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:45:37]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:51:12]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:51:12]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:51:17]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:51:17]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:52:17]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:52:17]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:52:30]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:52:30]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:53:05]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:53:05]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:55:11]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:55:11]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:56:54]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:56:54]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:57:32]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:57:32]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:57:55]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:57:55]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:57:55]
+select m_groupusers.* from m_groupusers  ORDER BY Description DESC LIMIT 0, 5  [2019-11-28 09:57:55]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description DESC  [2019-11-28 09:57:55]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:58:12]
+select m_groupusers.* from m_groupusers  ORDER BY Created ASC LIMIT 0, 5  [2019-11-28 09:58:12]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created ASC  [2019-11-28 09:58:12]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:58:12]
+select m_groupusers.* from m_groupusers  ORDER BY Created DESC LIMIT 0, 5  [2019-11-28 09:58:12]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created DESC  [2019-11-28 09:58:12]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:58:13]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 09:58:13]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 09:58:13]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:58:15]
+select m_groupusers.* from m_groupusers  ORDER BY GroupName ASC LIMIT 0, 5  [2019-11-28 09:58:15]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY GroupName ASC  [2019-11-28 09:58:15]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:59:08]
+select m_groupusers.* from m_groupusers  ORDER BY Created ASC LIMIT 0, 5  [2019-11-28 09:59:08]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created ASC  [2019-11-28 09:59:08]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:59:09]
+select m_groupusers.* from m_groupusers  ORDER BY GroupName ASC LIMIT 0, 5  [2019-11-28 09:59:09]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY GroupName ASC  [2019-11-28 09:59:09]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:59:09]
+select m_groupusers.* from m_groupusers  ORDER BY GroupName DESC LIMIT 0, 5  [2019-11-28 09:59:09]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY GroupName DESC  [2019-11-28 09:59:09]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:59:10]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 09:59:10]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 09:59:10]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:59:10]
+select m_groupusers.* from m_groupusers  ORDER BY Description DESC LIMIT 0, 5  [2019-11-28 09:59:10]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description DESC  [2019-11-28 09:59:10]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:59:31]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 09:59:31]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 09:59:32]
+select m_groupusers.* from m_groupusers  ORDER BY Description DESC LIMIT 0, 5  [2019-11-28 09:59:32]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description DESC  [2019-11-28 09:59:32]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:00:44]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:00:44]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:00:44]
+select m_groupusers.* from m_groupusers  ORDER BY Description DESC LIMIT 0, 5  [2019-11-28 10:00:44]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description DESC  [2019-11-28 10:00:44]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:00:45]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:00:45]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:00:48]
+select m_groupusers.* from m_groupusers  ORDER BY Description DESC LIMIT 0, 5  [2019-11-28 10:00:48]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description DESC  [2019-11-28 10:00:48]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:02:03]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:02:03]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:02:04]
+select m_groupusers.* from m_groupusers  ORDER BY Description DESC LIMIT 0, 5  [2019-11-28 10:02:04]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description DESC  [2019-11-28 10:02:04]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:02:54]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:02:54]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:02:55]
+select m_groupusers.* from m_groupusers  ORDER BY Description DESC LIMIT 0, 5  [2019-11-28 10:02:55]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description DESC  [2019-11-28 10:02:55]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:03:03]
+select m_groupusers.* from m_groupusers  ORDER BY Created ASC LIMIT 0, 5  [2019-11-28 10:03:03]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created ASC  [2019-11-28 10:03:03]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:03:08]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:03:08]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:03:08]
+select m_groupusers.* from m_groupusers  ORDER BY Created ASC LIMIT 0, 5  [2019-11-28 10:03:08]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created ASC  [2019-11-28 10:03:08]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:03:52]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:03:52]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:03:52]
+select m_groupusers.* from m_groupusers  ORDER BY Created ASC LIMIT 0, 5  [2019-11-28 10:03:52]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created ASC  [2019-11-28 10:03:52]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:04:49]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:04:49]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:04:49]
+select m_groupusers.* from m_groupusers  ORDER BY Created ASC LIMIT 0, 5  [2019-11-28 10:04:49]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created ASC  [2019-11-28 10:04:49]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:05:08]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:05:08]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:05:08]
+select m_groupusers.* from m_groupusers  ORDER BY Created ASC LIMIT 0, 5  [2019-11-28 10:05:08]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created ASC  [2019-11-28 10:05:08]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:06:35]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:06:35]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:06:35]
+select m_groupusers.* from m_groupusers  ORDER BY Created ASC LIMIT 0, 5  [2019-11-28 10:06:35]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created ASC  [2019-11-28 10:06:35]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:07:28]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:07:28]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:07:29]
+select m_groupusers.* from m_groupusers  ORDER BY Created ASC LIMIT 0, 5  [2019-11-28 10:07:29]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created ASC  [2019-11-28 10:07:29]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:07:44]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:07:44]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:07:45]
+select m_groupusers.* from m_groupusers  ORDER BY Created ASC LIMIT 0, 5  [2019-11-28 10:07:45]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Created ASC  [2019-11-28 10:07:45]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:07:48]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:07:48]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:07:48]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:08:00]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:08:00]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:08:01]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:08:01]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:08:01]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:08:12]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:08:12]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:08:12]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:08:27]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:08:27]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:08:27]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:08:27]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:08:27]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:09:50]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:09:50]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:09:51]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:09:51]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:09:51]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:09:54]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:09:54]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:09:54]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:09:54]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:09:54]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:09:59]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:09:59]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:09:59]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:09:59]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:09:59]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:10:30]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:10:30]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:10:30]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:10:30]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:10:30]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:10:33]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:10:33]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:10:33]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:10:33]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:10:33]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:10:57]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:10:57]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:10:57]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:10:57]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:10:57]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:11:23]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:11:23]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:11:24]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:11:24]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:11:24]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:12:18]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:12:18]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:12:19]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:12:19]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:12:19]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:12:37]
+select m_groupusers.* from m_groupusers  ORDER BY GroupName ASC LIMIT 0, 5  [2019-11-28 10:12:37]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY GroupName ASC  [2019-11-28 10:12:37]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:12:38]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:12:38]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:12:38]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:13:19]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:13:19]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:13:20]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:13:20]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:13:20]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:13:40]
+select m_groupusers.* from m_groupusers where Id = undefined  [2019-11-28 10:13:40]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:13:40]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:13:44]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:13:44]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:13:44]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:13:44]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:13:45]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:13:51]
+select m_groupusers.* from m_groupusers where Id = undefined  [2019-11-28 10:13:51]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:13:51]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:13:57]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:13:57]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:13:57]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:13:57]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:13:57]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:15:11]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:15:11]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:15:12]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:15:12]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:15:12]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:19:07]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:19:07]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:19:08]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:19:08]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:19:08]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:19:46]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:19:46]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:19:47]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:19:47]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:19:47]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:19:47]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:19:47]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:19:48]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:19:48]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:19:48]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:19:49]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:19:49]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:19:49]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:19:49]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:19:49]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:03]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:20:03]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:03]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:20:03]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:20:03]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:22]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:20:22]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:22]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:20:22]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:20:22]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:25]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:20:25]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:25]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:20:25]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:20:25]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:26]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:20:26]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:26]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:20:26]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:20:26]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:28]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:20:28]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:29]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:20:29]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:20:29]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:30]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:20:30]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:30]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:20:30]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:20:30]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:31]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:20:31]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:20:31]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:20:31]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:20:31]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:21:09]
+select m_groupusers.* from m_groupusers where Id = 1  [2019-11-28 10:21:09]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:21:09]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:21:11]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:21:11]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:21:11]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:21:11]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:21:11]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:22:51]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:22:51]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:22:52]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:22:52]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:22:52]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:24:52]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:24:52]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:24:52]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:24:52]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:24:52]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:25:20]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:25:20]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:25:21]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:25:21]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:25:21]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:25:27]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:25:27]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:25:27]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:25:28]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:25:28]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:25:37]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:25:37]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:25:38]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:25:38]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:25:38]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:26:33]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:26:33]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:26:34]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:26:34]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:26:34]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:27:36]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:27:36]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:27:36]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:27:36]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:27:36]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:27:44]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:27:44]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:27:46]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:27:46]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:27:47]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:27:47]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:27:47]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:30:48]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:30:48]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:30:50]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:30:50]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:30:51]
+select m_groupusers.* from m_groupusers  ORDER BY Description ASC LIMIT 0, 5  [2019-11-28 10:30:51]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description ASC  [2019-11-28 10:30:51]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:31:44]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:31:44]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:33:08]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:33:08]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:33:14]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:33:14]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:33:56]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:33:56]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:34:28]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:34:28]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:34:30]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:34:30]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:34:32]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:34:32]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:34:39]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:34:39]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:34:45]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:34:45]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:34:53]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:34:53]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:35:09]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:35:09]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:35:14]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:35:14]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:36:11]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:36:11]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:36:24]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:36:24]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:36:27]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:36:27]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:36:36]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:36:36]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:36:38]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:36:38]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:37:00]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:37:01]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:37:14]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:37:14]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:37:16]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:37:16]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:37:29]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:37:29]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-11-28 10:37:35]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('m_companies')  [2019-11-28 10:37:35]
