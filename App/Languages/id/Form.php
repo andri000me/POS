@@ -414,5 +414,9 @@ $lang =  [
     'company' => 'Perusahaan',
     'masterpocketbook' => 'Master Buku Saku',
     'pocketbook' => 'Buku Saku',
-    'document' => 'Dokumen'
+    'document' => 'Dokumen',
+    'signin' => 'Masuk',
+    'quickmenu' => "Menu Cepat",
+    "category" => "Kategory",
+    "mastercategory" => "Master Kategori"
 ];

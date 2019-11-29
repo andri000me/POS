@@ -16,6 +16,9 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ baseUrl('assets/dist/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
   <link rel="stylesheet" href="{{ baseUrl('assets/dist/css/adminlte.min.css')}}">
+  <link rel="stylesheet" href="{{ baseUrl('assets/dist/plugins/all/css/animate.css')}}">
+  <link rel="stylesheet" href="{{ baseUrl('assets/dist/plugins/all/css/bootstrap-datetimepicker.min.css')}}">
+  <link rel="stylesheet" href="{{ baseUrl('assets/dist/plugins/all/css/bootstrap-datepicker3.css')}}">
   <link rel="stylesheet" href="{{ baseUrl('assets/dist/css/styles.css')}}">
   <script src="{{ baseUrl('assets/dist/plugins/jquery/jquery.min.js')}}"></script>
   <!-- Google Font: Source Sans Pro -->
@@ -168,6 +171,13 @@
             </div>
             <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ baseUrl('home')}}">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>Dasboard
+                    </p>
+                  </a>
+                </li>
                 {!! $menu !!}
               </ul>
             </nav>

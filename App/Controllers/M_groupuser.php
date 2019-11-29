@@ -52,7 +52,7 @@ class M_groupuser extends Base_Controller
             } catch (Nayo_Exception $e) {
 
                 Session::setFlash('add_warning_msg', array(0 => $e->messages));
-                redirect('mgroupuser.add')->with($groupusers)->go();
+                redirect('mgroupuser/add')->with($groupusers)->go();
             }
         }
     }

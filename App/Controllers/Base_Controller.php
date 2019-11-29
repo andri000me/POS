@@ -6,6 +6,7 @@ use Core\Nayo_Controller;
 use Core\Libraries\Helper;
 use App\Models\M_forms;
 use Core\Session;
+use Core\View;
 
 class Base_Controller extends Nayo_Controller
 {
@@ -212,7 +213,7 @@ class Base_Controller extends Nayo_Controller
                 $expandfound = "userexpand";
                 $usermenu .= "<li class = 'nav-item'>
                     <a class = 'nav-link active' href='" . baseUrl($menu->IndexRoute) . "'>
-                        <i class='nav-icon fas fa-tachometer-alt'></i>
+                        <i class='nav-icon fas fa-file'></i>
                         <p>".lang($menu->Resource)."
                             
                            
@@ -222,7 +223,7 @@ class Base_Controller extends Nayo_Controller
             } else {
                 $usermenu .= "<li class = 'nav-item'>
                 <a class = 'nav-link' href='" . baseUrl($menu->IndexRoute) . "'>
-                    <i class='nav-icon fas fa-tachometer-alt'></i>
+                    <i class='nav-icon fas fa-file'></i>
                     <p>".lang($menu->Resource).
                         
                         "
@@ -272,15 +273,31 @@ class Base_Controller extends Nayo_Controller
         //     }
         // }
 
-        // $itemmenu = "";
-        // foreach ($item as $menu) {
-        //     if (lang($menu->Resource) == $title) {
-        //         $expandfound = "itemexpand";
-        //         $itemmenu .= "<li class = 'active'><a href='" . baseUrl($menu->IndexRoute) . "'>" . lang($menu->Resource) . "</a></li>";
-        //     } else {
-        //         $itemmenu .= "<li><a href='" . baseUrl($menu->IndexRoute) . "'>" . lang($menu->Resource) . "</a></li>";
-        //     }
-        // }
+        $itemmenu = "";
+        foreach ($item as $menu) {
+            if (lang($menu->Resource) == $title) {
+                $expandfound = "itemexpand";
+                $itemmenu .= "<li class = 'nav-item'>
+                <a class = 'nav-link active' href='" . baseUrl($menu->IndexRoute) . "'>
+                    <i class='nav-icon fas fa-file'></i>
+                    <p>".lang($menu->Resource)."
+                        
+                       
+                    </p>
+                </a>
+            </li>";
+            } else {
+                $itemmenu .= "<li class = 'nav-item'>
+                <a class = 'nav-link' href='" . baseUrl($menu->IndexRoute) . "'>
+                    <i class='nav-icon fas fa-file'></i>
+                    <p>".lang($menu->Resource).
+                        
+                        "
+                    </p>
+                </a>
+            </li>";
+            }
+        }
 
         // $transactionmenu = "";
         // foreach ($transaction as $menu) {
@@ -293,11 +310,11 @@ class Base_Controller extends Nayo_Controller
         // }
         $expndas = [
             "userexpand" =>  [$usermenu, "nav-icon fas fa fa-user", lang('Form.masteruser')],
-            // "generalexpand" =>  [$generalmenu, "fa fa-archive", lang('Form.mastergeneral')],
+            // "generalexpand" =>  [$generalmenu, " nav-icon fa fa-archive", lang('Form.mastergeneral')],
             // "areaexpand" =>  [$areamenu, "fa fa-archive", lang('Form.masterarea')],
             // "broadcastexpand" =>  [$broadcastmenu, "fa fa-archive", "Master Broadcast"],
             // "volunteerexpand" =>  [$volunteermenu, "fa fa-archive", lang('Form.mastervolunteer')],
-            // "itemexpand" =>  [$itemmenu, "fa fa-archive", lang('Form.masteritem')],
+            "itemexpand" =>  [$itemmenu, "nav-icon fa fa-archive", lang('Form.masteritem')],
             // "transactionexpand" =>  [$transactionmenu, "fa fa-archive", lang('Form.transaction')],
         ];
         $menudata["menu"]="";
@@ -321,7 +338,6 @@ class Base_Controller extends Nayo_Controller
         //     <li><a href='" . baseUrl('reports') . "'><i class='icon-interface-windows'></i>" . lang('Form.report') . "</a></li>
         //   </ul>
         // </div>";
-
         foreach ($expndas as $key => $ex) {
             if ($key == $expandfound) {
                 $menudata["menu"] .= "<li class = 'nav-item has-treeview menu-open'>
@@ -356,9 +372,22 @@ class Base_Controller extends Nayo_Controller
         // $menudata['menu'] .= "";
         $menudata['title'] = $title;
 
-        $this->blade('shared.header', $menudata, true);
-        $this->blade($path, $datas, true);
-        $this->blade('shared.footer');
+        $session = Session::getInstance();
+        $data = array();
+        if($session->get('data')){
+            $sesdata = $session->get('data');
+            foreach($datas['model'] as $key => $model){
+                $datas['model']->$key = $sesdata[$key];
+            }
+
+            $data = $datas;
+        } else {
+            $data = $datas;
+        }
+
+        View::presentBlade('shared.header', $menudata, true);
+        View::presentBlade($path, $data, true);
+        View::presentBlade('shared.footer');
     }
 
     public function hasPermission($form, $role)

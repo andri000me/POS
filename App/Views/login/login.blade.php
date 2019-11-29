@@ -35,7 +35,7 @@
               ["type" => "text",
               "class" => "form-control",
               "name" => "loginUsername",
-              "placeholder"=>lang('Form.username'),
+              "placeholder"=>lang('Form.user'),
               "autocomplete"=>"off"
               ]
           )!!}

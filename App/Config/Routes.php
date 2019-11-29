@@ -63,4 +63,14 @@ $route->group('/muser', function () {
     $this->get('/getAllData', 'App\Controllers\M_user@getAllData');
 });
 
+$route->group('/mcategory', function () {
+    $this->get('/', 'App\Controllers\M_category@index');
+    $this->get('/add', 'App\Controllers\M_category@add');
+    $this->post('/addsave', 'App\Controllers\M_category@addsave');
+    $this->get('/edit/?', 'App\Controllers\M_category@edit');
+    $this->post('/editsave', 'App\Controllers\M_category@editsave');
+    $this->post('/delete', 'App\Controllers\M_category@delete');
+    $this->get('/getAllData', 'App\Controllers\M_category@getAllData');
+});
+
 $route->end();

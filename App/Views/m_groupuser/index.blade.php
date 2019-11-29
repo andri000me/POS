@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1></h1>
+            <h1>{{lang('Form.master_groupuser')}}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -23,7 +23,7 @@
                 <div class="card-header">
                     <div class = "row">
                         <div class = "col-6">
-                            <h3 class="card-title">{{lang('Form.master_groupuser')}}</h3>
+                            <h3 class="card-title">{{lang('Form.data')}}</h3>
                         </div>
                         <div class = "col-6 text-right">
                             <a class = "" href="{{ baseUrl('mgroupuser/add')}}"><i class = "fa fa-plus"></i></a>
@@ -124,7 +124,7 @@
               $.ajax({
                 type : "POST",
                 url : "{{ baseUrl('mgroupuser/delete/')}}",
-                data : {id : data[0]},
+                data : {id : data['Id']},
                 success : function(data){
                   console.log(data);
                   var status = $.parseJSON(data);
@@ -155,14 +155,14 @@
       table.on( 'click', '.role', function () {
           $tr = $(this).closest('tr');
           var data = table.row($tr).data();;
-          var id = data[0];
+          var id = data['Id'];
           window.location = "{{ baseUrl('mgroupuser/editrole/')}}" + id;
       });
   
       table.on( 'click', '.reportrole', function () {
           $tr = $(this).closest('tr');
           var data = table.row($tr).data();;
-          var id = data[0];
+          var id = data['Id'];
           window.location = "{{ baseUrl('mgroupuser/editreportrole/')}}" + id;
       });
     }

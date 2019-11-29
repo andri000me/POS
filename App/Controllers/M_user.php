@@ -22,7 +22,7 @@ class M_user extends Base_Controller
 
         if ($this->hasPermission('m_user', 'Read')) {
 
-            $this->loadView('m_user/index', lang('Form.user'));
+            $this->loadBlade('m_user.index', lang('Form.user'));
         }
     }
 
@@ -32,7 +32,7 @@ class M_user extends Base_Controller
         if ($this->hasPermission('m_user', 'Write')) {
             $users = new M_users();
             $data['model'] = $users;
-            $this->loadView('m_user/add', lang('Form.groupuser'), $data);
+            $this->loadBlade('m_user.add', lang('Form.user'), $data);
         }
     }
 
@@ -57,15 +57,15 @@ class M_user extends Base_Controller
         }
     }
 
-    public function edit($id)
-    {
+    // public function edit($id)
+    // {
 
-        if ($this->hasPermission('m_user', 'Write')) {
-            $users = M_users::get($id);
-            $data['model'] = $users;
-            $this->loadView('m_user/edit', lang('Form.groupuser'), $data);
-        }
-    }
+    //     if ($this->hasPermission('m_user', 'Write')) {
+    //         $users = M_users::get($id);
+    //         $data['model'] = $users;
+    //         $this->loadBlade('m_user.edit', lang('Form.user'), $data);
+    //     }
+    // }
 
     public function editsave()
     {
@@ -88,7 +88,7 @@ class M_user extends Base_Controller
 
                 $data = setPageData_paging($model);
                 Session::setFlash('edit_warning_msg', $validate);
-                $this->loadView('m_user/edit', $data);
+                $this->loadBlade('m_user.edit', $data);
             } else {
 
                 $model->save();
@@ -127,13 +127,8 @@ class M_user extends Base_Controller
                 )->addColumn(
                     'm_users.Username',
                     function ($row) {
-                        return "<td>" .
-                            formLink($row->Username, array(
-                                "id" => $row->Id . "~a",
-                                "href" => baseUrl('mgroupuser/edit/' . $row->Id),
-                                "class" => "text-muted"
-                            ))
-                            . "</td>";
+                        return $row->Username;
+                        
                     }
                 )->addColumn(
                     'm_groupusers.GroupName',

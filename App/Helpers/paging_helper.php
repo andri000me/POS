@@ -22,7 +22,8 @@ function form_paging(){
     $data = array(
         'm_groupuser' => 'm_groupusers',
         'm_user' => 'm_users',
-        'm_province' => 'm_provinces',
+        'm_category' => 'm_categories',
+
         'm_district' => 'm_districts',
         'm_subdistrict' => 'm_subdistricts',
         'm_formsetting' => 'm_formsettings',

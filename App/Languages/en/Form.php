@@ -397,6 +397,10 @@ $lang =  [
     'company' => 'Company',
     'masterpocketbook' => 'Master Pocket Book',
     'pocketbook' => 'Pocket Book',
-    'document' => 'Document'
+    'document' => 'Document',
+    'signin' => 'Sign In',
+    'quickmenu' => "Quick Menu",
+    "category" => "Category",
+    "mastercategory" => "Master Category"
 ];
 

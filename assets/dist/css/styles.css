@@ -1,37 +1,56 @@
 .login-page-green{
     background-color: #00a65a!important;
 }
-
+/* a */
 a{
     color: #00a65a;
 }
 
+a:hover:not([class*="btn-primary"]),
+a.text-muted:hover{
+    color: #00a65a !important;
+    background-color: none;
+}
+a:hover[class*="btn-primary"]{
+  color: #fff;
+}
 .text-default{
     color: #00a65a;
 }
-
+/* button */
 .btn-primary{
     background-color: #00a65a;
     border: solid 1px #00a65a;
 }
 
+.btn-primary:active,
+.btn-primary:hover{
+  border: solid 1px #009250 !important;
+  background-color: #009250 !important;
+  color: #fff;
+}
+
+/* label */
 label{
     color: #464c52;
     font-weight: 500 !important;
 }
 
+/* table */
 table th {
     font-weight: 500;
 }
 
+
 .link-action{
     margin-left: 15px;
 }
-a:hover,
-a.text-muted:hover{
-    color: #00a65a !important;
+
+.link-action:hover{
+  color:#009250 !important;
 }
 
+/* paging */
 .page-link,
 .page-link:focus {
   border-radius: 30px;
@@ -43,10 +62,8 @@ a.text-muted:hover{
   color: #fff;
 }
 
-/* .pagination .active a {
-} */
 .page-item.active .page-link {
-  background-color: #33b35a !important;
+  background-color: #00a65a !important;
   color: #fff !important;
   margin: 0 3px;
   font-size: 0.8rem;
@@ -72,6 +89,41 @@ a.text-muted:hover{
   font-size: 0.8rem;
 }
 
+/* card */
 .card-title{
     font-weight: bold;
+}
+
+/* form */
+.form-control:focus{
+  border: solid 1px #00a65a;
+}
+
+/* navbar */
+.navbar-transaparent{
+  background-color: transparent ;
+}
+
+.main-header{
+  border-bottom: 1px solid transparent;
+}
+
+/* checkbox */
+/* .icheck-primary>input:first-child:checked+input[type=hidden]+label::before, .icheck-primary>input:first-child:checked+label:hover{
+  border: 2px solid #00a65a;
+} */
+.icheck-default>input:first-child:checked+input[type=hidden]+label::before, 
+.icheck-default>input:first-child:checked+label::before{
+  background-color: #00a65a ;
+    border-color: #00a65a;
+}
+
+.icheck-default>input:first-child+input[type=hidden]+label:hover{
+  border: 2px solid #00a65a !important;
+}
+
+.icheck-default>input:first-child:checked+input[type=hidden]+label::after, 
+.icheck-default>input:first-child:checked+label::after {
+  border-bottom-color: #fff;
+  border-right-color: #fff;
 }
