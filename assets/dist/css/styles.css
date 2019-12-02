@@ -127,3 +127,9 @@ table th {
   border-bottom-color: #fff;
   border-right-color: #fff;
 }
+
+.required label:after {
+  color: #e32;
+  content: " *";
+  display: inline;
+}

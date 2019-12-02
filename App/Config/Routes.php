@@ -61,6 +61,7 @@ $route->group('/muser', function () {
     $this->post('/editsave', 'App\Controllers\M_user@editsave');
     $this->post('/delete', 'App\Controllers\M_user@delete');
     $this->get('/getAllData', 'App\Controllers\M_user@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\M_user@getDataModal');
 });
 
 $route->group('/mcategory', function () {
@@ -71,6 +72,40 @@ $route->group('/mcategory', function () {
     $this->post('/editsave', 'App\Controllers\M_category@editsave');
     $this->post('/delete', 'App\Controllers\M_category@delete');
     $this->get('/getAllData', 'App\Controllers\M_category@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\M_category@getDataModal');
+});
+
+$route->group('/mwarehouse', function () {
+    $this->get('/', 'App\Controllers\M_warehouse@index');
+    $this->get('/add', 'App\Controllers\M_warehouse@add');
+    $this->post('/addsave', 'App\Controllers\M_warehouse@addsave');
+    $this->get('/edit/?', 'App\Controllers\M_warehouse@edit');
+    $this->post('/editsave', 'App\Controllers\M_warehouse@editsave');
+    $this->post('/delete', 'App\Controllers\M_warehouse@delete');
+    $this->get('/getAllData', 'App\Controllers\M_warehouse@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\M_warehouse@getDataModal');
+});
+
+$route->group('/muom', function () {
+    $this->get('/', 'App\Controllers\M_uom@index');
+    $this->get('/add', 'App\Controllers\M_uom@add');
+    $this->post('/addsave', 'App\Controllers\M_uom@addsave');
+    $this->get('/edit/?', 'App\Controllers\M_uom@edit');
+    $this->post('/editsave', 'App\Controllers\M_uom@editsave');
+    $this->post('/delete', 'App\Controllers\M_uom@delete');
+    $this->get('/getAllData', 'App\Controllers\M_uom@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\M_uom@getDataModal');
+});
+
+$route->group('/mitem', function () {
+    $this->get('/', 'App\Controllers\M_item@index');
+    $this->get('/add', 'App\Controllers\M_item@add');
+    $this->post('/addsave', 'App\Controllers\M_item@addsave');
+    $this->get('/edit/?', 'App\Controllers\M_item@edit');
+    $this->post('/editsave', 'App\Controllers\M_item@editsave');
+    $this->post('/delete', 'App\Controllers\M_item@delete');
+    $this->get('/getAllData', 'App\Controllers\M_item@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\M_item@getDataModal');
 });
 
 $route->end();

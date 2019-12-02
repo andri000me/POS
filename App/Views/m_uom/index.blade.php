@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>{{lang('Form.mastercategory')}}</h1>
+            <h1>{{lang('Form.masteruom')}}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -26,13 +26,13 @@
                             <h3 class="card-title">{{lang('Form.data')}}</h3>
                         </div>
                         <div class = "col-6 text-right">
-                            <a class = "" href="{{ baseUrl('mcategory/add')}}"><i class = "fa fa-plus"></i></a>
+                            <a class = "" href="{{ baseUrl('muom/add')}}"><i class = "fa fa-plus"></i></a>
                         </div>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                        <table id = "tablecategory" style="width: 100%;" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed " role="grid">
+                        <table id = "tableuom" style="width: 100%;" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed " role="grid">
                         <thead class=" text-default">
                             <tr role = "row">
                             <th># </th>
@@ -72,7 +72,7 @@
     });
   
     function dataTable(){
-      var table = $('#tablecategory').DataTable({
+      var table = $('#tableuom').DataTable({
         "pagingType": "full_numbers",
         "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
         "order" : [[2, "desc"]],
@@ -106,7 +106,7 @@
         "processing": true,
         "serverSide": true,
         ajax:{
-          url : "{{ baseUrl('mcategory/getAllData')}}",
+          url : "{{ baseUrl('muom/getAllData')}}",
           dataSrc : 'data'
         },
         stateSave: true
@@ -116,15 +116,15 @@
        table.on( 'click', '.delete', function (e) {
           $tr = $(this).closest('tr');
           var data = table.row($tr).data();
-          var id = data['0'] + "~a";
+          var id = data[0] + "~a";
           var name = document.getElementById(id).innerHTML;
           deleteData(name, function(result){
             if (result==true)
             {
               $.ajax({
                 type : "POST",
-                url : "{{ baseUrl('mcategory/delete/')}}",
-                data : {id : data['0']},
+                url : "{{ baseUrl('muom/delete/')}}",
+                data : {id : data[0]},
                 success : function(data){
                   console.log(data);
                   var status = $.parseJSON(data);
@@ -156,14 +156,14 @@
           $tr = $(this).closest('tr');
           var data = table.row($tr).data();;
           var id = data['Id'];
-          window.location = "{{ baseUrl('mcategory/editrole/')}}" + id;
+          window.location = "{{ baseUrl('muom/editrole/')}}" + id;
       });
   
       table.on( 'click', '.reportrole', function () {
           $tr = $(this).closest('tr');
           var data = table.row($tr).data();;
           var id = data['Id'];
-          window.location = "{{ baseUrl('mcategory/editreportrole/')}}" + id;
+          window.location = "{{ baseUrl('muom/editreportrole/')}}" + id;
       });
     }
   

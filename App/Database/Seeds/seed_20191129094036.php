@@ -12,7 +12,7 @@ class seed_20191129094036 {
         $table->addSeed('AliasName', 'Category');
         $table->addSeed('LocalName', 'Kategori');
         $table->addSeed('ClassName', 'Master Item');
-        $table->addSeed('Resource', 'Form.categories');
+        $table->addSeed('Resource', 'Form.category');
         $table->addSeed('IndexRoute', 'mcategory');
         $table->seeds();
     }

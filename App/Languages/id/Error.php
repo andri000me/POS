@@ -53,4 +53,6 @@ $lang =  [
     'warehouse_can_not_null' => "Gudang Tidak boleh kosong",
     'failed_login' => "Login Gagal",
     'password_can_not_null' => "Password Tidak Boleh Kosong",
+    'code_can_not_null' => "Kode Tidak Boleh Kosong",
+    'code_exist' => "Kode Sudah Ada"
 ];

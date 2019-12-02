@@ -1,5 +1,5 @@
 <!-- modal -->
-<div id="modalCategory" tabindex="-1" role="dialog" aria-labelledby="groupUserModalLabel" aria-hidden="true" class="modal fade text-left">
+<div id="modalUom" tabindex="-1" role="dialog" aria-labelledby="groupUserModalLabel" aria-hidden="true" class="modal fade text-left">
   <div role="document" class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -16,7 +16,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="table-responsive">
-                  <table data-page-length="5" id = "tableModalCategory" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
+                  <table data-page-length="5" id = "tableModalUom" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                     <thead class=" text-default">
                         
                         <th># </th>
@@ -48,7 +48,7 @@
   });
 
   function loadModalGroup(){
-    tableGroup  = $("#tableModalCategory").DataTable({
+    tableGroup  = $("#tableModalUom").DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
       responsive: true,
@@ -70,7 +70,7 @@
         "processing": true,
         "serverSide": true,
         ajax:{
-            url : "{{  baseUrl('mcategory/getDataModal') }}",
+            url : "{{  baseUrl('muom/getDataModal') }}",
             dataSrc : 'data'
         },
         stateSave: true
@@ -82,13 +82,13 @@
         var data = tableGroup.row($tr).data();
         var id = $tr.attr('id');
 
-        $("#M_Category_Id").val(data[0]);
-        $("#categoryname").val(data[1]);
-        $('#modalCategory').modal('hide');
+        $("#M_Uom_Id").val(data[0]);
+        $("#uomname").val(data[1]);
+        $('#modalUom').modal('hide');
      } );
   }
 
-  $('#tableModalCategory').on('show.bs.modal', function (e) {
+  $('#tableModalUom').on('show.bs.modal', function (e) {
       tableGroup.ajax.reload(null, true);
     })
 </script>

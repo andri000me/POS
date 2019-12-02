@@ -233,15 +233,31 @@ class Base_Controller extends Nayo_Controller
             }
         }
 
-        // $generalmenu = "";
-        // foreach ($general as $menu) {
-        //     if (lang($menu->Resource) == $title) {
-        //         $expandfound = "generalexpand";
-        //         $generalmenu .= "<li class = 'active'><a href='" . baseUrl($menu->IndexRoute) . "'>" . lang($menu->Resource) . "</a></li>";
-        //     } else {
-        //         $generalmenu .= "<li><a href='" . baseUrl($menu->IndexRoute) . "'>" . lang($menu->Resource) . "</a></li>";
-        //     }
-        // }
+        $generalmenu = "";
+        foreach ($general as $menu) {
+            if (lang($menu->Resource) == $title) {
+                $expandfound = "generalexpand";
+                $generalmenu .= "<li class = 'nav-item'>
+                    <a class = 'nav-link active' href='" . baseUrl($menu->IndexRoute) . "'>
+                        <i class='nav-icon fas fa-file'></i>
+                        <p>".lang($menu->Resource)."
+                            
+                           
+                        </p>
+                    </a>
+                </li>";
+            } else {
+                $generalmenu .= "<li class = 'nav-item'>
+                <a class = 'nav-link' href='" . baseUrl($menu->IndexRoute) . "'>
+                    <i class='nav-icon fas fa-file'></i>
+                    <p>".lang($menu->Resource).
+                        
+                        "
+                    </p>
+                </a>
+            </li>";
+            }
+        }
 
         // $areamenu = "";
         // foreach ($area as $menu) {
@@ -310,7 +326,7 @@ class Base_Controller extends Nayo_Controller
         // }
         $expndas = [
             "userexpand" =>  [$usermenu, "nav-icon fas fa fa-user", lang('Form.masteruser')],
-            // "generalexpand" =>  [$generalmenu, " nav-icon fa fa-archive", lang('Form.mastergeneral')],
+            "generalexpand" =>  [$generalmenu, " nav-icon fa fa-archive", lang('Form.mastergeneral')],
             // "areaexpand" =>  [$areamenu, "fa fa-archive", lang('Form.masterarea')],
             // "broadcastexpand" =>  [$broadcastmenu, "fa fa-archive", "Master Broadcast"],
             // "volunteerexpand" =>  [$volunteermenu, "fa fa-archive", lang('Form.mastervolunteer')],
