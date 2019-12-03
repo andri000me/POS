@@ -97,7 +97,7 @@
           },
           {
              "className": "td-actions text-right", 
-             "targets": [ 5 ] 
+             "targets": [ 6 ] 
           }
         ],
         columns: [

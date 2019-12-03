@@ -25,9 +25,9 @@
                             <div class = "col-6">
                                 <h3 class="card-title">{{lang('Form.edit')}}</h3>
                             </div>
-                            {{-- <div class = "col-6 text-right">
-                                <a class = "" href="{{ baseUrl('mitem/add')}}"><i class = "fa fa-plus"></i></a>
-                            </div> --}}
+                            <div class = "col-6 text-right">
+                              <a class = "" href="{{ baseUrl("muomconversion/$model->Id")}}"><i class = "fa fa-exchange-alt"></i></a>
+                          </div>
                         </div>
                     </div>
                     <!-- /.card-header -->

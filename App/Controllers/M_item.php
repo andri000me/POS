@@ -128,14 +128,18 @@ class M_item extends Base_Controller
             $params = [
                 'join' => [
                     'm_categories' => [
-                        'table' => 'm_items',
-                        'column' => 'M_Category_Id',
-                        'type' => 'left'
+                        [
+                            'table' => 'm_items',
+                            'column' => 'M_Category_Id',
+                            'type' => 'left'
+                        ]
                     ],
                     'm_uoms' => [
-                        'table' => 'm_items',
-                        'column' => 'M_Uom_Id',
-                        'type' => 'left'
+                        [
+                            'table' => 'm_items',
+                            'column' => 'M_Uom_Id',
+                            'type' => 'left'
+                        ]
                     ]
                 ]
             ];
@@ -173,10 +177,16 @@ class M_item extends Base_Controller
                     },
                     false
                 )->addColumn(
-                    'm_items.Action',
+                    'Action',
                     function ($row) {
                         return
                            
+                        formLink("<i class='fa fa-exchange-alt'></i>", array(
+                            "href" => baseUrl("muomconversion/{$row->Id}"),
+                            "class" => "btn-just-icon link-action",
+                            "rel" => "tooltip",
+                            "title" => lang('Form.unitconversion')
+                        )).
                             formLink("<i class='fa fa-trash'></i>", array(
                                 "href" => "#",
                                 "class" => "btn-just-icon link-action delete",

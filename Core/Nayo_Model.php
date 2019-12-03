@@ -222,14 +222,20 @@ class Nayo_Model
     private function join($join){
         $this->connection();
         $qry = "";
-        foreach($join as $k => $v){
-            if(isset($v['type'])){
-                $qry .= strtoupper($v['type']). " JOIN ";
-            } else {
-                $qry .= "INNER JOIN ";
-            }
+        $key = "";
+        foreach($join as $k => $d){
+            
+            foreach($d as $v){
+                $as = isset($v['as']) ? $v['as'] : $k;
 
-            $qry .= $this->columnOpenMark.columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false)." ON ".$this->columnOpenMark.columnValidate($k.".Id", $this->columnOpenMark, $this->columnCloseMark) .$this->columnOpenMark.columnValidate("{$v['table']}.{$v['column']}", $this->columnOpenMark, $this->columnCloseMark, false);
+                if(isset($v['type'])){
+                    $qry .= strtoupper($v['type']). " JOIN ";
+                } else {
+                    $qry .= "INNER JOIN ";
+                }
+
+                $qry .= $this->columnOpenMark.columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false)." {$as} ON ".$this->columnOpenMark.columnValidate($as.".Id", $this->columnOpenMark, $this->columnCloseMark) .$this->columnOpenMark.columnValidate("{$v['table']}.{$v['column']}", $this->columnOpenMark, $this->columnCloseMark, false);
+            }
         }
         $this->append .= $qry;
         return $this;

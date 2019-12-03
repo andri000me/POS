@@ -1,6 +1,9 @@
 <?php  
 namespace App\Models;
+
+use App\Libraries\ResponseCode;
 use App\Models\Base_Model;
+use Core\Nayo_Exception;
 
 class M_uomconversions extends Base_Model {
 
@@ -9,6 +12,7 @@ class M_uomconversions extends Base_Model {
 	public $M_Uom_Id_From;
 	public $M_Uom_Id_To;
 	public $Qty;
+	public $Ordering;
 	public $CreatedBy;
 	public $ModifiedBy;
 	public $Created;
@@ -60,6 +64,23 @@ class M_uomconversions extends Base_Model {
 		
         
         return $warning;
+	}
+
+	public static function getNextOrdering($itemid){
+		$params = [
+			'where' => [
+				'M_Item_Id' => $itemid
+			],
+			'order' => [
+				'Ordering' => 'DESC'
+			]
+		];
+		$data = static::getOne($params);
+		if($data)
+			return $data->Ordering + 1;
+		else 
+			return 1;
+
 	}
 
 }

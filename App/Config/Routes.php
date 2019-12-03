@@ -25,6 +25,11 @@ $route->group('/welcome', function () {
     $this->get('/filter', 'App\Controllers\Welcome@filter');
 });
 
+$route->group('/setting', function () {
+    $this->get('/', 'App\Controllers\M_Form@index');
+    $this->post('/saveitemstock', 'App\Controllers\M_Form@saveitemstock');
+});
+
 $route->group('/test', function () {
     $this->get('/', 'App\Controllers\Test@index');
 });

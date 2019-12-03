@@ -43,9 +43,17 @@
 </div>
 <script type = "text/javascript">
   var tableUom ;
+  var uomid = "M_Uom_Id";
+  var uomname = "uomname";
+
   $(document).ready(function() {  
     loadModalUom();
   });
+
+  function uomModalSet(id, name){
+    uomid = id;
+    uomname = name;
+  }
 
   function loadModalUom(){
     tableUom  = $("#tableModalUom").DataTable({
@@ -77,13 +85,14 @@
     });
      // Edit record
      tableUom.on( 'click', '.rowdetail', function () {
+       console.log(uomname);
         $tr = $(this).closest('tr');
 
         var data = tableUom.row($tr).data();
         var id = $tr.attr('id');
 
-        $("#M_Uom_Id").val(data[0]);
-        $("#uomname").val(data[1]);
+        $("#"+uomid).val(data[0]);
+        $("#"+uomname).val(data[1]);
         $('#modalUom').modal('hide');
      } );
   }

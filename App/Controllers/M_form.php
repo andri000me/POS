@@ -19,20 +19,18 @@ class M_form extends Base_Controller
     {
         if ($this->hasPermission('m_formsetting', 'Read')) {
 
-            $disasterreportmodel = M_formsettings::getTDisasterReportFormat();
-            $disasteroccurmodel = M_formsettings::getTDisasterOccurFormat();
-            $inoutitemmodel = M_formsettings::getTInOutItemFormat();
-            $userlocationmodel = M_formsettings::getMUserLocation();
-            $impactmodel = M_formsettings::getImpactCompensation();
+            $itemstockmodel = M_formsettings::getTItemStock();
+            // $disasteroccurmodel = M_formsettings::getTDisasterOccurFormat();
+            // $itemstockmodel = M_formsettings::getTInOutItemFormat();
+            // $userlocationmodel = M_formsettings::getMUserLocation();
+            // $impactmodel = M_formsettings::getImpactCompensation();
 
-            $data['disasterreportmodel'] = $disasterreportmodel;
-            $data['disasteroccurmodel'] = $disasteroccurmodel;
-            $data['inoutitemmodel'] = $inoutitemmodel;
-            $data['userlocationmodel'] = $userlocationmodel;
-            $data['impactmodel'] = $impactmodel;
-            $this->loadView('m_form/add', lang('Form.setting'), $data);
-        } else {
-            $this->loadView('forbidden/forbidden');
+            $data['disasterreportmodel'] = $itemstockmodel;
+            // $data['disasteroccurmodel'] = $disasteroccurmodel;
+            // $data['itemstockmodel'] = $itemstockmodel;
+            // $data['userlocationmodel'] = $userlocationmodel;
+            // $data['impactmodel'] = $impactmodel;
+            $this->loadBlade('m_form.add', lang('Form.setting'), $data);
         }
     }
     public function savedisasterreport()
@@ -119,13 +117,13 @@ class M_form extends Base_Controller
         }
     }
 
-    public function saveinoutitem()
+    public function saveitemstock()
     {
         if ($this->hasPermission('m_form', 'Write')) {
-            $formatnumber = $this->request->post('inoutitemformatnumber');
+            $formatnumber = $this->request->post('itemstockformatnumber');
 
             if ($formatnumber) {
-                $tordermodel = M_formsettings::getTInOutItemFormat();
+                $tordermodel = M_formsettings::getTItemStock();
                 $tordermodel->StringValue = $formatnumber;
                 $saveret = $tordermodel->save();
 
@@ -139,7 +137,6 @@ class M_form extends Base_Controller
                     $newnumber = $arrmemnumber[0] . "/" . $arrmemnumber[1] . "/" . $sequence;
 
                     $transnumber = G_transactionnumbers::getByFormId($tordermodel->M_Form_Id);
-                    // print_r($transnumber);
                     if ($transnumber) {
                         $transnumber->Format = $newnumber;
                         $transnumber->save();

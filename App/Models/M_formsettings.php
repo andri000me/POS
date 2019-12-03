@@ -27,9 +27,9 @@ class M_formsettings extends Nayo_Model
         parent::__construct();
     }
 
-    public static function getTDisasterReportFormat()
+    public static function getTItemStock()
     {
-        $forms = M_forms::getDataByName(form_paging()['t_disasterreport']);
+        $forms = M_forms::getDataByName(form_paging()['t_itemstock']);
         $params = array(
             'where' => array(
                 'M_Form_Id' => $forms->Id,

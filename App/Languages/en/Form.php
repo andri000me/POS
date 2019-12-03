@@ -401,6 +401,10 @@ $lang =  [
     'signin' => 'Sign In',
     'quickmenu' => "Quick Menu",
     "category" => "Category",
-    "mastercategory" => "Master Category"
+    "mastercategory" => "Master Category",
+    "unitconversion" => "Unit Convertion",
+    "unitfrom" => "Unit From",
+    "unitto" => "Unit To"
+
 ];
 

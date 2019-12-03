@@ -418,5 +418,8 @@ $lang =  [
     'signin' => 'Masuk',
     'quickmenu' => "Menu Cepat",
     "category" => "Kategori",
-    "mastercategory" => "Master Kategori"
+    "mastercategory" => "Master Kategori",
+    "unitconversion" => "Perubahan Ukuran",
+    "unitfrom" => "Dari Ukuran",
+    "unitto" => "Ke Ukuran"
 ];

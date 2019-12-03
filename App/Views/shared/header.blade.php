@@ -178,6 +178,13 @@
                     </p>
                   </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ baseUrl('setting')}}">
+                      <i class="nav-icon fas fa-cog"></i>
+                      <p>{{lang('Form.setting')}}
+                      </p>
+                    </a>
+                  </li>
                 {!! $menu !!}
               </ul>
             </nav>

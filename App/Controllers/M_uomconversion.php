@@ -25,7 +25,7 @@ class M_uomconversion extends Base_Controller
             $result = M_items::get($iditem);
             $data['model'] = $result;
 
-            $this->loadView('m_uomconversion/index', lang('Form.uomconversion'), $data);
+            $this->loadBlade('m_uomconversion.index', lang('Form.uomconversion'), $data);
         }
     }
 
@@ -40,7 +40,7 @@ class M_uomconversion extends Base_Controller
             $data = setPageData_paging($uomconversions);
 
             $data['item'] = $result;
-            $this->loadView('m_uomconversion/add', lang('Form.uomconversion'), $data);
+            $this->loadBlade('m_uomconversion.add', lang('Form.uomconversion'), $data);
         }
     }
 
@@ -52,6 +52,7 @@ class M_uomconversion extends Base_Controller
 
             $uomconversions = new M_uomconversions();
             $uomconversions->parseFromRequest();
+            $uomconversions->Ordering = M_uomconversions::getNextOrdering($uomconversions->M_Item_Id);
 
             try {
                 $uomconversions->validate();
@@ -79,7 +80,7 @@ class M_uomconversion extends Base_Controller
 
             $data['model'] = $uomconversions;
             $data['item'] = $result;
-            $this->loadView('m_uomconversion/edit', lang('Form.uomconversion'), $data);
+            $this->loadBlade('m_uomconversion.edit', lang('Form.uomconversion'), $data);
         }
     }
 
@@ -139,8 +140,28 @@ class M_uomconversion extends Base_Controller
             $params = [
                 'where' => [
                     'M_Item_Id' => $iditem
+                ],
+                'join' => [
+                    'm_uoms' => [
+                        [
+                            'as' => 'uomfrom',
+                            'table' => 'm_uomconversions',
+                            'column' => 'M_Uom_Id_From',
+                            'type' => 'left'
+                        ],
+                        [
+                            'as' => 'uomto',
+                            'table' => 'm_uomconversions',
+                            'column' => 'M_Uom_Id_To',
+                            'type' => 'left'
+                        ]
+                    ],
                 ]
             ];
+            // echo \json_encode($params);
+            // foreach($params['join'] as $key => $p){
+            //     echo json_encode($key);
+            // }
             $datatable = new Datatables('M_uomconversions', $params);
             $datatable
                 ->addDtRowClass("rowdetail")
@@ -152,43 +173,23 @@ class M_uomconversion extends Base_Controller
                     false,
                     false
                 )->addColumn(
-                    'CompleteName',
+                    'uomfrom.Name',
                     function ($row) {
                         return
-                            formLink($row->CompleteName, array(
+                            formLink($row->get_M_Uom('From')->Name, array(
                                 "id" => $row->Id . "~a",
                                 "href" => baseUrl("muomconversion/edit/$row->Id"),
                                 "class" => "text-muted"
                             ));
                     }
                 )->addColumn(
-                    'NIK',
-                    function ($row) {
-                        return $row->NIK;
+                    'uomto.Name',
+                    function($row){
+                        return $row->get_M_Uom('To')->Name;
                     }
                 )->addColumn(
-                    'Gender',
-                    function ($row) {
-                        return M_enumdetails::getEnumName("Gender", $row->Gender);
-                    },
-                    false
-                )->addColumn(
-                    'Relation',
-                    function ($row) {
-                        return M_enumdetails::getEnumName("FamilyRelation", $row->Relation);
-                    },
-                    false
-                )->addColumn(
-                    'BirthPlace',
-                    function ($row) {
-                        return $row->BirthPlace;
-                    },
-                    false
-                )->addColumn(
-                    'BirthDate',
-                    function ($row) {
-                        return $row->BirthDate;
-                    }
+                    'm_uomconversions.Qty'
+                
                 )->addColumn(
                     'Action',
                     function ($row) {

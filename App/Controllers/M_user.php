@@ -108,9 +108,11 @@ class M_user extends Base_Controller
                 ],
                 'join' => [
                     'm_groupusers' => [
-                        'table' => 'm_users',
-                        'column' => 'M_Groupuser_Id',
-                        'type' => 'left'
+                        [ 
+                            'table' => 'm_users',
+                            'column' => 'M_Groupuser_Id',
+                            'type' => 'left'
+                        ]
                     ]
                 ]
             ];
