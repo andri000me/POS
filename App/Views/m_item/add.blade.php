@@ -99,6 +99,39 @@
                                 </div>
                               </div>
                               <div class="form-group">
+                                <div class="required">
+                                  <label><?= lang('Form.uom') ?></label>
+                                  <div class="input-group has-success">
+                                    <?= formInput(
+                                      array(
+                                        "id" => "M_Uom_Id",
+                                        "name" => "M_Uom_Id",
+                                        "value" => $model->M_Uom_Id,
+                                        "hidden" => ""
+                                      )
+                                    ) ?>
+                                    <?= formInput(
+                                    array(
+                                      "id" => "uomname",
+                                      "type" => "text",
+                                      "placeholder" => lang('Form.uom'),
+                                      "class" => "form-control custom-readonly clearable",
+                                      "name" => "uomname",
+                                      "value" => $model->get_M_Uom()->Name,
+                                      "readonly" => ""
+                                    )
+                                  )
+                                  ?>
+                                    <!-- <span class="form-control-feedback text-primary">
+                                        <i class="material-icons">search</i>
+                                    </span> -->
+                                    <div class="input-group-append">
+                                      <button id="btnGroupModal" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalUom"><i class="fa fa-search"></i></button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group">
                                 <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
                                 <a href="{{ baseUrl('mitem') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
                               </div>
@@ -111,6 +144,7 @@
         </section>
       
       <?php  Core\View::presentBlade('m_category.modal'); ?>
+      <?php  Core\View::presentBlade('m_uom.modal'); ?>
     </div>
       <script>
       

@@ -131,6 +131,11 @@ class M_item extends Base_Controller
                         'table' => 'm_items',
                         'column' => 'M_Category_Id',
                         'type' => 'left'
+                    ],
+                    'm_uoms' => [
+                        'table' => 'm_items',
+                        'column' => 'M_Uom_Id',
+                        'type' => 'left'
                     ]
                 ]
             ];
@@ -159,6 +164,8 @@ class M_item extends Base_Controller
                     'm_items.Name'
                 )->addColumn(
                     'm_categories.Name'
+                )->addColumn(
+                    'm_uoms.Name'
                 )->addColumn(
                     'm_items.Created',
                     function ($row) {

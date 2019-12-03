@@ -3,7 +3,7 @@
   <div role="document" class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 id="groupUserModalLabel" class="modal-title">Group User</h5>
+        <h5 id="groupUserModalLabel" class="modal-title">{{lang('Form.category')}}</h5>
         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
       </div>
       <div class="card-body">
@@ -42,13 +42,13 @@
   </div>
 </div>
 <script type = "text/javascript">
-  var tableGroup ;
+  var tableCategory ;
   $(document).ready(function() {  
-    loadModalGroup();
+    loadModalCategory();
   });
 
-  function loadModalGroup(){
-    tableGroup  = $("#tableModalCategory").DataTable({
+  function loadModalCategory(){
+    tableCategory  = $("#tableModalCategory").DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
       responsive: true,
@@ -76,10 +76,10 @@
         stateSave: true
     });
      // Edit record
-     tableGroup.on( 'click', '.rowdetail', function () {
+     tableCategory.on( 'click', '.rowdetail', function () {
         $tr = $(this).closest('tr');
 
-        var data = tableGroup.row($tr).data();
+        var data = tableCategory.row($tr).data();
         var id = $tr.attr('id');
 
         $("#M_Category_Id").val(data[0]);
@@ -89,6 +89,6 @@
   }
 
   $('#tableModalCategory').on('show.bs.modal', function (e) {
-      tableGroup.ajax.reload(null, true);
+      tableCategory.ajax.reload(null, true);
     })
 </script>

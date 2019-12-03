@@ -11,6 +11,7 @@ class M_items extends Base_Model {
 	public $Code;
 	public $Name;
 	public $M_Category_Id;
+	public $M_Uom_Id;
 	public $Cost;
 	public $Price;
 	public $PhotoUrl;
@@ -63,6 +64,9 @@ class M_items extends Base_Model {
 
 		if(empty($this->M_Category_Id))
 			Nayo_Exception::throw(lang('Error.category_can_not_null'), $this, ResponseCode::INVALID_DATA);
+		
+		if(empty($this->M_Uom_Id))
+			Nayo_Exception::throw(lang('Error.uom_can_not_null'), $this, ResponseCode::INVALID_DATA);
         
         return $warning;
 	}

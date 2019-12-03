@@ -628,8 +628,9 @@ class Nayo_Model
         // echo $name;
 
         if (substr($name, 0, 4) == 'get_' && substr($name, 4, 5) != 'list_' && substr($name, 4, 6) != 'first_') {
+            $sufixColumn = isset($argument[0]) ? "_{$argument[0]}" : null;
             $entity = 'App\\Models\\' . table(substr($name, 4));
-            $field = substr($name, 4) . '_Id';
+            $field = substr($name, 4) . '_Id'. $sufixColumn;
             $entityobject = $entity;
             if (!empty($this->$field)) {
                 $result = $entityobject::get($this->$field);

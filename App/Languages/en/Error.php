@@ -55,5 +55,6 @@ $lang =  [
     'failed_login' => "Failed Login",
     'password_can_not_null' => "Password Cannot null",
     'code_can_not_null' => "Code Cannot null",
-    'code_exist' => "Code Exist"
+    'code_exist' => "Code Exist",
+    'data_exist' => "Data Exist"
 ];

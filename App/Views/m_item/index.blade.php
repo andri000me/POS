@@ -39,6 +39,7 @@
                             <th>{{  lang('Form.code')}}</th>
                             <th>{{  lang('Form.name')}}</th>
                             <th>{{  lang('Form.category')}}</th>
+                            <th>{{  lang('Form.uom')}}</th>
                             <th>{{  lang('Form.createat')}}</th>
                             <th class="disabled-sorting text-right">{{  lang('Form.actions')}}</th>
                             </tr>
@@ -49,6 +50,7 @@
                             <th>{{  lang('Form.code')}}</th>
                             <th>{{  lang('Form.name')}}</th>
                             <th>{{  lang('Form.category')}}</th>
+                            <th>{{  lang('Form.uom')}}</th>
                             <th>{{  lang('Form.createat')}}</th>
                             <th class="disabled-sorting text-right">{{  lang('Form.actions')}}</th>
                             </tr>
@@ -99,12 +101,13 @@
           }
         ],
         columns: [
-          { responsivePriority: 5},
+          { responsivePriority: 2},
           { responsivePriority: 1},
           { responsivePriority: 2},
           { responsivePriority: 4},
+          { responsivePriority: 5},
           { responsivePriority: 6},
-          { responsivePriority: 2}
+          { responsivePriority: 7}
         ],
         "processing": true,
         "serverSide": true,

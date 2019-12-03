@@ -25,6 +25,10 @@ $route->group('/welcome', function () {
     $this->get('/filter', 'App\Controllers\Welcome@filter');
 });
 
+$route->group('/test', function () {
+    $this->get('/', 'App\Controllers\Test@index');
+});
+
 $route->group('/login', function () {
     $this->get('/', 'App\Controllers\Login@index');
     $this->post('/dologin', 'App\Controllers\Login@dologin');
@@ -106,6 +110,19 @@ $route->group('/mitem', function () {
     $this->post('/delete', 'App\Controllers\M_item@delete');
     $this->get('/getAllData', 'App\Controllers\M_item@getAllData');
     $this->get('/getDataModal', 'App\Controllers\M_item@getDataModal');
+});
+
+$route->group('/muomconversion', function () {
+    $this->get('/?', 'App\Controllers\M_uomconversion@index');
+    $this->get('/add/?', 'App\Controllers\M_uomconversion@add');
+    $this->post('/addsave', 'App\Controllers\M_uomconversion@addsave');
+    $this->get('/edit/?', 'App\Controllers\M_uomconversion@edit');
+    $this->post('/editsave', 'App\Controllers\M_uomconversion@editsave');
+    $this->post('/delete', 'App\Controllers\M_uomconversion@delete');
+    $this->get('/getAllData/?', 'App\Controllers\M_uomconversion@getAllData');
+    $this->get('/getDataModal/?', 'App\Controllers\M_uomconversion@getDataModal');
+    $this->post('/getData', 'App\Controllers\M_uomconversion@getData');
+    $this->post('/getDataById', 'App\Controllers\M_uomconversion@getDataById');
 });
 
 $route->end();

@@ -3,7 +3,7 @@
   <div role="document" class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 id="groupUserModalLabel" class="modal-title">Group User</h5>
+        <h5 id="groupUserModalLabel" class="modal-title">{{lang('Form.warehouse')}}</h5>
         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
       </div>
       <div class="card-body">
@@ -42,13 +42,13 @@
   </div>
 </div>
 <script type = "text/javascript">
-  var tableGroup ;
+  var tableWarehouse ;
   $(document).ready(function() {  
-    loadModalGroup();
+    loadModalWarehouse();
   });
 
-  function loadModalGroup(){
-    tableGroup  = $("#tableModalWarehouse").DataTable({
+  function loadModalWarehouse(){
+    tableWarehouse  = $("#tableModalWarehouse").DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
       responsive: true,
@@ -76,10 +76,10 @@
         stateSave: true
     });
      // Edit record
-     tableGroup.on( 'click', '.rowdetail', function () {
+     tableWarehouse.on( 'click', '.rowdetail', function () {
         $tr = $(this).closest('tr');
 
-        var data = tableGroup.row($tr).data();
+        var data = tableWarehouse.row($tr).data();
         var id = $tr.attr('id');
 
         $("#M_Warehouse_Id").val(data[0]);
@@ -89,6 +89,6 @@
   }
 
   $('#tableModalWarehouse').on('show.bs.modal', function (e) {
-      tableGroup.ajax.reload(null, true);
+      tableWarehouse.ajax.reload(null, true);
     })
 </script>

@@ -417,6 +417,6 @@ $lang =  [
     'document' => 'Dokumen',
     'signin' => 'Masuk',
     'quickmenu' => "Menu Cepat",
-    "category" => "Kategory",
+    "category" => "Kategori",
     "mastercategory" => "Master Kategori"
 ];
