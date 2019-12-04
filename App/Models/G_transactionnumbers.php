@@ -20,8 +20,13 @@ class G_transactionnumbers extends Nayo_Model {
         parent::__construct();
 	}
 	
-	public static function getLastNumberByFormId($formId, $year, $month, $type = null){
-      
+	public static function getLastNumberByFormId($formId, $year = null, $month = null, $type = null){
+        if(is_null($year))
+            $year  = get_current_date('Y');
+        
+        if(is_null($month))
+            $month  = get_current_date('m');
+
 		$params = [
 			'where' => [
 				"M_Form_Id" => $formId,
@@ -30,7 +35,8 @@ class G_transactionnumbers extends Nayo_Model {
 			]
 		];
 		
-		$query = self::getOne($params);
+        $query = self::getOne($params);
+        echo json_encode($query);
 
         if(is_null($query)){
             $insert = self::insertNewFormNumber($formId, $year, $month, $type);
@@ -83,8 +89,12 @@ class G_transactionnumbers extends Nayo_Model {
         return $id;
     }
 
-    public static function updateLastNumber($formId, $year, $month, $type = null){
-		
+    public static function updateLastNumber($formId, $year = null, $month = null, $type = null){
+		if(is_null($year))
+            $year  = get_current_date('Y');
+        
+        if(is_null($month))
+            $month  = get_current_date('m');
 		$params = array(
             'where' => array(
 				'M_Form_Id' => $formId,

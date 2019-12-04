@@ -156,6 +156,9 @@ class M_uomconversion extends Base_Controller
                             'type' => 'left'
                         ]
                     ],
+                ],
+                'order' => [
+                    'Ordering' => 'Asc'
                 ]
             ];
             // echo \json_encode($params);
@@ -236,7 +239,7 @@ class M_uomconversion extends Base_Controller
             )->addColumn(
                 'M_Item_Id',
                 function ($row) {
-                    return $row->get_M_Item()->getHeadFamily();
+                    return $row->get_M_Item()->Name;
                 }
             )->addColumn(
                 'CompleteName',

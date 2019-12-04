@@ -40,7 +40,7 @@
                                       array(
                                         "id" => "TransNo",
                                         "type" => "text",
-                                        "placeholder" => lang('Form.number'),
+                                        "placeholder" =>"[Auto Generated]",
                                         "class" => "form-control",
                                         "name" => "TransNo",
                                         "value" => $model->TransNo,
@@ -58,7 +58,7 @@
                                         "type" => "text",
                                         "placeholder" => lang('Form.date'),
                                         "class" => "form-control date",
-                                        "name" => "Date",
+                                        "name" => "TransDate",
                                         "value" => $model->TransDate
                                       )
                                     ) !!}

@@ -40,8 +40,12 @@ class T_itemstocks extends Base_Model {
 	}
 
 	public function savenew(){
+		$id = null;
+		$this->TransNo = G_transactionnumbers::getLastNumberByFormId(form_paging()['t_itemstock']);
+		
 		if($this->Status == T_itemstockstatus::NEW){
-			$this->save();
+			G_transactionnumbers::updateLastNumber(form_paging()['t_itemstock']);
+			$id = $this->save();
 		} else if($this->Status == T_itemstockstatus::RELEASE){
 			$params = [];
 			$id = $this->save();
@@ -69,6 +73,10 @@ class T_itemstocks extends Base_Model {
 				}
 			}
 		}
+
+		if($id)
+			return true;
+		return false;
 	}
 	
 	public function getEnumStatus(){
