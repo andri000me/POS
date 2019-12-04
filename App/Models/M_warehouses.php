@@ -1,6 +1,9 @@
 <?php  
 namespace App\Models;
+
+use App\Libraries\ResponseCode;
 use App\Models\Base_Model;
+use Core\Nayo_Exception;
 
 class M_warehouses extends Base_Model {
 

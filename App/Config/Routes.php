@@ -130,4 +130,15 @@ $route->group('/muomconversion', function () {
     $this->post('/getDataById', 'App\Controllers\M_uomconversion@getDataById');
 });
 
+$route->group('/titemstock', function () {
+    $this->get('/', 'App\Controllers\T_itemstock@index');
+    $this->get('/add', 'App\Controllers\T_itemstock@add');
+    $this->post('/addsave', 'App\Controllers\T_itemstock@addsave');
+    $this->get('/edit/?', 'App\Controllers\T_itemstock@edit');
+    $this->post('/editsave', 'App\Controllers\T_itemstock@editsave');
+    $this->post('/delete', 'App\Controllers\T_itemstock@delete');
+    $this->get('/getAllData', 'App\Controllers\T_itemstock@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\T_itemstock@getDataModal');
+});
+
 $route->end();

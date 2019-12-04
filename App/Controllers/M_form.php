@@ -20,16 +20,8 @@ class M_form extends Base_Controller
         if ($this->hasPermission('m_formsetting', 'Read')) {
 
             $itemstockmodel = M_formsettings::getTItemStock();
-            // $disasteroccurmodel = M_formsettings::getTDisasterOccurFormat();
-            // $itemstockmodel = M_formsettings::getTInOutItemFormat();
-            // $userlocationmodel = M_formsettings::getMUserLocation();
-            // $impactmodel = M_formsettings::getImpactCompensation();
 
-            $data['disasterreportmodel'] = $itemstockmodel;
-            // $data['disasteroccurmodel'] = $disasteroccurmodel;
-            // $data['itemstockmodel'] = $itemstockmodel;
-            // $data['userlocationmodel'] = $userlocationmodel;
-            // $data['impactmodel'] = $impactmodel;
+            $data['itemstockmodel'] = $itemstockmodel;
             $this->loadBlade('m_form.add', lang('Form.setting'), $data);
         }
     }

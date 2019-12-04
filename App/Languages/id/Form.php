@@ -421,5 +421,8 @@ $lang =  [
     "mastercategory" => "Master Kategori",
     "unitconversion" => "Perubahan Ukuran",
     "unitfrom" => "Dari Ukuran",
-    "unitto" => "Ke Ukuran"
+    "unitto" => "Ke Ukuran",
+    "itemstock" => "Stock Barang",
+    "transactionitemstock" => "Transaksi Stok Barang",
+    "masteritemstock" => "Master Stok Barang"
 ];

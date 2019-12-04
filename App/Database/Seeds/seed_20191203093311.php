@@ -13,7 +13,7 @@ class seed_20191203093311 {
         $table->addSeed('LocalName', 'Stok Barang');
         $table->addSeed('ClassName', 'Transaction');
         $table->addSeed('Resource', 'Form.itemstock');
-        $table->addSeed('IndexRoute', 'titemtock');
+        $table->addSeed('IndexRoute', 'titemstock');
         $table->seeds();
 
     }

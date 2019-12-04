@@ -21,10 +21,10 @@
 <script src="{{ baseUrl('assets/dist/plugins/all/js/moment.min.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/bootbox.min.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/bootstrap-notify.js')}}"></script>
+<script src="{{ baseUrl('assets/dist/plugins/all/js/bootstrap-select.min.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/bootstrap-selectpicker.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/bootstrap-datetimepicker.min.js')}}"></script>
-<script src="{{ baseUrl('assets/dist/plugins/all/js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/jquery.mask.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/jasny-bootstrap.min.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/js/app.js')}}"></script>
@@ -85,24 +85,24 @@
   
     $('.datetimepicker').datetimepicker({
       icons: {
-        time: "fa fa-clock-o",
+        time: "fas fa-clock",
         date: "fa fa-calendar",
         up: "fa fa-arrow-up",
         down: "fa fa-arrow-down",
-        previous: 'fa fa-angle-double-left',
-        next: 'fa fa-angle-double-right',
+        previous: 'fa fa-angle-left',
+        next: 'fa fa-angle-right',
       },
       format: 'DD-MM-YYYY HH:mm'
     });
   
     $('.date').datetimepicker({
       icons: {
-        time: "fa fa-clock-o",
+        time: "fas fa-clock",
         date: "fa fa-calendar",
         up: "fa fa-arrow-up",
         down: "fa fa-arrow-down",
-        previous: 'fa fa-angle-double-left',
-        next: 'fa fa-angle-double-right',
+        previous: 'fa fa-angle-left',
+        next: 'fa fa-angle-right',
       },
       format: 'DD-MM-YYYY'
     });

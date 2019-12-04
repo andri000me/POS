@@ -11,6 +11,7 @@ class migration_20191203090325 {
         $table->addColumn("Id", "int", "11", false, null, true, true);
         $table->addColumn("TransNo", "int", "11");
         $table->addColumn("TransDate", "datetime", "");
+        $table->addColumn("Status", "int", "11");
         $table->addColumn("Recipient", "varchar", "50");
         $table->addColumn("CreatedBy", "Varchar", "50", true);
         $table->addColumn("ModifiedBy", "Varchar", "50", true);

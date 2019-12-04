@@ -315,15 +315,31 @@ class Base_Controller extends Nayo_Controller
             }
         }
 
-        // $transactionmenu = "";
-        // foreach ($transaction as $menu) {
-        //     if (lang($menu->Resource) == $title) {
-        //         $expandfound = "transactionexpand";
-        //         $transactionmenu .= "<li class = 'active'><a href='" . baseUrl($menu->IndexRoute) . "'>" . lang($menu->Resource) . "</a></li>";
-        //     } else {
-        //         $transactionmenu .= "<li><a href='" . baseUrl($menu->IndexRoute) . "'>" . lang($menu->Resource) . "</a></li>";
-        //     }
-        // }
+        $transactionmenu = "";
+        foreach ($transaction as $menu) {
+            if (lang($menu->Resource) == $title) {
+                $expandfound = "transactionexpand";
+                $transactionmenu .= "<li class = 'nav-item'>
+                <a class = 'nav-link active' href='" . baseUrl($menu->IndexRoute) . "'>
+                    <i class='nav-icon fas fa-file'></i>
+                    <p>".lang($menu->Resource)."
+                        
+                       
+                    </p>
+                </a>
+            </li>";
+            } else {
+                $transactionmenu .= "<li class = 'nav-item'>
+                <a class = 'nav-link' href='" . baseUrl($menu->IndexRoute) . "'>
+                    <i class='nav-icon fas fa-file'></i>
+                    <p>".lang($menu->Resource).
+                        
+                        "
+                    </p>
+                </a>
+            </li>";
+            }
+        }
         $expndas = [
             "userexpand" =>  [$usermenu, "nav-icon fas fa fa-user", lang('Form.masteruser')],
             "generalexpand" =>  [$generalmenu, " nav-icon fa fa-archive", lang('Form.mastergeneral')],
@@ -331,7 +347,7 @@ class Base_Controller extends Nayo_Controller
             // "broadcastexpand" =>  [$broadcastmenu, "fa fa-archive", "Master Broadcast"],
             // "volunteerexpand" =>  [$volunteermenu, "fa fa-archive", lang('Form.mastervolunteer')],
             "itemexpand" =>  [$itemmenu, "nav-icon fa fa-archive", lang('Form.masteritem')],
-            // "transactionexpand" =>  [$transactionmenu, "fa fa-archive", lang('Form.transaction')],
+            "transactionexpand" =>  [$transactionmenu, "nav-icon fa fa-archive", lang('Form.transaction')],
         ];
         $menudata["menu"]="";
         // $menudata["menu"] = "<div class='main-menu'>

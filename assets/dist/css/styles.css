@@ -133,3 +133,41 @@ table th {
   content: " *";
   display: inline;
 }
+
+/* datetimepicker */
+.datepicker table tr th,
+.datepicker table tr td{
+  height: 35px;
+  width: 35px;
+
+}
+.show>.btn-primary.dropdown-toggle,
+.datepicker table tr td.active.active:hover,
+.datepicker table tr td.active.active, 
+.datepicker table tr td.active.highlighted.active{
+  background-color: #00a65a;
+  border-color: #00a65a;
+}
+
+.bootstrap-datetimepicker-widget table td.day {
+  height: 35px;
+  width: 35px;
+
+}
+
+.dropdown-item.active, 
+.dropdown-item:active{
+  background-color: #00a65a;
+}
+
+.dropdown-item.active:hover, 
+.dropdown-item:active:hover{
+  color: #fff;
+}
+
+/* .bootstrap-datetimepicker-widget table td.active.active:hover,
+.bootstrap-datetimepicker-widget table td.active.active, 
+.bootstrap-datetimepicker-widget table td.active.highlighted.active{
+  background-color: #00a65a;
+  border-color: #00a65a;
+} */

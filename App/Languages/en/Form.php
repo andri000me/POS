@@ -404,7 +404,10 @@ $lang =  [
     "mastercategory" => "Master Category",
     "unitconversion" => "Unit Convertion",
     "unitfrom" => "Unit From",
-    "unitto" => "Unit To"
+    "unitto" => "Unit To",
+    "itemstock" => "Item Stock",
+    "transactionitemstock" => "Transaction Item Stock",
+    "masteritemstock" => "Master Item Stock"
 
 ];
 
