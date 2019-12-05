@@ -31,7 +31,7 @@
           </div>
         </div>
           <div class="card-body">
-            <form method="post" action="<?= baseUrl('muser/addsave'); ?>">
+              {!! formOpen(baseUrl('muser/addsave'))!!}
               <?= formInput(
                 array(
                   "id" => "M_Groupuser_Id",
@@ -104,7 +104,7 @@
                 <input type="submit" value="<?= lang('Form.save') ?>" class="btn btn-primary">
                 <a href="<?= baseUrl('muser') ?>" value="<?= lang('Form.cancel') ?>" class="btn btn-primary"><?= lang('Form.cancel') ?></a>
               </div>
-            </form>
+              {!! formClose() !!}
           </div>
         </div>
       </div>

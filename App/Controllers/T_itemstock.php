@@ -31,6 +31,8 @@ class T_itemstock extends Base_Controller
             $itemstocks = new T_itemstocks();
             $data = setPageData_paging($itemstocks);
             $this->loadBlade('t_itemstock.add', lang('Form.itemstock'), $data);
+            // echo json_encode($data);
+            // echo \json_encode($itemstocks->getEnumStatus());
         }
     }
 

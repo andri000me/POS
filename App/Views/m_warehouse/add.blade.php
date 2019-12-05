@@ -32,7 +32,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                            <form method="post" action="{{ baseUrl('mwarehouse/addsave')}}">
+                            {!! formOpen(baseUrl('mwarehouse/addsave'))!!}
                                 <div class="form-group">
                                   <div class="required">
                                     <label>{{ lang('Form.name') }}</label>
@@ -65,7 +65,7 @@
                                   <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
                                   <a href="{{ baseUrl('mwarehouse') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
                                 </div>
-                              </form>
+                                {!! formClose() !!}
                         </div>
                     <!-- /.card-body -->
                     </div>

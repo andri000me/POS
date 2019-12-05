@@ -32,7 +32,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                            <form method="post" action="{{ baseUrl('titemstock/addsave')}}">
+                            {!! formOpen(baseUrl('titemstock/addsave'))!!}
                                 <div class="form-group">
                                   <div class="required">
                                     <label>{{ lang('Form.number') }}</label>
@@ -74,7 +74,8 @@
                                       array(
                                         "id" => "Status",
                                         "class" => "selectpicker form-control",
-                                        "name" => "Status"
+                                        "name" => "Status",
+                                        'value' => $model->Status
                                       )
                                     ) ?>
                                   </div>
@@ -83,7 +84,8 @@
                                   <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
                                   <a href="{{ baseUrl('titemstock') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
                                 </div>
-                              </form>
+                              
+                            {!! formClose() !!}
                         </div>
                     <!-- /.card-body -->
                     </div>

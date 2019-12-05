@@ -32,7 +32,8 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                            <form method="post" action="{{ baseUrl('mitem/addsave')}}">
+                            {{-- <form method="post" action="{{ baseUrl('mitem/addsave')}}"> --}}
+                              {!! formOpen(baseUrl('mitem/addsave'))!!}
                               <div class="form-group">
                                 <div class="required">
                                   <label>{{ lang('Form.code') }}</label>
@@ -135,7 +136,7 @@
                                 <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
                                 <a href="{{ baseUrl('mitem') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
                               </div>
-                            </form>
+                            {!! formClose() !!}
                         </div>
                     <!-- /.card-body -->
                     </div>

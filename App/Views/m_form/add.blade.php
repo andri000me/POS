@@ -43,7 +43,8 @@
                           </div>
                           <div id="transitemstock" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion" style="">
                             <div class="card-body">
-                              <form method="post" action="<?= baseUrl('setting/saveitemstock') ?>">
+                                
+                              {!! formOpen(baseUrl('setting/saveitemstock'))!!}
                                 <div class="row">
                                   <label class="col-sm-2 col-form-label"><?= lang('Form.numberformat') ?></label>
                                   <div class="col-md-10">
@@ -56,7 +57,7 @@
                                 <div class="form-group">
                                   <input type="submit" value="<?= lang('Form.save') ?>" class="btn btn-primary">
                                 </div>
-                              </form>
+                              {!! formClose() !!}
                             </div>
                           </div>
                       </div>
