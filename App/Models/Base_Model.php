@@ -102,6 +102,10 @@ class Base_Model extends Nayo_Model
         }
 		return $this;
     }
+
+    public function validate(){
+        
+    }
     
     // public function save(){
     //     // if(!parent::save())

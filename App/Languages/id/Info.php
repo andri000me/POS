@@ -19,6 +19,7 @@ $lang = [
     'failed_logged_in' => "Gagal Login",
     'failed_upload_image' => "Gagal Mengunggah Gambar",
     'login_success' => "Login Berhasil",
-    'pleaselogin' => "Silakan masuk ke akun anda"
+    'pleaselogin' => "Silakan masuk ke akun anda",
+    'success_to_copy' => 'Salin data berhasil'
 //'msg_orderuomconvertion' => "Urutkan Perubahan ukuran dari paling BESAR ke KECIL. contoh : Box ke Pack (nomor urut => 1), Pack ke Pcs (nomor urut => 2) dan seterusnya",
 ];

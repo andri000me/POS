@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>{{lang('Form.transactionitemstock')}}</h1>
+            <h1>{{lang('Form.transactionitemstockdetail')}}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -23,22 +23,23 @@
                 <div class="card-header">
                     <div class = "row">
                         <div class = "col-6">
-                            <h3 class="card-title">{{lang('Form.data')}}</h3>
+                            <h3 class="card-title">{{lang('Form.data')}}<a href="{{ baseUrl("titemstock/edit/$model->Id") }}">{{ " ( $model->TransNo ) "}}</a></h3>
                         </div>
                         <div class = "col-6 text-right">
-                            <a class = "" href="{{ baseUrl('titemstock/add')}}"><i class = "fa fa-plus"></i></a>
+                            <a class = "" href='{{ baseUrl("titemstockdetail/add/$model->Id")}}''><i class = "fa fa-plus"></i></a>
                         </div>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                        <table id = "tableitemstock" style="width: 100%;" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed " role="grid">
+                        <table id = "tableitemstockdetail" style="width: 100%;" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed " role="grid">
                         <thead class=" text-default">
                             <tr role = "row">
                             <th># </th>
-                            <th>{{  lang('Form.number')}}</th>
-                            <th>{{  lang('Form.date')}}</th>
-                            <th>{{  lang('Form.status')}}</th>
+                            <th>{{  lang('Form.item')}}</th>
+                            <th>{{  lang('Form.uom')}}</th>
+                            <th>{{  lang('Form.warehouse')}}</th>
+                            <th>{{  lang('Form.qty')}}</th>
                             <th>{{  lang('Form.createat')}}</th>
                             <th class="disabled-sorting text-right">{{  lang('Form.actions')}}</th>
                             </tr>
@@ -46,9 +47,10 @@
                         <tfoot class=" text-default">
                             <tr role = "row">
                             <th># </th>
-                            <th>{{  lang('Form.number')}}</th>
-                            <th>{{  lang('Form.date')}}</th>
-                            <th>{{  lang('Form.status')}}</th>
+                            <th>{{  lang('Form.item')}}</th>
+                            <th>{{  lang('Form.uom')}}</th>
+                            <th>{{  lang('Form.warehouse')}}</th>
+                            <th>{{  lang('Form.qty')}}</th>
                             <th>{{  lang('Form.createat')}}</th>
                             <th class="disabled-sorting text-right">{{  lang('Form.actions')}}</th>
                             </tr>
@@ -74,7 +76,7 @@
     });
   
     function dataTable(){
-      var table = $('#tableitemstock').DataTable({
+      var table = $('#tableitemstockdetail').DataTable({
         "pagingType": "full_numbers",
         "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
         "order" : [[2, "desc"]],
@@ -95,7 +97,7 @@
           },
           {
              "className": "td-actions text-right", 
-             "targets": [ 5 ] 
+             "targets": [ 6 ] 
           }
         ],
         columns: [
@@ -104,12 +106,13 @@
           { responsivePriority: 2},
           { responsivePriority: 4},
           { responsivePriority: 5},
+          { responsivePriority: 7},
           { responsivePriority: 2}
         ],
         "processing": true,
         "serverSide": true,
         ajax:{
-          url : "{{ baseUrl('titemstock/getAllData')}}",
+          url : '{{ baseUrl("titemstockdetail/getAllData/$model->Id")}}',
           dataSrc : 'data'
         },
         stateSave: true
@@ -126,7 +129,7 @@
             {
               $.ajax({
                 type : "POST",
-                url : "{{ baseUrl('titemstock/delete/')}}",
+                url : "{{ baseUrl('titemstockdetail/delete/')}}",
                 data : {id : data['0']},
                 success : function(data){
                   console.log(data);
@@ -159,14 +162,14 @@
           $tr = $(this).closest('tr');
           var data = table.row($tr).data();;
           var id = data['Id'];
-          window.location = "{{ baseUrl('titemstock/editrole/')}}" + id;
+          window.location = "{{ baseUrl('titemstockdetail/editrole/')}}" + id;
       });
   
       table.on( 'click', '.reportrole', function () {
           $tr = $(this).closest('tr');
           var data = table.row($tr).data();;
           var id = data['Id'];
-          window.location = "{{ baseUrl('titemstock/editreportrole/')}}" + id;
+          window.location = "{{ baseUrl('titemstockdetail/editreportrole/')}}" + id;
       });
     }
   

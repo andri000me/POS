@@ -11,7 +11,7 @@ class migration_20191203090530 {
         $table->addColumn("Id", "int", "11", false, null, true, true);
         $table->addColumn("M_Item_Id", "int", "11");
         $table->addColumn("M_Uom_Id", "int", "11");
-        $table->addColumn("M_Warehouse_Id", "int", "11");
+        $table->addColumn("M_Warehouse_Id", "int", "11", true);
         $table->addColumn("Qty", "Decimal", "18,2");
         $table->addColumn("CreatedBy", "Varchar", "50", true);
         $table->addColumn("ModifiedBy", "Varchar", "50", true);

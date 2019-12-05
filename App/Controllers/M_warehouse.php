@@ -180,12 +180,6 @@ class M_warehouse extends Base_Controller
                 function ($row) {
                     return $row->Name;
                 }
-            )->addColumn(
-                '',
-                function ($row) {
-                    return $row->get_M_Subvillage()->Name;
-                },
-                false
             );
 
         echo json_encode($datatable->populate());

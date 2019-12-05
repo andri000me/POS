@@ -4,7 +4,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>{{lang('Form.masteritemstock')}}</h1>
+                <h1>{{lang('Form.transactionitemstock')}}</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -25,9 +25,10 @@
                             <div class = "col-6">
                                 <h3 class="card-title">{{lang('Form.edit')}}</h3>
                             </div>
-                            {{-- <div class = "col-6 text-right">
-                                <a class = "" href="{{ baseUrl('titemstock/add')}}"><i class = "fa fa-plus"></i></a>
-                            </div> --}}
+                            <div class = "col-6 text-right">
+                                <a class = "link-action" href="{{ baseUrl("titemstock/copy/$model->Id")}}"><i class = "fa fa-clone"></i> {{ lang('Form.copy')}}</a>
+                              <a class = "link-action" href="{{ baseUrl("titemstockdetail/$model->Id")}}"><i class = "fa fa-plus"></i> {{ lang('Form.detail')}}</a>
+                          </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -44,31 +45,50 @@
                               ) !!}
                                 <div class="form-group">
                                   <div class="required">
-                                    <label>{{ lang('Form.name') }}</label>
+                                    <label>{{ lang('Form.number') }}</label>
                                     {!! formInput(
                                       array(
-                                        "id" => "Name",
+                                        "id" => "TransNo",
                                         "type" => "text",
-                                        "placeholder" => lang('Form.itemstock'),
+                                        "placeholder" =>"[Auto Generated]",
                                         "class" => "form-control",
-                                        "name" => "Name",
-                                        "value" => $model->Name,
-                                        "required" => ""
+                                        "name" => "TransNo",
+                                        "value" => $model->TransNo,
+                                        "disabled" => ""
                                       )
                                     ) !!}
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label>{{ lang('Form.description') }}</label>
-                                  {!! formTextArea($model->Description,
+                                  <div class="required">
+                                    <label>{{ lang('Form.date') }}</label>
+                                    {!! formInput(
                                       array(
-                                        "id" => "Description",
+                                        "id" => "TransDate",
                                         "type" => "text",
-                                        "placeholder" => lang('Form.itemstock'),
-                                        "class" => "form-control",
-                                        "name" => "Description"
+                                        "placeholder" => lang('Form.date'),
+                                        "class" => "form-control date",
+                                        "name" => "TransDate",
+                                        "value" => get_formated_date($model->TransDate, "d-m-Y")
                                       )
                                     ) !!}
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="required">
+                                    <?= formLabel(lang('Form.type')) ?>
+                                    <?= formSelect(
+                                      $model->getEnumStatus(),
+                                      "Value",
+                                      "EnumName",
+                                      array(
+                                        "id" => "Status",
+                                        "class" => "selectpicker form-control",
+                                        "name" => "Status",
+                                        "value" => $model->Status
+                                      )
+                                    ) ?>
+                                  </div>
                                 </div>
                                 <div class="form-group">
                                   <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">

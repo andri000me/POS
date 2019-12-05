@@ -3,7 +3,6 @@ namespace App\Models;
 
 use App\Libraries\ResponseCode;
 use App\Models\M_accessroles;
-use App\Models\R_reportaccessroles;
 use App\Models\M_forms;
 use Core\Database\DBBuilder;
 use App\Models\Base_Model;
@@ -109,52 +108,52 @@ class M_groupusers extends Base_Model {
         }
     }
 
-    public function isReportPermitted($groupid = null, $form = null, $role = null){
+    // public function isReportPermitted($groupid = null, $form = null, $role = null){
 
-        $formid = $form;
-        if(isset($form)){
-            $params = array(
-                'where' => array(
-                    'Name' => $form
-                )
-            );
+    //     $formid = $form;
+    //     if(isset($form)){
+    //         $params = array(
+    //             'where' => array(
+    //                 'Name' => $form
+    //             )
+    //         );
 
-            $dataform = R_reports::getOne($params);
-            $formid = $dataform->Id;
-        }
+    //         $dataform = R_reports::getOne($params);
+    //         $formid = $dataform->Id;
+    //     }
         
-        $permitted = false;
-        if($_SESSION[get_variable().'userdata']['Username'] == "superadmin"
-            ||  $this->hasReportRole($groupid,$formid,$role)
-        )
-        {
-            $permitted = true;
-        }
-        // echo $permitted;
-        return $permitted;
-    }
+    //     $permitted = false;
+    //     if($_SESSION[get_variable().'userdata']['Username'] == "superadmin"
+    //         ||  $this->hasReportRole($groupid,$formid,$role)
+    //     )
+    //     {
+    //         $permitted = true;
+    //     }
+    //     // echo $permitted;
+    //     return $permitted;
+    // }
 
-    public function hasReportRole($groupid, $reportid, $role){
+    // public function hasReportRole($groupid, $reportid, $role){
 
-        $permitted = false;
-        $accesrole = new R_reportaccessroles();
-        $params = array(
-            'where' => array(
-                'M_Groupuser_Id' => $groupid,
-                'R_Report_Id' => $reportid,
-                $role => 1
-            )
-        );
+    //     $permitted = false;
+    //     $accesrole = new R_reportaccessroles();
+    //     $params = array(
+    //         'where' => array(
+    //             'M_Groupuser_Id' => $groupid,
+    //             'R_Report_Id' => $reportid,
+    //             $role => 1
+    //         )
+    //     );
 
-        $result = $accesrole->findOne($params);
-        // echo json_encode($params);
-        if($result)
-        {
-            $permitted = true;
-        }
+    //     $result = $accesrole->findOne($params);
+    //     // echo json_encode($params);
+    //     if($result)
+    //     {
+    //         $permitted = true;
+    //     }
 
-        return $permitted;
-    }
+    //     return $permitted;
+    // }
 
     public function hasRole($groupid, $formid, $role)
     {

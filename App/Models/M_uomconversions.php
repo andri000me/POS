@@ -83,4 +83,141 @@ class M_uomconversions extends Base_Model {
 
 	}
 
+	public static function getQtyConversion($itemid, $from, $to){
+		if($from == $to)
+			return 1;
+
+		$order = "DESC";
+
+		$params = [
+			'where' => [
+				'M_Item_Id' => $itemid
+			]
+		];
+		$parfrom = $params;
+		$parfrom['where']['M_Uom_Id_From'] = $from;
+		$fromdata = self::getOne($parfrom);
+		
+		$parto = $params;
+		$parto['where']['M_Uom_Id_To'] = $to;
+		$todata = self::getOne($parto);
+
+		if($fromdata){
+
+		} else {
+			
+			$parfrom['where']['M_Uom_Id_From'] = null;
+			$parfrom['where']['M_Uom_Id_To'] = $from;
+			$fromdata = self::getOne($parfrom);
+		}
+
+		if($todata){
+
+		} else {
+				
+			$parto['where']['M_Uom_Id_To'] = null;
+			$parto['where']['M_Uom_Id_From'] = $to;
+			$todata = self::getOne($parto);
+		}
+
+		if($fromdata->Ordering < $todata->Ordering || $fromdata->Ordering == $todata->Ordering){
+			$order = "ASC";
+		}
+
+			// if($fromdata){
+			// 	$parto['where']['M_Uom_Id_To'] = $to;
+			// 	$todata = self::getOne($parto);
+
+			// 	if($todata)
+			// 		if($fromdata->Ordering < $todata->Ordering || $fromdata->Ordering == $todata->Ordering){
+			// 			$order = "ASC";
+			// 		}
+			// 	else {
+			// 		$parto['where']['M_Uom_Id_To'] = null;
+			// 		$parto['where']['M_Uom_Id_From'] = $to;
+			// 		$todata = self::getOne($parto);
+			// 		if($todata){
+			// 			if($fromdata->Ordering < $todata->Ordering || $fromdata->Ordering == $todata->Ordering){
+			// 				$order = "ASC";
+			// 			}
+			// 		}
+
+			// 	}
+			// } else {
+			// 	$parfrom['where']['M_Uom_Id_From'] = null;
+			// 	$parfrom['where']['M_Uom_Id_To'] = $from;
+			// 	$fromdata = self::getOne($parfrom);
+			// 	if($fromdata){
+			// 		$parto['where']['M_Uom_Id_To'] = $to;
+			// 		$todata = self::getOne($parto);
+			// 		if($todata){
+			// 			if($fromdata->Ordering > $todata->Ordering || $fromdata->Ordering == $todata->Ordering){
+			// 				$order = "DESC";
+			// 			}
+			// 		} else {
+			// 			$parto['where']['M_Uom_Id_To'] = null;
+			// 			$parto['where']['M_Uom_Id_From'] = $to;
+			// 			$todata = self::getOne($parto);
+			// 			if($fromdata->Ordering > $todata->Ordering || $fromdata->Ordering == $todata->Ordering){
+			// 				$order = "DESC";
+			// 			}
+			// 		}
+			// 	}
+			// }
+		// }
+			
+		// $order = $updown == 'down' ? 'ASC' : 'DESC';
+		$params = [
+			'where' => [
+				'M_Item_Id' => $itemid
+			],
+			'order' => [
+				'Ordering' => $order
+			]
+		];
+		$multiply = 1.00;
+		$datas = self::getAll($params);
+		$fromid = null;
+
+		if($order == 'ASC')
+			foreach($datas as $d){
+				if($d->M_Uom_Id_From == $from){
+					$fromid = $d->M_Uom_Id_From;
+					$multiply *= $d->Qty;
+					if($d->M_Uom_Id_To == $to)
+						break;
+					continue;
+				} 
+
+				if(!is_null($fromid)){
+					$multiply *= $d->Qty;
+				}
+
+				if($d->M_Uom_Id_To == $to){
+					break;
+				}
+			}
+		else {
+			foreach($datas as $d){
+				if($d->M_Uom_Id_To == $from){
+					$fromid = $d->M_Uom_Id_To;
+					$multiply /= $d->Qty;
+					if($d->M_Uom_Id_From == $to)
+						break;
+					continue;
+				} 
+
+				if(!is_null($fromid)){
+					$multiply /= $d->Qty;
+				}
+
+				if($d->M_Uom_Id_From == $to){
+					break;
+				}
+			}
+		}
+
+		return $multiply;
+	}
+
 }

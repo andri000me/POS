@@ -23,8 +23,8 @@ function setisdecimal($data){
     if(empty($data))
         return 0.00;
     else {
-        $newvalue = str_replace(".","", $data);
-        $newvalue = str_replace(",",".", $newvalue);
+        // $newvalue = str_replace(".","", $data);
+        $newvalue = str_replace(",",".", $data);
         return $newvalue;
     }
 }

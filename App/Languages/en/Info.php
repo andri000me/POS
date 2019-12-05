@@ -19,6 +19,7 @@ $lang = [
     'failed_logged_in' => "Failed to Log In",
     'failed_upload_image' => "Failed to Upload Image",
     'login_success' => "Login Success",
-    'pleaselogin' => "Please login to your account"
+    'pleaselogin' => "Please login to your account",
+    'success_to_copy' => 'Salin Berhasil'
     //'msg_orderuomconvertion' => "Please order Unit Convertion from biggest to smallest unit. for example : Box to Pack (order number => 1), Pack to Pcs (order number => 2) and go on",
 ];

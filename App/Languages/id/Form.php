@@ -424,5 +424,6 @@ $lang =  [
     "unitto" => "Ke Ukuran",
     "itemstock" => "Stock Barang",
     "transactionitemstock" => "Transaksi Stok Barang",
-    "masteritemstock" => "Master Stok Barang"
+    "masteritemstock" => "Master Stok Barang",
+    "transactionitemstockdetail" => "Transaksi Stok Barang Detil",
 ];

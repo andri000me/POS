@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\T_itemstockdetails;
 use App\Controllers\Base_Controller;
+use App\Enums\T_itemstockstatus;
 use Core\Libraries\Datatables;
 use App\Models\T_itemstocks;
 use App\Models\M_enumdetails;
@@ -22,25 +23,41 @@ class T_itemstockdetail extends Base_Controller
     {
         if ($this->hasPermission('m_item', 'Read')) {
 
-            $result = T_itemstocks::get($iditem);
-            $data['model'] = $result;
+            try {
+                $result = T_itemstocks::get($iditem);
+                if ($result->Status != T_itemstockstatus::NEW) {
+                    Nayo_Exception::throw("{$result->TransNo} Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemstockStatus', $result->Status), $result);
+                }
 
-            $this->loadBlade('t_itemstockdetail.index', lang('Form.itemstock'), $data);
+                $data['model'] = $result;
+
+                $this->loadBlade('t_itemstockdetail.index', lang('Form.itemstock'), $data);
+            } catch (Nayo_Exception $e) {
+                Session::setFlash('add_warning_msg', array(0 => $e->messages));
+                redirect("titemstock/edit/{$e->data->Id}")->with($e->data)->go();
+            }
         }
     }
 
     public function add($iditem)
     {
         if ($this->hasPermission('m_item', 'Write')) {
+            try {
+                $result = T_itemstocks::get($iditem);
+                if ($result->Status != T_itemstockstatus::NEW) {
+                    Nayo_Exception::throw("Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemstockStatus', $result->Status), $result);
+                }
 
-            $result = T_itemstocks::get($iditem);
+                $itemstocks = new T_itemstockdetails($iditem);
 
-            $itemstocks = new T_itemstockdetails();
+                $data = setPageData_paging($itemstocks);
 
-            $data = setPageData_paging($itemstocks);
-
-            $data['item'] = $result;
-            $this->loadBlade('t_itemstockdetail.add', lang('Form.itemstock'), $data);
+                $data['item'] = $result;
+                $this->loadBlade('t_itemstockdetail.add', lang('Form.itemstock'), $data);
+            } catch (Nayo_Exception $e) {
+                Session::setFlash('add_warning_msg', array(0 => $e->messages));
+                redirect("titemstock/edit/{$e->data->Id}")->with($e->data)->go();
+            }
         }
     }
 
@@ -49,21 +66,22 @@ class T_itemstockdetail extends Base_Controller
 
         if ($this->hasPermission('m_item', 'Write')) {
 
-
             $itemstocks = new T_itemstockdetails();
             $itemstocks->parseFromRequest();
-            // $itemstocks->Ordering = T_itemstockdetails::getNextOrdering($itemstocks->M_Item_Id);
-
             try {
+                $result = T_itemstocks::get($itemstocks->T_Itemstock_Id);
+                if ($result->Status != T_itemstockstatus::NEW) {
+                    Nayo_Exception::throw("Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemstockStatus', $result->Status), $result);
+                }
                 $itemstocks->validate();
 
                 $itemstocks->save();
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                redirect("mitemstock/add/{$itemstocks->M_Item_Id}")->go();
+                redirect("titemstockdetail/add/{$itemstocks->T_Itemstock_Id}")->go();
             } catch (Nayo_Exception $e) {
 
                 Session::setFlash('add_warning_msg', array(0 => $e->messages));
-                redirect("mitemstock/add/{$itemstocks->M_Item_Id}")->with($itemstocks)->go();
+                redirect("titemstockdetail/add/{$itemstocks->T_Itemstock_Id}")->with($itemstocks)->go();
             }
         }
     }
@@ -75,8 +93,7 @@ class T_itemstockdetail extends Base_Controller
 
             $itemstocks = T_itemstockdetails::get($id);
 
-            $items = new T_itemstocks();
-            $result = T_itemstocks::get($itemstocks->M_Item_Id);
+            $result = T_itemstocks::get($itemstocks->T_Itemstock_Id);
 
             $data['model'] = $itemstocks;
             $data['item'] = $result;
@@ -100,11 +117,11 @@ class T_itemstockdetail extends Base_Controller
                 $itemstocks->validate($oldmodel);
                 $itemstocks->save();
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                redirect("mitemstock/$itemstocks->M_Item_Id")->go();
+                redirect("titemstockdetail/$itemstocks->T_Itemstock_Id")->go();
             } catch (Nayo_Exception $e) {
 
                 Session::setFlash('edit_warning_msg', array(0 => $e->messages));
-                redirect("mitemstock/edit/$id")->with($e->data)->go();
+                redirect("titemstockdetail/edit/$id")->with($e->data)->go();
             }
         }
     }
@@ -132,64 +149,73 @@ class T_itemstockdetail extends Base_Controller
         }
     }
 
-    public function getAllData($iditem)
+    public function getAllData($stockid)
     {
 
         if ($this->hasPermission('m_item', 'Read')) {
 
             $params = [
                 'where' => [
-                    'M_Item_Id' => $iditem
+                    'T_Itemstock_Id' => $stockid
                 ],
                 'join' => [
                     'm_uoms' => [
                         [
-                            'as' => 'uomfrom',
                             'table' => 't_itemstockdetails',
-                            'column' => 'M_Uom_Id_From',
+                            'column' => 'M_Uom_Id',
                             'type' => 'left'
-                        ],
+                        ]
+
+                    ],
+                    'm_warehouses' => [
                         [
-                            'as' => 'uomto',
+
                             'table' => 't_itemstockdetails',
-                            'column' => 'M_Uom_Id_To',
+                            'column' => 'M_Warehouse_Id',
                             'type' => 'left'
                         ]
                     ],
+                    'm_items' => [
+                        [
+
+                            'table' => 't_itemstockdetails',
+                            'column' => 'M_Item_Id',
+                            'type' => 'left'
+                        ]
+                    ]
                 ]
             ];
-            // echo \json_encode($params);
-            // foreach($params['join'] as $key => $p){
-            //     echo json_encode($key);
-            // }
             $datatable = new Datatables('T_itemstockdetails', $params);
             $datatable
                 ->addDtRowClass("rowdetail")
                 ->addColumn(
-                    'Id',
+                    't_itemstockdetails.Id',
                     function ($row) {
                         return $row->Id;
                     },
                     false,
                     false
                 )->addColumn(
-                    'uomfrom.Name',
+                    'm_items.Name',
                     function ($row) {
                         return
-                            formLink($row->get_M_Uom('From')->Name, array(
+                            formLink($row->get_M_Item()->Name, array(
                                 "id" => $row->Id . "~a",
-                                "href" => baseUrl("mitemstock/edit/$row->Id"),
+                                "href" => baseUrl("titemstockdetail/edit/$row->Id"),
                                 "class" => "text-muted"
                             ));
                     }
                 )->addColumn(
-                    'uomto.Name',
-                    function($row){
-                        return $row->get_M_Uom('To')->Name;
-                    }
+                    'm_uoms.Name'
+                )->addColumn(
+                    'm_warehouses.Name'
                 )->addColumn(
                     't_itemstockdetails.Qty'
-                
+
+                )->addColumn(
+                    'Created',
+                    null,
+                    false
                 )->addColumn(
                     'Action',
                     function ($row) {
@@ -215,7 +241,7 @@ class T_itemstockdetail extends Base_Controller
         if ($iditem > 0)
             $params = [
                 'where' => [
-                    'M_Item_Id' => $iditem
+                    'T_Itemstock_Id' => $iditem
                 ]
             ];
         $datatable = new Datatables('T_itemstockdetails', $params);
@@ -234,7 +260,7 @@ class T_itemstockdetail extends Base_Controller
                     return $row->NIK;
                 }
             )->addColumn(
-                'M_Item_Id',
+                'T_Itemstock_Id',
                 function ($row) {
                     return $row->get_M_Item()->getHeadFamily();
                 }

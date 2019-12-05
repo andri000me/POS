@@ -56,5 +56,13 @@ $lang =  [
     'password_can_not_null' => "Password Cannot null",
     'code_can_not_null' => "Code Cannot null",
     'code_exist' => "Code Exist",
-    'data_exist' => "Data Exist"
+    'data_exist' => "Data Exist",
+    'qty_must_greaterthan_zero' => "Qty must be greater than 0",
+    'uom_can_not_null' => "UoM Cannot null",
+    'item_can_not_null' => "Item Cannot null",
+    'item_exist' => "Item Exist",
+    'status_cannot_change' => 'Status cant be changed',
+    'qty_is_not_enough' => 'Qty is not enough',
+    'item_not_available' => 'Item is not available',
+    'failed_to_save_data' => 'Failed to save data'
 ];

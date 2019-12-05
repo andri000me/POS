@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\T_itemstocks;
 use App\Controllers\Base_Controller;
+use App\Models\M_enumdetails;
 use Core\Database\DbTrans;
 use Core\Libraries\Datatables;
 use Core\Nayo_Exception;
@@ -44,7 +45,7 @@ class T_itemstock extends Base_Controller
             try {
                 $itemstocks->validate();
 
-                if($itemstocks->savenew()){
+                if($itemstocks->savedata()){
                     DbTrans::commit();
                     Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
                     redirect('titemstock/add')->go();
@@ -80,16 +81,35 @@ class T_itemstock extends Base_Controller
             $itemstocks->parseFromRequest();
             // echo json_encode($itemstocks);
 
+            DbTrans::beginTransaction();
             try {
                 $itemstocks->validate($oldmodel);
-                $itemstocks->save();
-                Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                redirect('titemstock')->go();
+                if($itemstocks->savedata($oldmodel)){
+                    DbTrans::commit();
+                    Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
+                    redirect('titemstock')->go();
+                }
             } catch (Nayo_Exception $e) {
-
+                DbTrans::rollback();
                 Session::setFlash('edit_warning_msg', array(0 => $e->messages));
                 redirect("titemstock/edit/{$id}")->with($e->data)->go();
             }
+        }
+    }
+
+    public function copy($id){
+        DbTrans::beginTransaction();
+        try {
+            $exist = T_itemstocks::get($id);
+            $data = $exist->copyFrom();
+            DbTrans::commit();
+            Session::setFlash('success_msg', array(0 => lang('Info.success_to_copy')));
+            redirect("titemstock/edit/{$data->Id}")->with($data)->go();
+
+        } catch (Nayo_Exception $e) {
+            DbTrans::rollback();
+            Session::setFlash('edit_warning_msg', array(0 => $e->messages));
+            redirect("titemstock/edit/{$id}")->with($e->data)->go();
         }
     }
 
@@ -133,7 +153,7 @@ class T_itemstock extends Base_Controller
                     'TransNo',
                     function ($row) {
                         return
-                            formLink($row->Name, array(
+                            formLink($row->TransNo, array(
                                 "id" => $row->Id . "~a",
                                 "href" => baseUrl('titemstock/edit/' . $row->Id),
                                 "class" => "text-muted"
@@ -145,10 +165,16 @@ class T_itemstock extends Base_Controller
                     function($row){
                         return get_formated_date($row->TransDate, "Y-m-d");
                     }
+              
+                )->addColumn(
+                    'Status',
+                    function($row){
+                        return M_enumdetails::getEnumName('ItemstockStatus', $row->Status);
+                    }
                 )->addColumn(
                     'Created',
                     null,
-                    false
+                    false   
                 )->addColumn(
                     'Action',
                     function ($row) {

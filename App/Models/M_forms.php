@@ -30,4 +30,11 @@ class M_forms extends Nayo_Model {
         return $result;
     }
 
+    public static function getFormId($name){
+        $result = self::getDataByName($name);
+        if($result)
+            return $result->Id;
+        return null;
+    }
+
 }

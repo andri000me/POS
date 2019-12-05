@@ -256,17 +256,15 @@ class M_item extends Base_Controller
                 false,
                 false
             )->addColumn(
+                'Code',
+                function ($row) {
+                    return $row->Code;
+                }
+            )->addColumn(
                 'Name',
                 function ($row) {
                     return $row->Name;
                 }
-            )->addColumn(
-                '',
-                function ($row) {
-                    return $row->get_M_Uom()->Name;
-                },
-                false,
-                false
             );
 
         echo json_encode($datatable->populate());

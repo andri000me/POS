@@ -55,5 +55,13 @@ $lang =  [
     'password_can_not_null' => "Password Tidak Boleh Kosong",
     'code_can_not_null' => "Kode Tidak Boleh Kosong",
     'code_exist' => "Kode Sudah Ada",
-    'data_exist' => "Data Sudah Ada"
+    'data_exist' => "Data Sudah Ada",
+    'qty_must_greaterthan_zero' => "Jumlah harus lebih dari 0",
+    'uom_can_not_null' => "UoM Tidak Boleh Kosong",
+    'item_can_not_null' => "Barang Tidak Boleh Kosong",
+    'item_exist' => "Barang Sudah Ada",
+    'status_cannot_change' => 'Status tidak bisa diubah',
+    'qty_is_not_enough' => 'Kuantitas tidak cukup',
+    'item_not_available' => 'Barang tidak tersedia',
+    'failed_to_save_data' => 'Gagal menyimpan data'
 ];

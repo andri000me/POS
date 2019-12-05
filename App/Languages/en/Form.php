@@ -407,7 +407,8 @@ $lang =  [
     "unitto" => "Unit To",
     "itemstock" => "Item Stock",
     "transactionitemstock" => "Transaction Item Stock",
-    "masteritemstock" => "Master Item Stock"
+    "masteritemstock" => "Master Item Stock",
+    "transactionitemstockdetail" => "Transaction Item Stock Detail",
 
 ];
 

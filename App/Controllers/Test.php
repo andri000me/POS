@@ -1,7 +1,11 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\M_items;
+use App\Models\M_itemstocks;
 use App\Models\M_uomconversions;
+use App\Models\T_itemstockdetails;
+use App\Models\T_itemstocks;
 use Core\Nayo_Controller;
 
 class Test extends Nayo_Controller{
@@ -14,22 +18,13 @@ class Test extends Nayo_Controller{
     public function index(){
         // $params = [
         //     'where' => [
-        //         'M_Item_Id' => 2
+        //         'T_Itemstock_Id' => 2,
+        //         'M_Warehouse_Id' => 'null'
         //     ]
         // ];
-        // $u = M_uomconversions::get(2);
-
-        // foreach($unit as $u){
-            // echo $u->get_M_Item()->Code;
-            // echo $u->get_M_Uom("From")->Name;
-            // echo "<br>";
-            // echo $u->get_M_Uom("To")->Name;
-        // }
-
-        // echo json_encode($u);
-        // $this->blade("test.test");
-        $params['where'][] = ['M_Item_Id' => 1];
-        $params['where'][] = ['M_Wrehouse_Id' => 123];
-        echo \json_encode($params);
+        $u = M_uomconversions::getQtyConversion(2, 1, 2);
+        echo 60.00 * $u;
+        
+        
     }
 }

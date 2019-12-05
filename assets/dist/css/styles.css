@@ -144,7 +144,11 @@ table th {
 .show>.btn-primary.dropdown-toggle,
 .datepicker table tr td.active.active:hover,
 .datepicker table tr td.active.active, 
-.datepicker table tr td.active.highlighted.active{
+.datepicker table tr td.active.highlighted.active,
+.datepicker table tr td span.active:active, 
+.datepicker table tr td span.active:hover:active, 
+.datepicker table tr td span.active.disabled:active, 
+.datepicker table tr td span.active.disabled:hover:active{
   background-color: #00a65a;
   border-color: #00a65a;
 }
@@ -154,6 +158,8 @@ table th {
   width: 35px;
 
 }
+
+
 
 .dropdown-item.active, 
 .dropdown-item:active{

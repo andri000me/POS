@@ -1,9 +1,9 @@
 <!-- modal -->
-<div id="modalItemstock" tabindex="-1" role="dialog" aria-labelledby="groupUserModalLabel" aria-hidden="true" class="modal fade text-left">
+<div id="modalItemstockdetail" tabindex="-1" role="dialog" aria-labelledby="groupUserModalLabel" aria-hidden="true" class="modal fade text-left">
   <div role="document" class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 id="groupUserModalLabel" class="modal-title">{{lang('Form.itemstock')}}</h5>
+        <h5 id="groupUserModalLabel" class="modal-title">{{lang('Form.itemstockdetail')}}</h5>
         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
       </div>
       <div class="card-body">
@@ -16,7 +16,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="table-responsive">
-                  <table data-page-length="5" id = "tableModalItemstock" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
+                  <table data-page-length="5" id = "tableModalItemstockdetail" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                     <thead class=" text-default">
                         
                         <th># </th>
@@ -42,13 +42,13 @@
   </div>
 </div>
 <script type = "text/javascript">
-  var tableItemstock ;
+  var tableItemstockdetail ;
   $(document).ready(function() {  
-    loadModalItemstock();
+    loadModalItemstockdetail();
   });
 
-  function loadModalItemstock(){
-    tableItemstock  = $("#tableModalItemstock").DataTable({
+  function loadModalItemstockdetail(){
+    tableItemstockdetail  = $("#tableModalItemstockdetail").DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
       responsive: true,
@@ -70,25 +70,25 @@
         "processing": true,
         "serverSide": true,
         ajax:{
-            url : "{{  baseUrl('titemstock/getDataModal') }}",
+            url : "{{  baseUrl('titemstockdetail/getDataModal') }}",
             dataSrc : 'data'
         },
         stateSave: true
     });
      // Edit record
-     tableItemstock.on( 'click', '.rowdetail', function () {
+     tableItemstockdetail.on( 'click', '.rowdetail', function () {
         $tr = $(this).closest('tr');
 
-        var data = tableItemstock.row($tr).data();
+        var data = tableItemstockdetail.row($tr).data();
         var id = $tr.attr('id');
 
-        $("#T_Itemstock_Id").val(data[0]);
-        $("#itemstockname").val(data[1]);
-        $('#modalItemstock').modal('hide');
+        $("#T_Itemstockdetail_Id").val(data[0]);
+        $("#itemstockdetailname").val(data[1]);
+        $('#modalItemstockdetail').modal('hide');
      } );
   }
 
-  $('#tableModalItemstock').on('show.bs.modal', function (e) {
-      tableItemstock.ajax.reload(null, true);
+  $('#tableModalItemstockdetail').on('show.bs.modal', function (e) {
+      tableItemstockdetail.ajax.reload(null, true);
     })
 </script>

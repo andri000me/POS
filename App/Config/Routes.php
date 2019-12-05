@@ -135,10 +135,22 @@ $route->group('/titemstock', function () {
     $this->get('/add', 'App\Controllers\T_itemstock@add');
     $this->post('/addsave', 'App\Controllers\T_itemstock@addsave');
     $this->get('/edit/?', 'App\Controllers\T_itemstock@edit');
+    $this->get('/copy/?', 'App\Controllers\T_itemstock@copy');
     $this->post('/editsave', 'App\Controllers\T_itemstock@editsave');
     $this->post('/delete', 'App\Controllers\T_itemstock@delete');
     $this->get('/getAllData', 'App\Controllers\T_itemstock@getAllData');
     $this->get('/getDataModal', 'App\Controllers\T_itemstock@getDataModal');
+});
+
+$route->group('/titemstockdetail', function () {
+    $this->get('/?', 'App\Controllers\T_itemstockdetail@index');
+    $this->get('/add/?', 'App\Controllers\T_itemstockdetail@add');
+    $this->post('/addsave', 'App\Controllers\T_itemstockdetail@addsave');
+    $this->get('/edit/?', 'App\Controllers\T_itemstockdetail@edit');
+    $this->post('/editsave', 'App\Controllers\T_itemstockdetail@editsave');
+    $this->post('/delete', 'App\Controllers\T_itemstockdetail@delete');
+    $this->get('/getAllData/?', 'App\Controllers\T_itemstockdetail@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\T_itemstockdetail@getDataModal');
 });
 
 $route->end();
