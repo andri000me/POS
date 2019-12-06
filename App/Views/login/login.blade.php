@@ -92,7 +92,7 @@
 <!-- Bootstrap 4 -->
 <script src="{{ baseUrl('assets/dist/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{ baseUrl('assets/dist/dist/js/adminlte.min.js')}}"></script>
+<script src="{{ baseUrl('assets/dist/js/adminlte.min.js')}}"></script>
 
 </body>
 </html>
