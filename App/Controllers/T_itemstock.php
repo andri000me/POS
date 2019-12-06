@@ -140,19 +140,31 @@ class T_itemstock extends Base_Controller
     {
 
         if ($this->hasPermission('t_itemstock', 'Read')) {
+
+            $params = [
+                'join' => [
+                    'm_shops' => [
+                        [
+                            'table' => 't_itemstocks',
+                            'column' => 'M_shop_Id',
+                            'type' =>'LEFT'
+                        ]
+                    ]
+                ]
+            ];
             
-            $datatable = new Datatables('T_itemstocks');
+            $datatable = new Datatables('T_itemstocks', $params);
             $datatable
                 ->addDtRowClass("rowdetail")
                 ->addColumn(
-                    'Id',
+                    't_itemstocks.Id',
                     function ($row) {
                         return $row->Id;
                     },
                     false,
                     false
                 )->addColumn(
-                    'TransNo',
+                    't_itemstocks.TransNo',
                     function ($row) {
                         return
                             formLink($row->TransNo, array(
@@ -163,16 +175,19 @@ class T_itemstock extends Base_Controller
                     }
               
                 )->addColumn(
-                    'TransDate',
+                    't_itemstocks.TransDate',
                     function($row){
                         return get_formated_date($row->TransDate, "Y-m-d");
                     }
               
                 )->addColumn(
-                    'Status',
+                    't_itemstocks.Status',
                     function($row){
                         return M_enumdetails::getEnumName('ItemstockStatus', $row->Status);
                     }
+              
+                )->addColumn(
+                    'm_shops.Code'
                 )->addColumn(
                     'Created',
                     null,

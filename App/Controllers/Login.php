@@ -48,6 +48,6 @@ class Login extends Nayo_Controller
     public function dologout()
     {
         Session::destroy();
-        redirect('welcome')->go();
+        redirect('')->go();
     }
 }

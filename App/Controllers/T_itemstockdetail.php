@@ -25,9 +25,9 @@ class T_itemstockdetail extends Base_Controller
 
             try {
                 $result = T_itemstocks::get($iditem);
-                if ($result->Status != T_itemstockstatus::NEW) {
-                    Nayo_Exception::throw("{$result->TransNo} Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemstockStatus', $result->Status), $result);
-                }
+                // if ($result->Status != T_itemstockstatus::NEW) {
+                //     Nayo_Exception::throw("{$result->TransNo} Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemstockStatus', $result->Status), $result);
+                // }
 
                 $data['model'] = $result;
 
@@ -56,7 +56,7 @@ class T_itemstockdetail extends Base_Controller
                 $this->loadBlade('t_itemstockdetail.add', lang('Form.itemstock'), $data);
             } catch (Nayo_Exception $e) {
                 Session::setFlash('add_warning_msg', array(0 => $e->messages));
-                redirect("titemstock/edit/{$e->data->Id}")->with($e->data)->go();
+                redirect("titemstockdetail/{$e->data->Id}")->with($e->data)->go();
             }
         }
     }

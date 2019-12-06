@@ -154,7 +154,7 @@
       //Like record
       table.on( 'click', '.role', function () {
           $tr = $(this).closest('tr');
-          var data = table.row($tr).data();;
+          var data = table.row($tr).data();
           var id = data['Id'];
           window.location = "{{ baseUrl('mcategory/editrole/')}}" + id;
       });

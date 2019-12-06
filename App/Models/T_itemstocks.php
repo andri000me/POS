@@ -38,6 +38,11 @@ class T_itemstocks extends Base_Model
 		return parent::getAll($params);
 	}
 
+	public static function countAll($params = array()){
+		$params['where']['M_Shop_Id'] = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
+		return parent::countAll($params);
+	}
+
 	public function validate(self $oldmodel = null)
 	{
 		$nameexist = false;
@@ -71,7 +76,13 @@ class T_itemstocks extends Base_Model
 				$params = [];
 				$id = $this->save();
 				foreach ($this->get_list_T_Itemstockdetail() as $detail) {
-					$params['where']['M_Item_Id'] = $detail->M_Item_Id;
+					$params = [
+						'where' => [
+							'M_Item_Id' => $detail->M_Item_Id,
+							'M_Shop_Id' => isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null
+						]
+					];
+					
 					if ($detail->M_Warehouse_Id)
 						$params['where']['M_Warehouse_Id'] = $detail->M_Warehouse_Id;
 					else
@@ -96,7 +107,13 @@ class T_itemstocks extends Base_Model
 			$params = [];
 			$id = $this->save();
 			foreach ($this->get_list_T_Itemstockdetail() as $detail) {
-				$params['where']['M_Item_Id'] = $detail->M_Item_Id;
+				$params = [
+					'where' => [
+						'M_Item_Id' => $detail->M_Item_Id,
+						'M_Shop_Id' => isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null
+					]
+				];
+
 				if ($detail->M_Warehouse_Id)
 					$params['where']['M_Warehouse_Id'] = $detail->M_Warehouse_Id;
 				else

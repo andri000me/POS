@@ -39,6 +39,7 @@
                             <th>{{  lang('Form.number')}}</th>
                             <th>{{  lang('Form.date')}}</th>
                             <th>{{  lang('Form.status')}}</th>
+                            <th>{{  lang('Form.shop')}}</th>
                             <th>{{  lang('Form.createat')}}</th>
                             <th class="disabled-sorting text-right">{{  lang('Form.actions')}}</th>
                             </tr>
@@ -49,6 +50,7 @@
                             <th>{{  lang('Form.number')}}</th>
                             <th>{{  lang('Form.date')}}</th>
                             <th>{{  lang('Form.status')}}</th>
+                            <th>{{  lang('Form.shop')}}</th>
                             <th>{{  lang('Form.createat')}}</th>
                             <th class="disabled-sorting text-right">{{  lang('Form.actions')}}</th>
                             </tr>
@@ -95,7 +97,7 @@
           },
           {
              "className": "td-actions text-right", 
-             "targets": [ 5 ] 
+             "targets": [ 6 ] 
           }
         ],
         columns: [
@@ -104,6 +106,7 @@
           { responsivePriority: 2},
           { responsivePriority: 4},
           { responsivePriority: 5},
+          { responsivePriority: 7},
           { responsivePriority: 2}
         ],
         "processing": true,

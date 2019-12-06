@@ -1,7 +1,6 @@
 <?php 
 namespace Core\Database\Driver;
 
-use Core\Database\Databases;
 use Core\Database\Connection;
 use Core\Interfaces\IDbDriver;
 

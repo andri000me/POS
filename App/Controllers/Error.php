@@ -1,11 +1,13 @@
 <?php
 namespace App\Controllers;
-use Core\Nayo_Controller;
+use App\Controllers\Base_Controller;
+use Core\View;
 
-class Error extends Nayo_Controller{
+class Error extends Base_Controller{
 
     public function forbidden(){
-        $this->view('error/forbidden');
+        
+        $this->loadBlade('error.403');
     }
 
 }
