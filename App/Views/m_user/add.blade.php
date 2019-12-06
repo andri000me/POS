@@ -32,18 +32,18 @@
         </div>
           <div class="card-body">
               {!! formOpen(baseUrl('muser/addsave'))!!}
-              <?= formInput(
+              {!! formInput(
                 array(
                   "id" => "M_Groupuser_Id",
                   "name" => "M_Groupuser_Id",
                   "value" => $model->M_Groupuser_Id,
                   "hidden" => ""
                 )
-              ) ?>
+              ) !!}
               <div class="form-group bmd-form-group">
                 <div class="required">
-                  <label class=""><?= lang('Form.name') ?></label>
-                  <?= formInput(
+                  <label class="">{{ lang('Form.name') }}</label>
+                  {!! formInput(
                     array(
                       "id" => "Username",
                       "type" => "text",
@@ -53,15 +53,15 @@
                       "value" => $model->Username,
                       "required" => ""
                     )
-                  ) ?>
+                  ) !!}
                 </div>
               </div>
               <div class="form-group">
                 <div class="required">
-                  <label><?= lang('Form.group_user') ?></label>
+                  <label>{{ lang('Form.group_user') }}</label>
                   <div class="input-group has-success">
 
-                    <?= formInput(
+                    {!! formInput(
                     array(
                       "id" => "groupname",
                       "type" => "text",
@@ -72,7 +72,7 @@
                       "readonly" => ""
                     )
                   )
-                  ?>
+                  !!}
                     <!-- <span class="form-control-feedback text-primary">
                         <i class="material-icons">search</i>
                     </span> -->
@@ -85,8 +85,8 @@
 
               <div class="form-group">
                 <div class="required">
-                  <label><?= lang('Form.password') ?></label>
-                  <?= formInput(
+                  <label>{{ lang('Form.password') }}</label>
+                  {!! formInput(
                     array(
                       "id" => "Password",
                       "type" => "text",
@@ -96,13 +96,47 @@
                       "value" => $model->Password,
                       "required" => ""
                     )
-                  ) ?>
+                  ) !!}
 
                 </div>
               </div>
               <div class="form-group">
-                <input type="submit" value="<?= lang('Form.save') ?>" class="btn btn-primary">
-                <a href="<?= baseUrl('muser') ?>" value="<?= lang('Form.cancel') ?>" class="btn btn-primary"><?= lang('Form.cancel') ?></a>
+                  <div class="required">
+                    <label>{{ lang('Form.shop') }}</label>
+                    <div class="input-group has-success">
+  
+                      {!! formInput(
+                      array(
+                        "id" => "shopname",
+                        "type" => "text",
+                        "placeholder" => lang('Form.shop'),
+                        "class" => "form-control custom-readonly clearable",
+                        "name" => "shopname",
+                        "value" => $model->get_M_Shop()->Code." ~ ".$model->get_M_Shop()->Name,
+                        "readonly" => ""
+                      )
+                    )
+                    !!}
+                    {!! formInput(
+                      array(
+                        "id" => "M_Shop_Id",
+                        "name" => "M_Shop_Id",
+                        "value" => $model->M_Shop_Id,
+                        "hidden" => ""
+                      )
+                    ) !!}
+                      <!-- <span class="form-control-feedback text-primary">
+                          <i class="material-icons">search</i>
+                      </span> -->
+                      <div class="input-group-append">
+                        <button id="btnGroupModal" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalShop"><i class="fa fa-search"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <div class="form-group">
+                <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
+                <a href="{{ baseUrl('muser') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
               </div>
               {!! formClose() !!}
           </div>
@@ -114,6 +148,7 @@
 
 
 <?php  Core\View::presentBlade('m_groupuser.modal'); ?>
+<?php  Core\View::presentBlade('m_shop.modal'); ?>
 
 <script type="text/javascript">
   $(document).ready(function() {

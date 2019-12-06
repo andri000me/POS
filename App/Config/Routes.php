@@ -153,4 +153,15 @@ $route->group('/titemstockdetail', function () {
     $this->get('/getDataModal', 'App\Controllers\T_itemstockdetail@getDataModal');
 });
 
+$route->group('/mshop', function () {
+    $this->get('/', 'App\Controllers\M_shop@index');
+    $this->get('/add', 'App\Controllers\M_shop@add');
+    $this->post('/addsave', 'App\Controllers\M_shop@addsave');
+    $this->get('/edit/?', 'App\Controllers\M_shop@edit');
+    $this->post('/editsave', 'App\Controllers\M_shop@editsave');
+    $this->post('/delete', 'App\Controllers\M_shop@delete');
+    $this->get('/getAllData', 'App\Controllers\M_shop@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\M_shop@getDataModal');
+});
+
 $route->end();

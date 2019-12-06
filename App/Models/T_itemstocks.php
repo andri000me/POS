@@ -6,6 +6,7 @@ use App\Enums\T_itemstockstatus;
 use App\Libraries\ResponseCode;
 use App\Models\Base_Model;
 use Core\Nayo_Exception;
+use Core\Session;
 
 class T_itemstocks extends Base_Model
 {
@@ -15,6 +16,7 @@ class T_itemstocks extends Base_Model
 	public $TransDate;
 	public $Status;
 	public $Recipient;
+	public $M_Shop_Id;
 	public $CreatedBy;
 	public $ModifiedBy;
 	public $Created;
@@ -27,6 +29,13 @@ class T_itemstocks extends Base_Model
 	{
 		parent::__construct();
 		$this->Status = T_itemstockstatus::NEW;
+		$branch = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
+		$this->M_Shop_Id = $branch;
+	}
+
+	public static function getAll($params = array()){
+		$params['where']['M_Shop_Id'] = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
+		return parent::getAll($params);
 	}
 
 	public function validate(self $oldmodel = null)

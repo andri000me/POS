@@ -426,4 +426,8 @@ $lang =  [
     "transactionitemstock" => "Transaksi Stok Barang",
     "masteritemstock" => "Master Stok Barang",
     "transactionitemstockdetail" => "Transaksi Stok Barang Detil",
+    "mastershop" => "Master Toko",
+    "shop" => "Toko",
+    "city" => "Kota",
+    "country" => "Negara",
 ];

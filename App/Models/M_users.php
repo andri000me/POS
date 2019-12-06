@@ -13,6 +13,7 @@ class M_users extends Base_Model {
     public $IsLoggedIn;
     public $IsActive;
     public $Language;
+    public $M_Shop_Id;
     public $IsStartMoving;
 	public $CreatedBy;
 	public $ModifiedBy;

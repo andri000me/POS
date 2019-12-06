@@ -409,6 +409,9 @@ $lang =  [
     "transactionitemstock" => "Transaction Item Stock",
     "masteritemstock" => "Master Item Stock",
     "transactionitemstockdetail" => "Transaction Item Stock Detail",
-
+    "mastershop" => "Master Shop",
+    "shop" => "Shop",
+    "city" => "city",
+    "country" => "country",
 ];
 

@@ -22,7 +22,7 @@ class Base_Controller extends Nayo_Controller
         // menu
         $params = array(
             'whereNotIn' => array(
-                'FormName' => ['m_companies', 'm_villagedisasters', 'm_livestocks']
+                'FormName' => ['t_pos']
             )
         );
 
@@ -185,7 +185,7 @@ class Base_Controller extends Nayo_Controller
     {
         $params = array(
             'whereNotIn' => array(
-                'FormName' => ['m_companies']
+                'FormName' => ['t_pos']
             )
         );
 

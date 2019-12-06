@@ -140,7 +140,7 @@ class T_itemstock extends Base_Controller
     {
 
         if ($this->hasPermission('t_itemstock', 'Read')) {
-
+            
             $datatable = new Datatables('T_itemstocks');
             $datatable
                 ->addDtRowClass("rowdetail")

@@ -180,12 +180,19 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ baseUrl('setting')}}">
-                      <i class="nav-icon fas fa-cog"></i>
-                      <p>{{lang('Form.setting')}}
-                      </p>
-                    </a>
-                  </li>
+                  <a class="nav-link" href="{{ baseUrl('setting')}}">
+                    <i class="nav-icon fas fa-cog"></i>
+                    <p>{{lang('Form.setting')}}
+                    </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ baseUrl('pos')}}">
+                    <i class="nav-icon fas fa-table"></i>
+                    <p>POS
+                    </p>
+                  </a>
+                </li>
                 {!! $menu !!}
               </ul>
             </nav>

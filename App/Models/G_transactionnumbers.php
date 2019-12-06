@@ -2,6 +2,7 @@
 namespace App\Models;
 use Core\Nayo_Model;
 use App\Controllers\M_groupuser;
+use Core\Session;
 
 class G_transactionnumbers extends Nayo_Model {
 
@@ -27,14 +28,17 @@ class G_transactionnumbers extends Nayo_Model {
         if(is_null($month))
             $month  = get_current_date('m');
 
+        
+        $branch =  isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
 		$params = [
 			'where' => [
 				"M_Form_Id" => $formId,
 				"Year" => $year,
-				"Month" => (int)$month
+                "Month" => (int)$month,
+                "Branch" => $branch
 			]
-		];
-		
+        ];
+        
         $query = self::getOne($params);
         echo json_encode($query);
 
@@ -62,11 +66,13 @@ class G_transactionnumbers extends Nayo_Model {
 
     public static function insertNewFormNumber($formId, $year, $month, $type = null){
        
-        
+        $branch =  isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
+		
         $params = array(
             'where' => array(
                 'M_Form_Id' => $formId,
-				'TypeTrans' => $type
+                'TypeTrans' => $type,
+                'Branch' => $branch
             ),
             'order' => array(
                 'Year' => 'ASC'
@@ -95,12 +101,16 @@ class G_transactionnumbers extends Nayo_Model {
         
         if(is_null($month))
             $month  = get_current_date('m');
+
+        $branch =  isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
+		
 		$params = array(
             'where' => array(
 				'M_Form_Id' => $formId,
 				'Year' => $year,
 				'Month' => (int)$month,
-				'TypeTrans' => $type
+				'TypeTrans' => $type,
+                'Branch' => $branch
             )
         );
 

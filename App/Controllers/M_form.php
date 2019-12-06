@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\Base_Controller;
 use App\Models\M_formsettings;
 use App\Models\G_transactionnumbers;
+use App\Models\M_shops;
 use Core\Session;
 
 class M_form extends Base_Controller
@@ -66,7 +67,7 @@ class M_form extends Base_Controller
             redirect("setting")->go();
         }
     }
-    
+
 
     public function savedisasteroccur()
     {
@@ -128,19 +129,30 @@ class M_form extends Base_Controller
 
                     $newnumber = $arrmemnumber[0] . "/" . $arrmemnumber[1] . "/" . $sequence;
 
-                    $transnumber = G_transactionnumbers::getByFormId($tordermodel->M_Form_Id);
-                    if ($transnumber) {
-                        $transnumber->Format = $newnumber;
-                        $transnumber->save();
-                    } else {
-                        $gtransnumber = new G_transactionnumbers();
-                        $gtransnumber->Format = $newnumber;
-                        $gtransnumber->Year = date("Y");
-                        $gtransnumber->Month = date("n");
-                        $gtransnumber->LastNumber = 0;
-                        $gtransnumber->M_Form_Id = $tordermodel->M_Form_Id;
-                        $gtransnumber->TypeTrans = $tordermodel->TypeTrans;
-                        $gtransnumber->save();
+                    foreach (M_shops::getAll() as $shop) {
+
+                        $params = [
+                            'where' => [
+                                "M_Form_Id" => $tordermodel->M_Form_Id,
+                                "Branch" => $shop->Id
+                            ]
+                        ];
+
+                        $transnumber = G_transactionnumbers::getOne($params);
+                        if ($transnumber) {
+                            $transnumber->Format = $newnumber;
+                            $transnumber->save();
+                        } else {
+                            $gtransnumber = new G_transactionnumbers();
+                            $gtransnumber->Format = $newnumber;
+                            $gtransnumber->Year = date("Y");
+                            $gtransnumber->Month = date("n");
+                            $gtransnumber->LastNumber = 0;
+                            $gtransnumber->M_Form_Id = $tordermodel->M_Form_Id;
+                            $gtransnumber->TypeTrans = $tordermodel->TypeTrans;
+                            $gtransnumber->Branch = $shop->Id;
+                            $gtransnumber->save();
+                        }
                     }
                 }
             }
@@ -156,9 +168,9 @@ class M_form extends Base_Controller
             $trackUser = $this->request->post('TrackUser');
 
             $location = M_formsettings::getMUserLocation();
-            if ($trackUser) 
+            if ($trackUser)
                 $location->BooleanValue = 1;
-            else 
+            else
                 $location->BooleanValue = 0;
 
             $location->save();

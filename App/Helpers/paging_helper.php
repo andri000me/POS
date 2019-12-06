@@ -26,6 +26,7 @@ function form_paging(){
         'm_warehouse' => 'm_warehouses',
         'm_uom' => 'm_uoms',
         'm_item' => 'm_items',
+        'm_shop' => 'm_shops',
         't_itemstock' => 't_itemstocks',
 
         'm_district' => 'm_districts',
