@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\M_shops;
 use App\Controllers\Base_Controller;
+use App\Models\G_transactionnumbers;
+use App\Models\M_formsettings;
 use Core\Libraries\Datatables;
 use Core\Nayo_Exception;
 use Core\Session;
@@ -42,7 +44,30 @@ class M_shop extends Base_Controller
 
             try {
                 $shops->validate();
-                $shops->save();
+                $id = $shops->save();
+
+                // create format number for new shop
+                $tordermodel = M_formsettings::getTItemStock();
+                $params = [
+                    'where' => [
+                        "M_Form_Id" => $tordermodel->M_Form_Id
+                    ]
+                ];
+                $existtrans = G_transactionnumbers::getOne($params);
+                if($existtrans){
+
+                    $gtransnumber = new G_transactionnumbers();
+                    $gtransnumber->Format = $existtrans->Format;
+                    $gtransnumber->Year = date("Y");
+                    $gtransnumber->Month = date("n");
+                    $gtransnumber->LastNumber = 0;
+                    $gtransnumber->M_Form_Id = $tordermodel->M_Form_Id;
+                    $gtransnumber->TypeTrans = $tordermodel->TypeTrans;
+                    $gtransnumber->Branch = $id;
+                    $gtransnumber->save();
+                }
+                // end of creating new shop format number
+
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
                 redirect('mshop/add')->go();
             } catch (Nayo_Exception $e) {
