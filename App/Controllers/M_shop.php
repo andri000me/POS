@@ -47,7 +47,7 @@ class M_shop extends Base_Controller
                 $id = $shops->save();
 
                 // create format number for new shop
-                $tordermodel = M_formsettings::getTItemStock();
+                $tordermodel = M_formsettings::getTItemStockFormat();
                 $params = [
                     'where' => [
                         "M_Form_Id" => $tordermodel->M_Form_Id
@@ -189,10 +189,9 @@ class M_shop extends Base_Controller
         }
     }
 
-    public function getDataModal()
-    {
+    private function getModal($params = []){
 
-        $datatable = new Datatables('M_shops');
+        $datatable = new Datatables('M_shops', $params);
         $datatable
             ->addDtRowClass("rowdetail")
             ->addColumn(
@@ -215,5 +214,22 @@ class M_shop extends Base_Controller
             );
 
         echo json_encode($datatable->populate());
+    }
+
+    public function getDataModal()
+    {
+        $this->getModal();
+        
+    }
+
+    public function getItemTransferShopModal(){
+        $notid = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
+        $params = [
+            'whereNotIn' => [
+                'Id' => [$notid]
+            ]
+        ];
+        // echo json_encode($params);
+        $this->getModal($params);
     }
 }

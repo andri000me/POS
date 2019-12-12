@@ -40,7 +40,6 @@ class G_transactionnumbers extends Nayo_Model {
         ];
         
         $query = self::getOne($params);
-        echo json_encode($query);
 
         if(is_null($query)){
             $insert = self::insertNewFormNumber($formId, $year, $month, $type);

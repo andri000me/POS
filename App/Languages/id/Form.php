@@ -430,4 +430,9 @@ $lang =  [
     "shop" => "Toko",
     "city" => "Kota",
     "country" => "Negara",
+    "itemtransfer" => "Transfer Barang",
+    "transactionitemtransfer" => "Transaksi Transfer Barang",
+    "shopfrom" => "Dari Toko",
+    "shopto" => "Ke Toko",
+    "intransit" => "Sedang Transit",
 ];

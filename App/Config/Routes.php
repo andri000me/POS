@@ -28,6 +28,7 @@ $route->group('/welcome', function () {
 $route->group('/setting', function () {
     $this->get('/', 'App\Controllers\M_Form@index');
     $this->post('/saveitemstock', 'App\Controllers\M_Form@saveitemstock');
+    $this->post('/saveitemtransfer', 'App\Controllers\M_Form@saveitemtransfer');
 });
 
 $route->group('/test', function () {
@@ -153,6 +154,29 @@ $route->group('/titemstockdetail', function () {
     $this->get('/getDataModal', 'App\Controllers\T_itemstockdetail@getDataModal');
 });
 
+$route->group('/titemtransfer', function () {
+    $this->get('/', 'App\Controllers\T_itemtransfer@index');
+    $this->get('/add', 'App\Controllers\T_itemtransfer@add');
+    $this->post('/addsave', 'App\Controllers\T_itemtransfer@addsave');
+    $this->get('/edit/?', 'App\Controllers\T_itemtransfer@edit');
+    $this->get('/copy/?', 'App\Controllers\T_itemtransfer@copy');
+    $this->post('/editsave', 'App\Controllers\T_itemtransfer@editsave');
+    $this->post('/delete', 'App\Controllers\T_itemtransfer@delete');
+    $this->get('/getAllData', 'App\Controllers\T_itemtransfer@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\T_itemtransfer@getDataModal');
+});
+
+$route->group('/titemtransferdetail', function () {
+    $this->get('/?', 'App\Controllers\T_itemtransferdetail@index');
+    $this->get('/add/?', 'App\Controllers\T_itemtransferdetail@add');
+    $this->post('/addsave', 'App\Controllers\T_itemtransferdetail@addsave');
+    $this->get('/edit/?', 'App\Controllers\T_itemtransferdetail@edit');
+    $this->post('/editsave', 'App\Controllers\T_itemtransferdetail@editsave');
+    $this->post('/delete', 'App\Controllers\T_itemtransferdetail@delete');
+    $this->get('/getAllData/?', 'App\Controllers\T_itemtransferdetail@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\T_itemtransferdetail@getDataModal');
+});
+
 $route->group('/mshop', function () {
     $this->get('/', 'App\Controllers\M_shop@index');
     $this->get('/add', 'App\Controllers\M_shop@add');
@@ -162,6 +186,7 @@ $route->group('/mshop', function () {
     $this->post('/delete', 'App\Controllers\M_shop@delete');
     $this->get('/getAllData', 'App\Controllers\M_shop@getAllData');
     $this->get('/getDataModal', 'App\Controllers\M_shop@getDataModal');
+    $this->get('/getItemTransferShopModal', 'App\Controllers\M_shop@getItemTransferShopModal');
 });
 
 $route->end();

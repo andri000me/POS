@@ -20,103 +20,22 @@ class M_form extends Base_Controller
     {
         if ($this->hasPermission('m_formsetting', 'Read')) {
 
-            $itemstockmodel = M_formsettings::getTItemStock();
+            $itemstockmodel = M_formsettings::getTItemStockFormat();
+            $itemtransfermodel = M_formsettings::getTItemTransferFormat();
 
             $data['itemstockmodel'] = $itemstockmodel;
+            $data['itemtransfermodel'] = $itemtransfermodel;
             $this->loadBlade('m_form.add', lang('Form.setting'), $data);
         }
     }
-    public function savedisasterreport()
-    {
 
-        if ($this->hasPermission('m_form', 'Write')) {
-            $formatnumber = $this->request->post('disasterreportformatnumber');
-
-            if ($formatnumber) {
-                $tordermodel = M_formsettings::getTDisasterReportFormat();
-                $tordermodel->StringValue = $formatnumber;
-                $saveret = $tordermodel->save();
-
-                if (!is_bool($saveret)) {
-                    $arrmemnumber = explode("/", $formatnumber);
-                    $sequence = "";
-                    for ($i = 0; $i < $arrmemnumber[2]; $i++) {
-                        $sequence = $sequence . "#";
-                    }
-
-                    $newnumber = $arrmemnumber[0] . "/" . $arrmemnumber[1] . "/" . $sequence;
-
-                    $transnumber = G_transactionnumbers::getByFormId($tordermodel->M_Form_Id);
-                    // print_r($transnumber);
-                    if ($transnumber) {
-                        $transnumber->Format = $newnumber;
-                        $transnumber->save();
-                    } else {
-                        $gtransnumber = new G_transactionnumbers();
-                        $gtransnumber->Format = $newnumber;
-                        $gtransnumber->Year = date("Y");
-                        $gtransnumber->Month = date("n");
-                        $gtransnumber->LastNumber = 0;
-                        $gtransnumber->M_Form_Id = $tordermodel->M_Form_Id;
-                        $gtransnumber->TypeTrans = $tordermodel->TypeTrans;
-                        $gtransnumber->save();
-                    }
-                }
-            }
-
-            redirect("setting")->go();
-        }
-    }
-
-
-    public function savedisasteroccur()
+    public function saveitemtransfer()
     {
         if ($this->hasPermission('m_form', 'Write')) {
-            $formatnumber = $this->request->post('disasteroccurformatnumber');
+            $formatnumber = $this->request->post('itemtransferformatnumber');
 
             if ($formatnumber) {
-                $tordermodel = M_formsettings::getTDisasterOccurFormat();
-                $tordermodel->StringValue = $formatnumber;
-                $saveret = $tordermodel->save();
-
-                if (!is_bool($saveret)) {
-                    $arrmemnumber = explode("/", $formatnumber);
-                    $sequence = "";
-                    for ($i = 0; $i < $arrmemnumber[2]; $i++) {
-                        $sequence = $sequence . "#";
-                    }
-
-                    $newnumber = $arrmemnumber[0] . "/" . $arrmemnumber[1] . "/" . $sequence;
-
-                    $transnumber = G_transactionnumbers::getByFormId($tordermodel->M_Form_Id);
-                    // print_r($transnumber);
-                    if ($transnumber) {
-                        $transnumber->Format = $newnumber;
-                        $transnumber->save();
-                    } else {
-                        $gtransnumber = new G_transactionnumbers();
-                        $gtransnumber->Format = $newnumber;
-                        $gtransnumber->Year = date("Y");
-                        $gtransnumber->Month = date("n");
-                        $gtransnumber->LastNumber = 0;
-                        $gtransnumber->M_Form_Id = $tordermodel->M_Form_Id;
-                        $gtransnumber->TypeTrans = $tordermodel->TypeTrans;
-                        $gtransnumber->save();
-                    }
-                }
-            }
-
-            redirect("setting")->go();
-        }
-    }
-
-    public function saveitemstock()
-    {
-        if ($this->hasPermission('m_form', 'Write')) {
-            $formatnumber = $this->request->post('itemstockformatnumber');
-
-            if ($formatnumber) {
-                $tordermodel = M_formsettings::getTItemStock();
+                $tordermodel = M_formsettings::getTItemTransferFormat();
                 $tordermodel->StringValue = $formatnumber;
                 $saveret = $tordermodel->save();
 
@@ -161,34 +80,56 @@ class M_form extends Base_Controller
         }
     }
 
-    public function saveuserlocation()
+    public function saveitemstock()
     {
-
         if ($this->hasPermission('m_form', 'Write')) {
-            $trackUser = $this->request->post('TrackUser');
+            $formatnumber = $this->request->post('itemstockformatnumber');
 
-            $location = M_formsettings::getMUserLocation();
-            if ($trackUser)
-                $location->BooleanValue = 1;
-            else
-                $location->BooleanValue = 0;
+            if ($formatnumber) {
+                $tordermodel = M_formsettings::getTItemStockFormat();
+                $tordermodel->StringValue = $formatnumber;
+                $saveret = $tordermodel->save();
 
-            $location->save();
+                if (!is_bool($saveret)) {
+                    $arrmemnumber = explode("/", $formatnumber);
+                    $sequence = "";
+                    for ($i = 0; $i < $arrmemnumber[2]; $i++) {
+                        $sequence = $sequence . "#";
+                    }
+
+                    $newnumber = $arrmemnumber[0] . "/" . $arrmemnumber[1] . "/" . $sequence;
+
+                    foreach (M_shops::getAll() as $shop) {
+
+                        $params = [
+                            'where' => [
+                                "M_Form_Id" => $tordermodel->M_Form_Id,
+                                "Branch" => $shop->Id
+                            ]
+                        ];
+
+                        $transnumber = G_transactionnumbers::getOne($params);
+                        if ($transnumber) {
+                            $transnumber->Format = $newnumber;
+                            $transnumber->save();
+                        } else {
+                            $gtransnumber = new G_transactionnumbers();
+                            $gtransnumber->Format = $newnumber;
+                            $gtransnumber->Year = date("Y");
+                            $gtransnumber->Month = date("n");
+                            $gtransnumber->LastNumber = 0;
+                            $gtransnumber->M_Form_Id = $tordermodel->M_Form_Id;
+                            $gtransnumber->TypeTrans = $tordermodel->TypeTrans;
+                            $gtransnumber->Branch = $shop->Id;
+                            $gtransnumber->save();
+                        }
+                    }
+                }
+            }
+
             redirect("setting")->go();
         }
     }
 
-    public function saveimpactcompensation()
-    {
-
-        if ($this->hasPermission('m_form', 'Write')) {
-            $value = $this->request->post('Compensation');
-
-            $impact = M_formsettings::getImpactCompensation();
-            $impact->DecimalValue = setisdecimal($value);
-
-            $impact->save();
-            redirect("setting")->go();
-        }
-    }
+    
 }

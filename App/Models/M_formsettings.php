@@ -27,7 +27,7 @@ class M_formsettings extends Nayo_Model
         parent::__construct();
     }
 
-    public static function getTItemStock()
+    public static function getTItemStockFormat()
     {
         $forms = M_forms::getDataByName(form_paging()['t_itemstock']);
         $params = array(
@@ -40,10 +40,9 @@ class M_formsettings extends Nayo_Model
         return static::getOne($params);
     }
 
-    public static function getTDisasterOccurFormat()
+    public static function getTItemTransferFormat()
     {
-
-        $forms = M_forms::getDataByName(form_paging()['t_disasteroccur']);
+        $forms = M_forms::getDataByName(form_paging()['t_itemtransfer']);
         $params = array(
             'where' => array(
                 'M_Form_Id' => $forms->Id,
@@ -54,45 +53,5 @@ class M_formsettings extends Nayo_Model
         return static::getOne($params);
     }
 
-    public static function getTInOutItemFormat()
-    {
-
-        $forms = M_forms::getDataByName(form_paging()['t_inoutitem']);
-        $params = array(
-            'where' => array(
-                'M_Form_Id' => $forms->Id,
-                'Name' => 'NUMBERING_FORMAT'
-            )
-        );
-
-        return static::getOne($params);
-    }
-
-    public static function getMUserLocation()
-    {
-
-        $forms = M_forms::getDataByName(form_paging()['m_userlocation']);
-        $params = array(
-            'where' => array(
-                'M_Form_Id' => $forms->Id,
-                'Name' => 'TRACK_USER_LOCATION'
-            )
-        );
-
-        return static::getOne($params);
-    }
-
-    public static function getImpactCompensation()
-    {
-
-        $forms = M_forms::getDataByName(form_paging()['m_impact']);
-        $params = array(
-            'where' => array(
-                'M_Form_Id' => $forms->Id,
-                'Name' => 'IMPACT_COMPENSATION_X_1M'
-            )
-        );
-
-        return static::getOne($params);
-    }
+    
 }
