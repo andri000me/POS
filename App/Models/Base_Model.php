@@ -26,26 +26,28 @@ class Base_Model extends Nayo_Model
                 $prop = $field['Field'];
                 if (key_exists($prop, $request->body())){
                     if (!empty($request->post($field['Field']))) {
+                        // $postdata = htmlspecialchars($request->post($field['Field']));
+                        $postdata =$request->post($field['Field']);
                         if (preg_match("/^int/", $field['Type']))
-                            $this->$prop = setisnumber($request->post($field['Field']));
+                            $this->$prop = setisnumber($postdata);
                         else if (preg_match("/^varchar/", $field['Type']))
-                            $this->$prop = setisnull($request->post($field['Field']));
+                            $this->$prop = setisnull($postdata);
                         else if (preg_match("/^decimal/", $field['Type']))
-                            $this->$prop = setisdecimal($request->post($field['Field']));
+                            $this->$prop = setisdecimal($postdata);
                         else if (preg_match("/^datetime/", $field['Type']))
-                            $this->$prop = get_formated_date($request->post($field['Field']));
+                            $this->$prop = get_formated_date($postdata);
                         else if (preg_match("/^date/", $field['Type']))
-                            $this->$prop = get_formated_date($request->post($field['Field']), "Y-m-d");
+                            $this->$prop = get_formated_date($postdata, "Y-m-d");
                         else if (preg_match("/^double/", $field['Type']))
-                            $this->$prop = $request->post($field['Field']);
+                            $this->$prop = $postdata;
                         else if(preg_match("/^smallint/", $field['Type'])){
                             if(substr($field['Type'], 8, 3) == "(1)"){
                                 $this->$prop = 1;
                             } else {
-                                $this->$prop = setisnumber($request->post($field['Field']));
+                                $this->$prop = setisnumber($postdata);
                             }
                         }else if (preg_match("/^text/", $field['Type']))
-                            $this->$prop = $request->post($field['Field']);
+                            $this->$prop = $postdata;
                     } else {
                         $this->$prop = null;
                     } 

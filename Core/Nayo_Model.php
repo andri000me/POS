@@ -69,13 +69,13 @@ class Nayo_Model
         return $db_result->count($this->append);
     }
 
-    public static function getAll($filter = array())
+    public static function getAll($filter = array(), $htmlspeciachars = true)
     {
         $instance = new static;
-        return $instance->findAll($filter);
+        return $instance->findAll($filter, $htmlspeciachars);
     }
 
-    public function findAll($filter = array())
+    public function findAll($filter = array(), $htmlspeciachars = true)
     {
 
         $this->appendCondition($filter);
@@ -91,7 +91,7 @@ class Nayo_Model
         foreach ($results as $result) {
             $object = new $this;
             foreach ($result as $key => $row) {
-                $object->$key = $row;
+                $object->$key = $htmlspeciachars == true ? htmlspecialchars($row) : $row ;
             }
             // array_push($this->results, $object);
             $clsList->add($object);
@@ -100,27 +100,27 @@ class Nayo_Model
         // return $this->re;
     }
 
-    public static function getOne($filter = array())
+    public static function getOne($filter = array(), $htmlspeciachars = true)
     {
         $instance = new static;
-        return $instance->findOne($filter);
+        return $instance->findOne($filter, $htmlspeciachars);
     }
 
-    public function findOne($filter = array())
+    public function findOne($filter = array(), $htmlspeciachars = true)
     {
-        $result = $this->findAll($filter);
+        $result = $this->findAll($filter, $htmlspeciachars);
         if (count($result) > 0)
             return $result[0];
         return null;
     }
 
-    public static function get($id)
+    public static function get($id, $htmlspeciachars = true)
     {
         $instance = new static;
-        return $instance->find($id);
+        return $instance->find($id, $htmlspeciachars);
     }
 
-    public function find($id)
+    public function find($id,  $htmlspeciachars = true)
     {
 
         $db_result = new DBResults($this->table);
@@ -130,7 +130,7 @@ class Nayo_Model
 
             $object = new $this;
             foreach ($result as $key => $row) {
-                $object->$key = $row;
+                $object->$key = $htmlspeciachars == true ? htmlspecialchars($row) : $row ;
             }
             return $object;
         }

@@ -43,7 +43,9 @@ class M_groupuser extends Base_Controller
 
             $groupusers = new M_groupusers();
             $groupusers->parseFromRequest();
-
+            // echo '<div>' . $groupusers->Description . '</div>';
+            // echo $groupusers->Description;
+            
             try {
                 $groupusers->validate();
                 $groupusers->save();
@@ -157,38 +159,38 @@ class M_groupuser extends Base_Controller
 
     public function savereportrole()
     {
-        if ($this->hasPermission('m_groupuser', 'Write')) {
-            $reportid = $this->request->post("reportid");
-            $groupid = $this->request->post("groupid");
-            $read = $this->request->post("read");
+        // if ($this->hasPermission('m_groupuser', 'Write')) {
+        //     $reportid = $this->request->post("reportid");
+        //     $groupid = $this->request->post("groupid");
+        //     $read = $this->request->post("read");
 
-            $params = array(
-                'where' => array(
-                    'R_Report_Id' => $reportid,
-                    'M_Groupuser_Id' => $groupid
-                )
-            );
+        //     $params = array(
+        //         'where' => array(
+        //             'R_Report_Id' => $reportid,
+        //             'M_Groupuser_Id' => $groupid
+        //         )
+        //     );
 
-            $new_roles = new R_reportaccessroles();
-            $roles = $new_roles->findOne($params);
-            if ($roles) {
-                $roles->Read = $read;
-                $roles->Write = 0;
-                $roles->Delete = 0;
-                $roles->Print = 0;
-                $roles->save();
-                echo json_encode($roles);
-            } else {
-                $new_roles->R_Report_Id = $reportid;
-                $new_roles->M_Groupuser_Id = $groupid;
-                $new_roles->Read = $read;
-                $new_roles->Write = 0;
-                $new_roles->Delete = 0;
-                $new_roles->Print = 0;
-                $new_roles->save();
-                echo json_encode($new_roles);
-            }
-        }
+        //     $new_roles = new R_reportaccessroles();
+        //     $roles = $new_roles->findOne($params);
+        //     if ($roles) {
+        //         $roles->Read = $read;
+        //         $roles->Write = 0;
+        //         $roles->Delete = 0;
+        //         $roles->Print = 0;
+        //         $roles->save();
+        //         echo json_encode($roles);
+        //     } else {
+        //         $new_roles->R_Report_Id = $reportid;
+        //         $new_roles->M_Groupuser_Id = $groupid;
+        //         $new_roles->Read = $read;
+        //         $new_roles->Write = 0;
+        //         $new_roles->Delete = 0;
+        //         $new_roles->Print = 0;
+        //         $new_roles->save();
+        //         echo json_encode($new_roles);
+        //     }
+        // }
     }
 
     public function delete()
