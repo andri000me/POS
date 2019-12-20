@@ -16,6 +16,7 @@ class ResponseCode {
     const NO_DATA_FOUND = ["Status" => "NO_DATA_FOUND", "Code" =>2006];
     const DATA_EXIST = ["Status" => "DATA_EXIST", "Code" =>2007];
     const INVALID_DATA = ["Status" => "INVALID_DATA", "Code" =>2008];
+    const FAILED_TO_REGISTER = ["Status" => "FAILED_TO_REGISTER", "Code" =>2009];
     
 
 }   
