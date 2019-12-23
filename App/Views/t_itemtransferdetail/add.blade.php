@@ -4,7 +4,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>{{lang('Form.transactionitemstockdetail')}}</h1>
+                <h1>{{lang('Form.transactionitemtransferdetail')}}</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -26,18 +26,18 @@
                                 <h3 class="card-title">{{lang('Form.add')}}</h3>
                             </div>
                             {{-- <div class = "col-6 text-right">
-                                <a class = "" href="{{ baseUrl('titemstockdetail/add')}}"><i class = "fa fa-plus"></i></a>
+                                <a class = "" href="{{ baseUrl('titemtransferdetail/add')}}"><i class = "fa fa-plus"></i></a>
                             </div> --}}
                         </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                            <form method="post" action="{{ baseUrl('titemstockdetail/addsave')}}">
+                            <form method="post" action="{{ baseUrl('titemtransferdetail/addsave')}}">
                               <?= formInput(
                                       array(
-                                        "id" => "T_Itemstock_Id",
-                                        "name" => "T_Itemstock_Id",
-                                        "value" => $model->T_Itemstock_Id,
+                                        "id" => "T_Itemtransfer_Id",
+                                        "name" => "T_Itemtransfer_Id",
+                                        "value" => $model->T_Itemtransfer_Id,
                                         "hidden" => ""
                                       )
                                   ) ?>
@@ -161,7 +161,7 @@
                               </div>
                                 <div class="form-group">
                                   <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
-                                  <a href='{{ baseUrl("titemstockdetail/$model->T_Itemstock_Id") }}' value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
+                                  <a href='{{ baseUrl("titemtransferdetail/$model->T_Itemtransfer_Id") }}' value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
                                 </div>
                               </form>
                         </div>

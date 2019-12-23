@@ -27,7 +27,8 @@ class Test extends Nayo_Controller{
 
         // $allmenu = M_forms::getAll($params);
         // echo \json_encode($allmenu);
-        echo Session::get(get_variable() . 'userdata')['a'];
+        // echo Session::get(get_variable() . 'userdata')['a'];
+        uniqid();
         
         
     }

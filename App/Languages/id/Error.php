@@ -63,5 +63,6 @@ $lang =  [
     'status_cannot_change' => 'Status tidak bisa diubah',
     'qty_is_not_enough' => 'Kuantitas tidak cukup',
     'item_not_available' => 'Barang tidak tersedia',
-    'failed_to_save_data' => 'Gagal menyimpan data'
+    'failed_to_save_data' => 'Gagal menyimpan data',
+    'shop_from_cannot_null' => 'Dari Toko Tidak Boleh Kosong'
 ];

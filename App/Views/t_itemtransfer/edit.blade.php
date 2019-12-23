@@ -69,9 +69,42 @@
                                         "placeholder" => lang('Form.date'),
                                         "class" => "form-control date",
                                         "name" => "TransDate",
-                                        "value" => get_formated_date($model->TransDate, "d-m-Y")
+                                        "value" => $model->TransDate
                                       )
                                     ) !!}
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="required">
+                                    <label><?= lang('Form.shopto') ?></label>
+                                    <div class="input-group has-success">
+                                      <?= formInput(
+                                        array(
+                                          "id" => "M_Shop_Id_To",
+                                          "name" => "M_Shop_Id_To",
+                                          "value" => $model->M_Shop_Id_To,
+                                          "hidden" => ""
+                                        )
+                                      ) ?>
+                                      <?= formInput(
+                                      array(
+                                        "id" => "shopnameto",
+                                        "type" => "text",
+                                        "placeholder" => lang('Form.shopto'),
+                                        "class" => "form-control custom-readonly clearable",
+                                        "name" => "shopnameto",
+                                        "value" => $model->get_M_Shop('To')->Name,
+                                        "readonly" => ""
+                                      )
+                                    )
+                                    ?>
+                                      <!-- <span class="form-control-feedback text-primary">
+                                          <i class="material-icons">search</i>
+                                      </span> -->
+                                      <div class="input-group-append">
+                                        <button id="btnShopToModal" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalShop"><i class="fa fa-search"></i></button>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                                 <div class="form-group">
@@ -85,7 +118,7 @@
                                         "id" => "Status",
                                         "class" => "selectpicker form-control",
                                         "name" => "Status",
-                                        "value" => $model->Status
+                                        'value' => $model->Status
                                       )
                                     ) ?>
                                   </div>

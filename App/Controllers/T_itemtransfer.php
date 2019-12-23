@@ -9,6 +9,7 @@ use Core\Database\DbTrans;
 use Core\Libraries\Datatables;
 use Core\Nayo_Exception;
 use Core\Session;
+use Nayo;
 
 class T_itemtransfer extends Base_Controller
 {
@@ -49,7 +50,7 @@ class T_itemtransfer extends Base_Controller
                     DbTrans::commit();
                     Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
                     redirect('titemtransfer/add')->go();
-                }
+                } 
             } catch (Nayo_Exception $e) {
 
                 DbTrans::rollback();
@@ -191,9 +192,15 @@ class T_itemtransfer extends Base_Controller
                     }
               
                 )->addColumn(
-                    'shopfrom.Code'
+                    'shopfrom.Code',
+                    function($row){
+                        return $row->get_M_Shop('From')->Code;
+                    }
                 )->addColumn(
-                    'shopto.Code'
+                    'shopto.Code',
+                    function($row){
+                        return $row->get_M_Shop('To')->Code;
+                    }
                 )->addColumn(
                     'Created',
                     null,

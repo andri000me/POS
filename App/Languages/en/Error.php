@@ -64,5 +64,6 @@ $lang =  [
     'status_cannot_change' => 'Status cant be changed',
     'qty_is_not_enough' => 'Qty is not enough',
     'item_not_available' => 'Item is not available',
-    'failed_to_save_data' => 'Failed to save data'
+    'failed_to_save_data' => 'Failed to save data',
+    'shop_from_cannot_null' => 'From Shop cannot null'
 ];

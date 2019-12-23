@@ -33,9 +33,9 @@ class T_itemstocks extends Base_Model
 		$this->M_Shop_Id = $branch;
 	}
 
-	public static function getAll($params = array()){
+	public static function getAll($params = array(), $htmlspeciachars = true){
 		$params['where']['M_Shop_Id'] = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
-		return parent::getAll($params);
+		return parent::getAll($params, $htmlspeciachars);
 	}
 
 	public static function countAll($params = array()){

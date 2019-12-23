@@ -18,8 +18,9 @@ class T_itemtransferdetails extends Base_Model {
     
     protected $table = "t_itemtransferdetails";
 
-    public function __construct(){
+    public function __construct($itemtransferid = null){
         parent::__construct();
+		$this->T_Itemtransfer_Id = $itemtransferid;
     }
 
 }

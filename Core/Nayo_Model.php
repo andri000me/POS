@@ -5,7 +5,7 @@ namespace Core;
 use Core\Database\DBResults;
 use Core\Database\Connection;
 use Core\Session;
-use Core\Libraries\ClsList;
+use Core\Libraries\Clslist;
 use Exception;
 
 class Nayo_Model
@@ -86,7 +86,7 @@ class Nayo_Model
         // echo $this->append;
         $this->append = "";
 
-        $clsList = new ClsList(new $this);
+        $clsList = new Clslist(new $this);
 
         foreach ($results as $result) {
             $object = new $this;

@@ -413,10 +413,11 @@ $lang =  [
     "shop" => "Shop",
     "city" => "city",
     "country" => "country",
-    "itemtransfer" => "Item Transfer",
-    "transactionitemtransfer" => "Transaction Item Transfer",
     "shopfrom" => "Shop (From)",
     "shopto" => "Shop (To)",
     "intransit" => "In Transit",
+    "itemtransfer" => "Item Transfer",
+    "transactionitemtransfer" => "Transaction Item Transfer",
+    "transactionitemtransferdetail" => "Transaction Item Transfer Detail",
 ];
 
