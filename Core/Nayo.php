@@ -126,7 +126,7 @@ class Nayo{
 
     private  function autoload() {
         spl_autoload_register(function ($class_name) {
-            include_once(ROOT . $class_name . '.php');
+            include_once(ROOT . str_replace("\\", "/", $class_name) . '.php');
         });
     }
 

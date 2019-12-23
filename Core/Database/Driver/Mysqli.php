@@ -80,7 +80,7 @@ class Mysqli implements IDbDriver{
      * @return array
      * 
      */
-    public function query($sql, $loging = true){        
+    public function query($sql, $loging = false){        
 
         $this->sql = $sql;
         // Write SQL statement into log

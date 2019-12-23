@@ -5,7 +5,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * set for you base_url
  * ex : http://localhost/YourDirectory/
  */
-$config['base_url'] = 'http://localhost:8889/POS/';
+$config['base_url'] = 'http://localhost/POS/';
 
 
 /**
