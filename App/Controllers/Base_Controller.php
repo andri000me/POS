@@ -426,7 +426,7 @@ class Base_Controller extends Nayo_Controller
     {
 
         if (empty(Session::get(get_variable() . 'userdata'))) {
-            redirect('welcome')->go();
+            redirect()->go();
         }
 
         if (isPermitted_paging($_SESSION[get_variable() . 'userdata']['M_Groupuser_Id'], form_paging()[$form], $role)) {
@@ -439,7 +439,7 @@ class Base_Controller extends Nayo_Controller
     {
 
         if (empty(Session::get(get_variable() . 'userdata'))) {
-            redirect('welcome')->go();
+            redirect()->go();
         }
 
         if (isPermitted_paging($_SESSION[get_variable() . 'userdata']['M_Groupuser_Id'], report_paging()[$report], $role, true)) {

@@ -101,11 +101,12 @@
 
         $("#"+shopid).val(data[0]);
         $("#"+shopname).val(data[1]+" ~ "+data[2]);
-        $('#modalShop').modal('hide');
+        $('#modalShop').modal('hide');  
      } );
   }
 
   $('#tableModalShop').on('show.bs.modal', function (e) {
-      tableShop.ajax.reload(null, true);
+      // tableShop.ajax.reload(null, true);
+      shopModalSetUrl(url)
     })
 </script>

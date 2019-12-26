@@ -12,11 +12,7 @@ class DbTrans {
         Connection::init();
         
         if(!$this->db){
-            // $drivertype = !empty(Connection::getDriverType()) ? Connection::getDriverType()."\\" : "Driver\\";
-            // $ent = "Core\\Database\\".$drivertype.Connection::drivers()[Connection::getDriverClass()];
-            // echo $ent;
             $this->db = Connection::getDriver();
-            // echo Connection::drivers()[Connection::getDriverClass()];
         }
         
     }

@@ -3,6 +3,7 @@ namespace Core\Database;
 use Core\Database\Database;
 use Core\Database\Connection;
 use Core\Database\Table;
+use Core\System\Config;
 
 class Migration {
 
@@ -14,8 +15,7 @@ class Migration {
     protected $countMigrated = 0;
     public function __construct(){
 
-        include APP_PATH."Config/Config.php";
-
+        $config = Config::AppConfig();
         $this->enable_auto_migration = $config['enable_auto_migration'];
 
         Connection::init();
