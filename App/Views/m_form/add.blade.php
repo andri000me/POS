@@ -89,6 +89,34 @@
                             </div>
                           </div>
                         </div>
+                        <div class="card-collapse">
+                          <div class="card-header" role="tab" id="headingOne">
+                            <h5 class="mb-0">
+                              <a data-toggle="collapse" href="#transitemreceive" aria-expanded="false" aria-controls="transitemreceive" class="collapsed">
+                                <?= lang('Form.transaction') . " / " . lang('Form.itemreceive') ?>
+                              </a>
+                            </h5>
+                          </div>
+                          <div id="transitemreceive" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion" style="">
+                            <div class="card-body">
+                                
+                              {!! formOpen(baseUrl('setting/saveitemreceive'))!!}
+                                <div class="row">
+                                  <label class="col-sm-2 col-form-label"><?= lang('Form.numberformat') ?></label>
+                                  <div class="col-md-10">
+                                    <div class="form-group bmd-form-group">
+                                      <input id="itemreceiveformatnumber" type="text" class="form-control transnumberformat" name="itemreceiveformatnumber" value="<?= $itemreceivemodel->StringValue ?>">
+                                      <span class="bmd-help text-default"><?= lang('Info.membernumberformat') ?></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <input type="submit" value="<?= lang('Form.save') ?>" class="btn btn-primary">
+                                </div>
+                              {!! formClose() !!}
+                            </div>
+                          </div>
+                        </div>
                   </div>
                 </div>
             </div>

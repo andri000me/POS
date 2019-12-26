@@ -4,7 +4,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>{{lang('Form.transactionitemtransfer')}}</h1>
+                <h1>{{lang('Form.transactionitemreceive')}}</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -26,14 +26,14 @@
                                 <h3 class="card-title">{{lang('Form.edit')}}</h3>
                             </div>
                             <div class = "col-6 text-right">
-                                <a class = "link-action" href="{{ baseUrl("titemtransfer/copy/$model->Id")}}"><i class = "fa fa-clone"></i> {{ lang('Form.copy')}}</a>
-                              <a class = "link-action" href="{{ baseUrl("titemtransferdetail/$model->Id")}}"><i class = "fa fa-plus"></i> {{ lang('Form.detail')}}</a>
+                                <a class = "link-action" href="{{ baseUrl("titemreceive/copy/$model->Id")}}"><i class = "fa fa-clone"></i> {{ lang('Form.copy')}}</a>
+                              <a class = "link-action" href="{{ baseUrl("titemreceivedetail/$model->Id")}}"><i class = "fa fa-plus"></i> {{ lang('Form.detail')}}</a>
                           </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                              {!! formOpen(baseUrl('titemtransfer/editsave'))!!}
+                              {!! formOpen(baseUrl('titemreceive/editsave'))!!}
                               {!! formInput(
                                 array(
                                   "id" => "Id",
@@ -76,39 +76,6 @@
                                 </div>
                                 <div class="form-group">
                                   <div class="required">
-                                    <label><?= lang('Form.shopto') ?></label>
-                                    <div class="input-group has-success">
-                                      <?= formInput(
-                                        array(
-                                          "id" => "M_Shop_Id_To",
-                                          "name" => "M_Shop_Id_To",
-                                          "value" => $model->M_Shop_Id_To,
-                                          "hidden" => ""
-                                        )
-                                      ) ?>
-                                      <?= formInput(
-                                      array(
-                                        "id" => "shopnameto",
-                                        "type" => "text",
-                                        "placeholder" => lang('Form.shopto'),
-                                        "class" => "form-control custom-readonly clearable",
-                                        "name" => "shopnameto",
-                                        "value" => $model->get_M_Shop('To')->Name,
-                                        "readonly" => ""
-                                      )
-                                    )
-                                    ?>
-                                      <!-- <span class="form-control-feedback text-primary">
-                                          <i class="material-icons">search</i>
-                                      </span> -->
-                                      <div class="input-group-append">
-                                        <button id="btnShopToModal" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalShop"><i class="fa fa-search"></i></button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <div class="required">
                                     <?= formLabel(lang('Form.type')) ?>
                                     <?= formSelect(
                                       $model->getEnumStatus(),
@@ -118,14 +85,14 @@
                                         "id" => "Status",
                                         "class" => "selectpicker form-control",
                                         "name" => "Status",
-                                        'value' => $model->Status
+                                        "value" => $model->Status
                                       )
                                     ) ?>
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
-                                  <a href="{{ baseUrl('titemtransfer') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
+                                  <a href="{{ baseUrl('titemreceive') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
                                 </div>
                               {!! formClose() !!}
                         </div>

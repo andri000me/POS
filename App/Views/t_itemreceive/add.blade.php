@@ -4,7 +4,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>{{lang('Form.transactionitemtransfer')}}</h1>
+                <h1>{{lang('Form.transactionitemreceive')}}</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -23,26 +23,16 @@
                     <div class="card-header">
                         <div class = "row">
                             <div class = "col-6">
-                                <h3 class="card-title">{{lang('Form.edit')}}</h3>
+                                <h3 class="card-title">{{lang('Form.add')}}</h3>
                             </div>
-                            <div class = "col-6 text-right">
-                                <a class = "link-action" href="{{ baseUrl("titemtransfer/copy/$model->Id")}}"><i class = "fa fa-clone"></i> {{ lang('Form.copy')}}</a>
-                              <a class = "link-action" href="{{ baseUrl("titemtransferdetail/$model->Id")}}"><i class = "fa fa-plus"></i> {{ lang('Form.detail')}}</a>
-                          </div>
+                            {{-- <div class = "col-6 text-right">
+                                <a class = "" href="{{ baseUrl('titemreceive/add')}}"><i class = "fa fa-plus"></i></a>
+                            </div> --}}
                         </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                              {!! formOpen(baseUrl('titemtransfer/editsave'))!!}
-                              {!! formInput(
-                                array(
-                                  "id" => "Id",
-                                  "type" => "text",
-                                  "value" => $model->Id,
-                                  "name" => "Id",
-                                  "hidden" => ""
-                                )
-                              ) !!}
+                            {!! formOpen(baseUrl('titemreceive/addsave'))!!}
                                 <div class="form-group">
                                   <div class="required">
                                     <label>{{ lang('Form.number') }}</label>
@@ -69,42 +59,9 @@
                                         "placeholder" => lang('Form.date'),
                                         "class" => "form-control date",
                                         "name" => "TransDate",
-                                        "value" => get_formated_date($model->TransDate, "d-m-Y")
+                                        "value" => $model->TransDate
                                       )
                                     ) !!}
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <div class="required">
-                                    <label><?= lang('Form.shopto') ?></label>
-                                    <div class="input-group has-success">
-                                      <?= formInput(
-                                        array(
-                                          "id" => "M_Shop_Id_To",
-                                          "name" => "M_Shop_Id_To",
-                                          "value" => $model->M_Shop_Id_To,
-                                          "hidden" => ""
-                                        )
-                                      ) ?>
-                                      <?= formInput(
-                                      array(
-                                        "id" => "shopnameto",
-                                        "type" => "text",
-                                        "placeholder" => lang('Form.shopto'),
-                                        "class" => "form-control custom-readonly clearable",
-                                        "name" => "shopnameto",
-                                        "value" => $model->get_M_Shop('To')->Name,
-                                        "readonly" => ""
-                                      )
-                                    )
-                                    ?>
-                                      <!-- <span class="form-control-feedback text-primary">
-                                          <i class="material-icons">search</i>
-                                      </span> -->
-                                      <div class="input-group-append">
-                                        <button id="btnShopToModal" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalShop"><i class="fa fa-search"></i></button>
-                                      </div>
-                                    </div>
                                   </div>
                                 </div>
                                 <div class="form-group">
@@ -125,9 +82,10 @@
                                 </div>
                                 <div class="form-group">
                                   <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
-                                  <a href="{{ baseUrl('titemtransfer') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
+                                  <a href="{{ baseUrl('titemreceive') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
                                 </div>
-                              {!! formClose() !!}
+                              
+                            {!! formClose() !!}
                         </div>
                     <!-- /.card-body -->
                     </div>

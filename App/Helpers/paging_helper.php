@@ -29,6 +29,7 @@ function form_paging(){
         'm_shop' => 'm_shops',
         't_itemstock' => 't_itemstocks',
         't_itemtransfer' => 't_itemtransfers',
+        't_itemreceive' => 't_itemreceives',
 
         'm_district' => 'm_districts',
         'm_subdistrict' => 'm_subdistricts',

@@ -22,10 +22,63 @@ class M_form extends Base_Controller
 
             $itemstockmodel = M_formsettings::getTItemStockFormat();
             $itemtransfermodel = M_formsettings::getTItemTransferFormat();
+            $itemreceivemodel = M_formsettings::getTItemReceiveFormat();
 
             $data['itemstockmodel'] = $itemstockmodel;
             $data['itemtransfermodel'] = $itemtransfermodel;
+            $data['itemreceivemodel'] = $itemreceivemodel;
             $this->loadBlade('m_form.add', lang('Form.setting'), $data);
+        }
+    }
+
+    public function saveitemreceive()
+    {
+        if ($this->hasPermission('m_form', 'Write')) {
+            $formatnumber = $this->request->post('itemreceiveformatnumber');
+
+            if ($formatnumber) {
+                $tordermodel = M_formsettings::getTItemReceiveFormat();
+                $tordermodel->StringValue = $formatnumber;
+                $saveret = $tordermodel->save();
+
+                if (!is_bool($saveret)) {
+                    $arrmemnumber = explode("/", $formatnumber);
+                    $sequence = "";
+                    for ($i = 0; $i < $arrmemnumber[2]; $i++) {
+                        $sequence = $sequence . "#";
+                    }
+
+                    $newnumber = $arrmemnumber[0] . "/" . $arrmemnumber[1] . "/" . $sequence;
+
+                    foreach (M_shops::getAll() as $shop) {
+
+                        $params = [
+                            'where' => [
+                                "M_Form_Id" => $tordermodel->M_Form_Id,
+                                "Branch" => $shop->Id
+                            ]
+                        ];
+
+                        $transnumber = G_transactionnumbers::getOne($params);
+                        if ($transnumber) {
+                            $transnumber->Format = $newnumber;
+                            $transnumber->save();
+                        } else {
+                            $gtransnumber = new G_transactionnumbers();
+                            $gtransnumber->Format = $newnumber;
+                            $gtransnumber->Year = date("Y");
+                            $gtransnumber->Month = date("n");
+                            $gtransnumber->LastNumber = 0;
+                            $gtransnumber->M_Form_Id = $tordermodel->M_Form_Id;
+                            $gtransnumber->TypeTrans = $tordermodel->TypeTrans;
+                            $gtransnumber->Branch = $shop->Id;
+                            $gtransnumber->save();
+                        }
+                    }
+                }
+            }
+
+            redirect("setting")->go();
         }
     }
 

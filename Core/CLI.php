@@ -91,7 +91,7 @@ class migration_$filename {
         $migration->migrateAll();
     }
 
-    private static function makeControllerFile($filename){
+    private function makeControllerFile($filename){
         
         $path = APP_PATH . "Controllers/$filename.php";
 
@@ -118,7 +118,7 @@ class $filename extends Base_Controller {
     } 
 
 
-    private static function makeModelFile($tablename){
+    private function makeModelFile($tablename){
 
         $modelname = ucfirst($tablename);
         

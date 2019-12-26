@@ -13,6 +13,7 @@ class T_itemtransfers extends Base_Model {
 	public $TransNo;
 	public $TransDate;
 	public $ReceivedDate;
+	public $TransitDate;
 	public $M_Shop_Id_From;
 	public $M_Shop_Id_To;
 	public $Status;
@@ -30,6 +31,17 @@ class T_itemtransfers extends Base_Model {
 		$this->Status = T_itemtransferstatus::NEW;
 		$this->M_Shop_Id_From = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
 	}
+
+	public static function getAll($params = array(), $htmlspeciachars = true){
+		$params['where']['M_Shop_Id'] = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
+		return parent::getAll($params, $htmlspeciachars);
+	}
+
+	public static function countAll($params = array()){
+		$params['where']['M_Shop_Id'] = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
+		return parent::countAll($params);
+	}
+	
 	public function validate(self $oldmodel = null)
 	{
 		$nameexist = false;
@@ -70,40 +82,43 @@ class T_itemtransfers extends Base_Model {
 			$id = $this->save();
 		} else if ($this->Status == T_itemtransferstatus::INTRANSIT) {
 
-			if ($this->Status == $oldmodel->Status) {
+				$this->setToOriginal();
+				$this->Status = T_itemtransferstatus::INTRANSIT;
+				$this->TransitDate = get_current_date('Y-m-d H:i:s');
 				$id = $this->save();
-			} else {
-				// $params = []; 
-				$id = $this->save();
-				// foreach ($this->get_list_T_Itemstockdetail() as $detail) {
-				// 	$params = [
-				// 		'where' => [
-				// 			'M_Item_Id' => $detail->M_Item_Id,
-				// 			'M_Shop_Id' => isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null
-				// 		]
-				// 	];
+			// 	// $params = []; 
+			// 	$id = $this->save();
+			// 	// foreach ($this->get_list_T_Itemstockdetail() as $detail) {
+			// 	// 	$params = [
+			// 	// 		'where' => [
+			// 	// 			'M_Item_Id' => $detail->M_Item_Id,
+			// 	// 			'M_Shop_Id' => isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null
+			// 	// 		]
+			// 	// 	];
 					
-				// 	if ($detail->M_Warehouse_Id)
-				// 		$params['where']['M_Warehouse_Id'] = $detail->M_Warehouse_Id;
-				// 	else
-				// 		$params['where']['M_Warehouse_Id'] = "null";
+			// 	// 	if ($detail->M_Warehouse_Id)
+			// 	// 		$params['where']['M_Warehouse_Id'] = $detail->M_Warehouse_Id;
+			// 	// 	else
+			// 	// 		$params['where']['M_Warehouse_Id'] = "null";
 
-				// 	$item = M_items::get($detail->M_Item_Id);
-				// 	$itemstock = M_itemstocks::getOne($params);
-				// 	if ($itemstock) {
-				// 		$itemstock->Qty += $detail->Qty * M_uomconversions::getQtyConversion($detail->M_Item_Id, $detail->M_Uom_Id, $item->M_Uom_Id);
-				// 		$itemstock->save();
-				// 	} else {
-				// 		$newstock = new M_itemstocks();
-				// 		$newstock->M_Item_Id = $detail->M_Item_Id;
-				// 		$newstock->M_Uom_Id = $item->M_Uom_Id;
-				// 		$newstock->M_Warehouse_Id = $detail->M_Warehouse_Id;
-				// 		$newstock->Qty = $detail->Qty * M_uomconversions::getQtyConversion($detail->M_Item_Id, $detail->M_Uom_Id, $item->M_Uom_Id);
-				// 		$newstock->save();
-				// 	}
-				// }
-			}
+			// 	// 	$item = M_items::get($detail->M_Item_Id);
+			// 	// 	$itemstock = M_itemstocks::getOne($params);
+			// 	// 	if ($itemstock) {
+			// 	// 		$itemstock->Qty += $detail->Qty * M_uomconversions::getQtyConversion($detail->M_Item_Id, $detail->M_Uom_Id, $item->M_Uom_Id);
+			// 	// 		$itemstock->save();
+			// 	// 	} else {
+			// 	// 		$newstock = new M_itemstocks();
+			// 	// 		$newstock->M_Item_Id = $detail->M_Item_Id;
+			// 	// 		$newstock->M_Uom_Id = $item->M_Uom_Id;
+			// 	// 		$newstock->M_Warehouse_Id = $detail->M_Warehouse_Id;
+			// 	// 		$newstock->Qty = $detail->Qty * M_uomconversions::getQtyConversion($detail->M_Item_Id, $detail->M_Uom_Id, $item->M_Uom_Id);
+			// 	// 		$newstock->save();
+			// 	// 	}
+			// 	// }
 		} else {
+			$this->setToOriginal();
+			$this->Status = T_itemtransferstatus::CANCEL;
+			$id = $this->save();
 			// $params = [];
 			// $id = $this->save();
 			// foreach ($this->get_list_T_Itemstockdetail() as $detail) {

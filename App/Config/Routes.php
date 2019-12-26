@@ -29,6 +29,7 @@ $route->group('/setting', function () {
     $this->get('/', 'App\Controllers\M_Form@index');
     $this->post('/saveitemstock', 'App\Controllers\M_Form@saveitemstock');
     $this->post('/saveitemtransfer', 'App\Controllers\M_Form@saveitemtransfer');
+    $this->post('/saveitemreceive', 'App\Controllers\M_Form@saveitemreceive');
 });
 
 $route->group('/test', function () {
@@ -175,6 +176,30 @@ $route->group('/titemtransferdetail', function () {
     $this->post('/delete', 'App\Controllers\T_itemtransferdetail@delete');
     $this->get('/getAllData/?', 'App\Controllers\T_itemtransferdetail@getAllData');
     $this->get('/getDataModal', 'App\Controllers\T_itemtransferdetail@getDataModal');
+});
+
+
+$route->group('/titemreceive', function () {
+    $this->get('/', 'App\Controllers\T_itemreceive@index');
+    $this->get('/add', 'App\Controllers\T_itemreceive@add');
+    $this->post('/addsave', 'App\Controllers\T_itemreceive@addsave');
+    $this->get('/edit/?', 'App\Controllers\T_itemreceive@edit');
+    $this->get('/copy/?', 'App\Controllers\T_itemreceive@copy');
+    $this->post('/editsave', 'App\Controllers\T_itemreceive@editsave');
+    $this->post('/delete', 'App\Controllers\T_itemreceive@delete');
+    $this->get('/getAllData', 'App\Controllers\T_itemreceive@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\T_itemreceive@getDataModal');
+});
+
+$route->group('/titemreceivedetail', function () {
+    $this->get('/?', 'App\Controllers\T_itemreceivedetail@index');
+    $this->get('/add/?', 'App\Controllers\T_itemreceivedetail@add');
+    $this->post('/addsave', 'App\Controllers\T_itemreceivedetail@addsave');
+    $this->get('/edit/?', 'App\Controllers\T_itemreceivedetail@edit');
+    $this->post('/editsave', 'App\Controllers\T_itemreceivedetail@editsave');
+    $this->post('/delete', 'App\Controllers\T_itemreceivedetail@delete');
+    $this->get('/getAllData/?', 'App\Controllers\T_itemreceivedetail@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\T_itemreceivedetail@getDataModal');
 });
 
 $route->group('/mshop', function () {

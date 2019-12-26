@@ -53,5 +53,18 @@ class M_formsettings extends Nayo_Model
         return static::getOne($params);
     }
 
+    public static function getTItemReceiveFormat()
+    {
+        $forms = M_forms::getDataByName(form_paging()['t_itemreceive']);
+        $params = array(
+            'where' => array(
+                'M_Form_Id' => $forms->Id,
+                'Name' => 'NUMBERING_FORMAT'
+            )
+        );
+
+        return static::getOne($params);
+    }
+
     
 }
