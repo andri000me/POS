@@ -68,7 +68,7 @@
   
 </div>
   <script>
-  
+    var table;
     $(document).ready(function() {   
       
       init();
@@ -76,7 +76,7 @@
     });
   
     function dataTable(){
-      var table = $('#tableitemtransferdetail').DataTable({
+      table = $('#tableitemtransferdetail').DataTable({
         "pagingType": "full_numbers",
         "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
         "order" : [[2, "desc"]],

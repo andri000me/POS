@@ -1,9 +1,9 @@
 <!-- modal -->
-<div id="modalItemtransferdetail" tabindex="-1" role="dialog" aria-labelledby="groupUserModalLabel" aria-hidden="true" class="modal fade text-left">
+<div id="modalItemtransfer" tabindex="-1" role="dialog" aria-labelledby="groupUserModalLabel" aria-hidden="true" class="modal fade text-left">
   <div role="document" class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 id="groupUserModalLabel" class="modal-title">{{lang('Form.itemtransferdetail')}}</h5>
+        <h5 id="groupUserModalLabel" class="modal-title">{{lang('Form.itemtransfer')}}</h5>
         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
       </div>
       <div class="card-body">
@@ -16,7 +16,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="table-responsive">
-                  <table data-page-length="5" id = "tableModalItemtransferdetail" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
+                  <table data-page-length="5" id = "tableModalItemtransfer" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                     <thead class=" text-default">
                         
                         <th># </th>
@@ -42,13 +42,13 @@
   </div>
 </div>
 <script type = "text/javascript">
-  var tableItemtransferdetail ;
+  var tableItemtransfer ;
   $(document).ready(function() {  
-    loadModalItemtransferdetail();
+    loadModalItemtransfer();
   });
 
-  function loadModalItemtransferdetail(){
-    tableItemtransferdetail  = $("#tableModalItemtransferdetail").DataTable({
+  function loadModalItemtransfer(){
+    tableItemtransfer  = $("#tableModalItemtransfer").DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
       responsive: true,
@@ -70,25 +70,26 @@
         "processing": true,
         "serverSide": true,
         ajax:{
-            url : "{{  baseUrl('titemtransferdetail/getDataModal') }}",
+            url : "{{  baseUrl('titemtransfer/getDataModal') }}",
             dataSrc : 'data'
         },
         stateSave: true
     });
+    // console.log(tableItemtransfer);
      // Edit record
-     tableItemtransferdetail.on( 'click', '.rowdetail', function () {
+     tableItemtransfer.on( 'click', '.rowdetail', function () {
         $tr = $(this).closest('tr');
 
-        var data = tableItemtransferdetail.row($tr).data();
+        var data = tableItemtransfer.row($tr).data();
         var id = $tr.attr('id');
 
-        $("#T_Itemtransferdetail_Id").val(data[0]);
-        $("#itemtransferdetailname").val(data[1]);
-        $('#modalItemtransferdetail').modal('hide');
+        $("#T_Itemtransfer_Id").val(data[0]);
+        $("#itemtransfername").val(data[1]);
+        $('#modalItemtransfer').modal('hide');
      } );
   }
 
-  $('#tableModalItemtransferdetail').on('show.bs.modal', function (e) {
-      tableItemtransferdetail.ajax.reload(null, true);
+  $('#tableModalItemtransfer').on('show.bs.modal', function (e) {
+      tableItemtransfer.ajax.reload(null, true);
     })
 </script>

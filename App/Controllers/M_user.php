@@ -113,7 +113,15 @@ class M_user extends Base_Controller
                             'column' => 'M_Groupuser_Id',
                             'type' => 'left'
                         ]
+                    ],
+                    'm_shops' => [
+                        [ 
+                            'table' => 'm_users',
+                            'column' => 'M_Shop_Id',
+                            'type' => 'left'
+                        ]
                     ]
+
                 ]
             ];
 
@@ -133,9 +141,9 @@ class M_user extends Base_Controller
                         
                     }
                 )->addColumn(
-                    'm_groupusers.GroupName',
-                    null,
-                    false
+                    'm_groupusers.GroupName'
+                )->addColumn(
+                    'm_shops.Code'
                 )->addColumn(
                     'm_users.IsActive',
                     function ($row) {

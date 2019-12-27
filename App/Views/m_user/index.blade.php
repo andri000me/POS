@@ -38,6 +38,7 @@
                       <th># </th>
                       <th><?=  lang('Form.user')?></th>
                       <th><?=  lang('Form.group_user')?></th>
+                      <th><?=  lang('Form.shop')?></th>
                       <th><?=  lang('Form.isactive')?></th>
                       <th class="disabled-sorting text-right"><?=  lang('Form.actions')?></th>
                   </thead>
@@ -46,6 +47,7 @@
                       <th># </th>
                       <th><?=  lang('Form.user')?></th>
                       <th><?=  lang('Form.group_user')?></th>
+                      <th><?=  lang('Form.shop')?></th>
                       <th><?=  lang('Form.isactive')?></th>
                       <th class="disabled-sorting text-right"><?=  lang('Form.actions')?></th>
                     </tr>
@@ -60,13 +62,14 @@
     </section>
 </div>
 <script type = "text/javascript">
+var tableuser;
   $(document).ready(function() {    
     init();
     dataTable();
   });
 
   function dataTable(){
-    var table = $('#tableUser').DataTable({
+    var tableuser = $('#tableUser').DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
       responsive: true,
@@ -86,7 +89,7 @@
         },
         {
            "className": "td-actions text-right", 
-           "targets": [ 4 ] 
+           "targets": [ 5 ] 
         }
       ],
       
@@ -95,6 +98,7 @@
         { responsivePriority: 1 },
         { responsivePriority: 3 },
         { responsivePriority: 4 },
+        { responsivePriority: 6 },
         { responsivePriority: 2 }
       ],
       "processing": true,
@@ -107,17 +111,17 @@
     }); 
 
      // Edit record
-     table.on( 'click', '.edit', function () {
+     tableuser.on( 'click', '.edit', function () {
         $tr = $(this).closest('tr');
-        var data = table.row($tr).data();
+        var data = tableuser.row($tr).data();
         var id = data[0] + "~a";
         window.location = "<?= baseUrl('muser/edit/');?>" + data[0];
      } );
 
      // Delete a record
-     table.on( 'click', '.activate', function (e) {
+     tableuser.on( 'click', '.activate', function (e) {
         $tr = $(this).closest('tr');
-        var data = table.row($tr).data();
+        var data = tableuser.row($tr).data();
         var id = data[0] + "~a";
         window.location = "<?= baseUrl('muser/activate/');?>" + data[0];
      });

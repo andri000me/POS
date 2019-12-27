@@ -68,7 +68,7 @@
   
 </div>
   <script>
-  
+    var tableitemreceive;
     $(document).ready(function() {   
       
       init();
@@ -76,7 +76,7 @@
     });
   
     function dataTable(){
-      var table = $('#tableitemreceive').DataTable({
+      var tableitemreceive = $('#tableitemreceive').DataTable({
         "pagingType": "full_numbers",
         "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
         "order" : [[2, "desc"]],
@@ -119,9 +119,9 @@
       }); 
   
        // Delete a record
-       table.on( 'click', '.delete', function (e) {
+       tableitemreceive.on( 'click', '.delete', function (e) {
           $tr = $(this).closest('tr');
-          var data = table.row($tr).data();
+          var data = tableitemreceive.row($tr).data();
           var id = data['0'] + '~a';
           var name = document.getElementById(id).innerHTML;
           deleteData(name, function(result){
@@ -147,7 +147,7 @@
                         var message = status['msg'][i];
                         setNotification(message, 2, "bottom", "right");
                       }
-                      table.row($tr).remove().draw();
+                      tableitemreceive.row($tr).remove().draw();
                       e.preventDefault();
                     }
                   }
@@ -156,21 +156,6 @@
             }
           });
        });
-  
-      //Like record
-      table.on( 'click', '.role', function () {
-          $tr = $(this).closest('tr');
-          var data = table.row($tr).data();;
-          var id = data['Id'];
-          window.location = "{{ baseUrl('titemreceive/editrole/')}}" + id;
-      });
-  
-      table.on( 'click', '.reportrole', function () {
-          $tr = $(this).closest('tr');
-          var data = table.row($tr).data();;
-          var id = data['Id'];
-          window.location = "{{ baseUrl('titemreceive/editreportrole/')}}" + id;
-      });
     }
   
     function init(){

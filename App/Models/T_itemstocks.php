@@ -28,6 +28,7 @@ class T_itemstocks extends Base_Model
 	public function __construct()
 	{
 		parent::__construct();
+		$this->TransDate = get_current_date("d-m-Y");
 		$this->Status = T_itemstockstatus::NEW;
 		$branch = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
 		$this->M_Shop_Id = $branch;

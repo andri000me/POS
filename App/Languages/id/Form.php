@@ -439,4 +439,5 @@ $lang =  [
     "itemreceive" => "Terima Barang",
     "transactionitemreceive" => "Transaksi Terima Barang",
     "transactionitemreceivedetail" => "Transaksi Item Terima Detail",
+    "received" => "Di Terima"
 ];

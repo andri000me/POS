@@ -157,6 +157,7 @@ class T_itemtransfer extends Base_Controller
                     ]
                 ]
             ];
+            $params['where']['M_Shop_Id_From'] = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
             
             $datatable = new Datatables('T_itemtransfers', $params);
             $datatable
@@ -226,8 +227,14 @@ class T_itemtransfer extends Base_Controller
 
     public function getDataModal()
     {
+        $params = [
+            
+            'where' => [
+                'M_Shop_Id_To' => isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null
+            ]
+        ];
 
-        $datatable = new Datatables('T_itemtransfers');
+        $datatable = new Datatables('T_itemtransfers', $params);
         $datatable
             ->addDtRowClass("rowdetail")
             ->addColumn(

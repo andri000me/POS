@@ -46,11 +46,11 @@ class T_itemreceive extends Base_Controller
             DbTrans::beginTransaction();
             try {
                 $itemreceives->validate();
-
-                if($itemreceives->savedata()){
+                $id = $itemreceives->savedata();
+                if($id){
                     DbTrans::commit();
                     Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                    redirect('titemreceive/add')->go();
+                    redirect("titemreceive/edit/{$id}")->go();
                 }
             } catch (Nayo_Exception $e) {
 

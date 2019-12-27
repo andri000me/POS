@@ -6,6 +6,7 @@ use Core\Database\DBResults;
 use Core\Database\Connection;
 use Core\Session;
 use Core\Libraries\Clslist;
+use Core\System\Config;
 use Exception;
 
 class Nayo_Model
@@ -69,14 +70,16 @@ class Nayo_Model
         return $db_result->count($this->append);
     }
 
-    public static function getAll($filter = array(), $htmlspeciachars = true)
+    public static function getAll($filter = array())
     {
         $instance = new static;
-        return $instance->findAll($filter, $htmlspeciachars);
+        return $instance->findAll($filter);
     }
 
-    public function findAll($filter = array(), $htmlspeciachars = true)
+    public function findAll($filter = array())
     {
+
+        $htmlspeciachars = Config::AppConfig()['xss_security'];
 
         $this->appendCondition($filter);
 
@@ -100,31 +103,33 @@ class Nayo_Model
         // return $this->re;
     }
 
-    public static function getOne($filter = array(), $htmlspeciachars = true)
+    public static function getOne($filter = array())
     {
         $instance = new static;
-        return $instance->findOne($filter, $htmlspeciachars);
+        return $instance->findOne($filter);
     }
 
     public function findOne($filter = array(), $htmlspeciachars = true)
     {
-        $result = $this->findAll($filter, $htmlspeciachars);
+        $result = $this->findAll($filter);
         if (count($result) > 0)
             return $result[0];
         return null;
     }
 
-    public static function get($id, $htmlspeciachars = true)
+    public static function get($id)
     {
         $instance = new static;
-        return $instance->find($id, $htmlspeciachars);
+        return $instance->find($id);
     }
 
-    public function find($id,  $htmlspeciachars = true)
+    public function find($id)
     {
 
+        $htmlspeciachars = Config::AppConfig()['xss_security'];
+
         $db_result = new DBResults($this->table);
-        // $result = $this->db_result->getById($id);
+        
         $result = $db_result->getById($id);
         if ($result) {
 

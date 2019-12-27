@@ -159,29 +159,13 @@ class T_itemreceivedetail extends Base_Controller
                     'T_Itemreceive_Id' => $receiveid
                 ],
                 'join' => [
-                    'm_uoms' => [
+                    't_itemtransfers' => [
                         [
-                            'table' => 't_itemreceivedetails',
-                            'column' => 'M_Uom_Id',
+                            'table' => 'T_itemreceivedetails',
+                            'column' => 'T_Itemtransfer_Id',
                             'type' => 'left'
                         ]
 
-                    ],
-                    'm_warehouses' => [
-                        [
-
-                            'table' => 't_itemreceivedetails',
-                            'column' => 'M_Warehouse_Id',
-                            'type' => 'left'
-                        ]
-                    ],
-                    'm_items' => [
-                        [
-
-                            'table' => 't_itemreceivedetails',
-                            'column' => 'M_Item_Id',
-                            'type' => 'left'
-                        ]
                     ]
                 ]
             ];
@@ -196,26 +180,10 @@ class T_itemreceivedetail extends Base_Controller
                     false,
                     false
                 )->addColumn(
-                    'm_items.Name',
+                    't_itemtransfers.TransNo',
                     function ($row) {
-                        return
-                            formLink($row->get_M_Item()->Name, array(
-                                "id" => $row->Id . "~a",
-                                "href" => baseUrl("titemreceivedetail/edit/$row->Id"),
-                                "class" => "text-muted"
-                            ));
+                        return $row->get_T_Itemtransfer()->TransNo;
                     }
-                )->addColumn(
-                    'm_uoms.Name'
-                )->addColumn(
-                    'm_warehouses.Name'
-                )->addColumn(
-                    't_itemreceivedetails.Qty'
-
-                )->addColumn(
-                    'Created',
-                    null,
-                    false
                 )->addColumn(
                     'Action',
                     function ($row) {

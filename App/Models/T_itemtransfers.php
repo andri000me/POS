@@ -28,19 +28,20 @@ class T_itemtransfers extends Base_Model {
 
     public function __construct(){
 		parent::__construct();
+		$this->TransDate = get_current_date("d-m-Y");
 		$this->Status = T_itemtransferstatus::NEW;
 		$this->M_Shop_Id_From = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
 	}
 
-	public static function getAll($params = array(), $htmlspeciachars = true){
-		$params['where']['M_Shop_Id'] = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
-		return parent::getAll($params, $htmlspeciachars);
-	}
+	// public static function getAll($params = array()){
+		
+	// 	return parent::getAll($params);
+	// }
 
-	public static function countAll($params = array()){
-		$params['where']['M_Shop_Id'] = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
-		return parent::countAll($params);
-	}
+	// public static function countAll($params = array()){
+	// 	$params['where']['M_Shop_Id_From'] = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
+	// 	return parent::countAll($params);
+	// }
 	
 	public function validate(self $oldmodel = null)
 	{

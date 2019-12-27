@@ -31,9 +31,19 @@ $config['enable_auto_seed'] = TRUE;
 
 
 /**
+ * set true if Use SQL Query Logging 
+ */
+$config['sql_logging'] = TRUE;
+
+/**
  * set true if Use CSRF 
  */
 $config['csrf_security'] = FALSE;
+
+/**
+ * set true if Use CSRF 
+ */
+$config['xss_security'] = True;
 
 /**
  * application key
