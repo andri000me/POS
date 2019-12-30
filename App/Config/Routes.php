@@ -26,10 +26,10 @@ $route->group('/welcome', function () {
 });
 
 $route->group('/setting', function () {
-    $this->get('/', 'App\Controllers\M_Form@index');
-    $this->post('/saveitemstock', 'App\Controllers\M_Form@saveitemstock');
-    $this->post('/saveitemtransfer', 'App\Controllers\M_Form@saveitemtransfer');
-    $this->post('/saveitemreceive', 'App\Controllers\M_Form@saveitemreceive');
+    $this->get('/', 'App\Controllers\M_form@index');
+    $this->post('/saveitemstock', 'App\Controllers\M_form@saveitemstock');
+    $this->post('/saveitemtransfer', 'App\Controllers\M_form@saveitemtransfer');
+    $this->post('/saveitemreceive', 'App\Controllers\M_form@saveitemreceive');
 });
 
 $route->group('/test', function () {

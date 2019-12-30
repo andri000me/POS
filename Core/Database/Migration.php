@@ -47,7 +47,6 @@ class Migration {
         WHERE (TABLE_SCHEMA = '{$this->db->currentdb}') AND (TABLE_NAME = '{$table}')";
 
         $result = $this->db->getOne($sql);
-        // $data = mysqli_fetch_assoc($result);
         if($result['Count'] > 0){
             return true;
         }
@@ -62,16 +61,6 @@ class Migration {
         $table->addColumn("Version", "Varchar", "50", true);
         $table->addColumn("ExecutedAt", "DATETIME", "", true);
         $table->create();
-        // $sql = "
-        //     CREATE TABLE `migrations` (
-        //     `Id` int(11) NOT NULL AUTO_INCREMENT,
-        //     `Version` varchar(50) DEFAULT NULL,
-        //     `ExecutedAt` DATETIME DEFAULT NULL,
-        //     PRIMARY KEY (`Id`)
-        //   ) ENGINE=InnoDB DEFAULT CHARSET=utf8
-        // ";
-
-        // $result = $this->db->query($sql);
 
     }
 
@@ -99,13 +88,13 @@ class Migration {
 
             while (false !== ($entry = readdir($handle))) {
                 if ($entry != "." && $entry != "..") {
-                    // echo $entry;
                     array_push($version, explode(".", $entry)[0]);
                 }
             }
         
             closedir($handle);
         }
+        asort($version);
         return $version;
     }
 
