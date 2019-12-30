@@ -1519,16 +1519,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.12.1",
+            "version": "v1.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "063cae9b3a7323579063e7037720f5b52b56c178"
+                "reference": "3b953109fdfc821c1979bc829c8b7421721fef82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/063cae9b3a7323579063e7037720f5b52b56c178",
-                "reference": "063cae9b3a7323579063e7037720f5b52b56c178",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/3b953109fdfc821c1979bc829c8b7421721fef82",
+                "reference": "3b953109fdfc821c1979bc829c8b7421721fef82",
                 "shasum": ""
             },
             "require": {
@@ -1597,7 +1597,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2019-11-07T17:07:24+00:00"
+            "time": "2019-12-30T03:11:08+00:00"
         },
         {
             "name": "php-curl-class/php-curl-class",
@@ -4199,16 +4199,16 @@
         },
         {
             "name": "zurb/foundation",
-            "version": "v6.6.0",
+            "version": "v6.6.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:zurb/foundation.git",
-                "reference": "9a73cc9721056c586547b0b83938dc22a1176871"
+                "reference": "ef9389ea56bac2654b81e04b28f1cfad6d743c33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zurb/foundation/zipball/9a73cc9721056c586547b0b83938dc22a1176871",
-                "reference": "9a73cc9721056c586547b0b83938dc22a1176871",
+                "url": "https://api.github.com/repos/zurb/foundation/zipball/ef9389ea56bac2654b81e04b28f1cfad6d743c33",
+                "reference": "ef9389ea56bac2654b81e04b28f1cfad6d743c33",
                 "shasum": ""
             },
             "type": "library",
@@ -4224,7 +4224,7 @@
                 }
             ],
             "description": "The most advanced responsive front-end framework in the world.",
-            "homepage": "http://foundation.zurb.com",
+            "homepage": "https://get.foundation",
             "keywords": [
                 "JS",
                 "css",
@@ -4234,7 +4234,7 @@
                 "sass",
                 "scss"
             ],
-            "time": "2019-12-05T23:09:22+00:00"
+            "time": "2019-12-13T19:45:58+00:00"
         }
     ],
     "packages-dev": [],

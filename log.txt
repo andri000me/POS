@@ -1524,3 +1524,410 @@ select m_uoms.* from m_uoms where Id = 1  [2019-12-03 05:24:17]
 select m_uomconversions.* from m_uomconversions where Id = 2  [2019-12-03 05:24:27]
 select m_uoms.* from m_uoms where Id = 2  [2019-12-03 05:24:27]
 select m_uoms.* from m_uoms where Id = 1  [2019-12-03 05:24:27]
+SELECT count(*) as Count
+        FROM information_schema.TABLES
+        WHERE (TABLE_SCHEMA = 'pos') AND (TABLE_NAME = 'migrations')  [2019-12-30 01:03:40]
+CREATE TABLE `migrations` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Version` Varchar(50) DEFAULT NULL  
+,`ExecutedAt` DATETIME DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:40]
+SELECT * FROM migrations  [2019-12-30 01:03:40]
+CREATE TABLE `m_groupusers` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`GroupName` Varchar(100) NOT NULL  
+,`Description` Varchar(100) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:40]
+CREATE TABLE `m_users` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`M_Groupuser_Id` int(11) DEFAULT NULL  
+,`Username` Varchar(100) NOT NULL  
+,`Password` Varchar(50) NOT NULL  
+,`IsLoggedIn` smallint(11)  DEFAULT '0' 
+,`IsActive` smallint(11)  DEFAULT '1' 
+,`Language` varchar(50)  DEFAULT 'id' 
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_users_M_Groupuser_Id_fk` (`M_Groupuser_Id`)
+,CONSTRAINT `m_users_M_Groupuser_Id_fk` FOREIGN KEY (`M_Groupuser_Id`) REFERENCES `m_groupusers` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:40]
+INSERT INTO migrations VALUES(null, '20190619034744', '2019-12-30 15:03:40')  [2019-12-30 01:03:40]
+CREATE TABLE `m_itemstocks` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`M_Item_Id` int(11) NOT NULL  
+,`M_Uom_Id` int(11) NOT NULL  
+,`M_Warehouse_Id` int(11) DEFAULT NULL  
+,`Qty` Decimal(18,2) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_itemstocks_M_Uom_Id_fk` (`M_Uom_Id`)
+,CONSTRAINT `m_itemstocks_M_Uom_Id_fk` FOREIGN KEY (`M_Uom_Id`) REFERENCES `m_uoms` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+,KEY `m_itemstocks_M_Warehouse_Id_fk` (`M_Warehouse_Id`)
+,CONSTRAINT `m_itemstocks_M_Warehouse_Id_fk` FOREIGN KEY (`M_Warehouse_Id`) REFERENCES `m_warehouses` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:40]
+INSERT INTO migrations VALUES(null, '20191203090530', '2019-12-30 15:03:41')  [2019-12-30 01:03:41]
+CREATE OR REPLACE VIEW `view_m_accessroles` 
+                    AS 
+                    select `a`.`Id` AS `M_Groupuser_Id`,
+                            `b`.`Id` AS `M_Form_Id`,
+                            `b`.`FormName` AS `FormName`,
+                            `b`.`AliasName` AS `AliasName`,
+                            `b`.`LocalName` AS `LocalName`,
+                            ifnull(`c`.`Read`,0) AS `Readd`,
+                            ifnull(`c`.`Write`,0) AS `Writee`,
+                            ifnull(`c`.`Delete`,0) AS `Deletee`,
+                            ifnull(`c`.`Print`,0) AS `Printt`,
+                            `b`.`ClassName` AS `ClassName`,0 
+                            AS `Header` 
+                    from `m_groupusers` `a` 
+                    join `m_forms` `b` 
+                    left join `m_accessroles` `c` on `c`.`M_Form_Id` = `b`.`Id`
+                        and `c`.`M_Groupuser_Id` = `a`.`Id` 
+                        
+                    union all 
+                    select distinct NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        `m_forms`.`ClassName` AS `ClassName`,
+                        NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        NULL AS `NULL`,
+                        `m_forms`.`ClassName` AS `ClassName`,
+                        1 AS `Header` 
+                    from `m_forms` 
+                    
+                    order by 10,11;  [2019-12-30 01:03:41]
+INSERT INTO migrations VALUES(null, '20190624072311', '2019-12-30 15:03:41')  [2019-12-30 01:03:41]
+CREATE TABLE `m_forms` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`FormName` Varchar(100) NOT NULL  
+,`AliasName` Varchar(100) NOT NULL  
+,`LocalName` Varchar(100) NOT NULL  
+,`ClassName` Varchar(100) NOT NULL  
+,`Resource` Varchar(100) DEFAULT NULL  
+,`IndexRoute` Varchar(100) DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:41]
+CREATE TABLE `g_transactionnumbers` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Format` Varchar(50) NOT NULL  
+,`Year` int(11) NOT NULL  
+,`Month` int(11) NOT NULL  
+,`LastNumber` int(11) NOT NULL  
+,`M_Form_Id` int(11) NOT NULL  
+,`TypeTrans` int(11) DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:42]
+CREATE TABLE `m_formsettings` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`M_Form_Id` int(11) NOT NULL  
+,`TypeTrans` int(11) DEFAULT NULL  
+,`Value` int(11) NOT NULL  
+,`Name` varchar(1000) NOT NULL  
+,`IntValue` int(11) DEFAULT NULL  
+,`StringValue` varchar(100) DEFAULT NULL  
+,`DecimalValue` decimal(18,2) DEFAULT NULL  
+,`DateTimeValue` datetime DEFAULT NULL  
+,`BooleanValue` smallint(11) DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_formsettings_M_Form_Id_fk` (`M_Form_Id`)
+,CONSTRAINT `m_formsettings_M_Form_Id_fk` FOREIGN KEY (`M_Form_Id`) REFERENCES `m_forms` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:42]
+CREATE TABLE `m_enums` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Name` varchar(100) NOT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:42]
+CREATE TABLE `m_enumdetails` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`M_Enum_Id` Int(11) NOT NULL  
+,`Value` Int(11) NOT NULL  
+,`EnumName` varchar(50) NOT NULL  
+,`Ordering` tinyint(11) NOT NULL  
+,`Resource` varchar(50) DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_enumdetails_M_Enum_Id_fk` (`M_Enum_Id`)
+,CONSTRAINT `m_enumdetails_M_Enum_Id_fk` FOREIGN KEY (`M_Enum_Id`) REFERENCES `m_enums` (`Id`) ON UPDATE CASCADE ON DELETE CASCADE
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:42]
+CREATE TABLE `m_accessroles` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`M_Form_Id` Int(11) NOT NULL  
+,`M_Groupuser_Id` Int(11) NOT NULL  
+,`Read` tinyint(1) DEFAULT NULL  
+,`Write` tinyint(1) DEFAULT NULL  
+,`Delete` tinyint(1) DEFAULT NULL  
+,`Print` tinyint(1) DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_accessroles_M_Form_Id_fk` (`M_Form_Id`)
+,CONSTRAINT `m_accessroles_M_Form_Id_fk` FOREIGN KEY (`M_Form_Id`) REFERENCES `m_forms` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+,KEY `m_accessroles_M_Groupuser_Id_fk` (`M_Groupuser_Id`)
+,CONSTRAINT `m_accessroles_M_Groupuser_Id_fk` FOREIGN KEY (`M_Groupuser_Id`) REFERENCES `m_groupusers` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:42]
+INSERT INTO migrations VALUES(null, '20190619104817', '2019-12-30 15:03:43')  [2019-12-30 01:03:43]
+CREATE TABLE `m_warehouses` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Name` Varchar(100) NOT NULL  
+,`Description` Varchar(100) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:43]
+INSERT INTO migrations VALUES(null, '20191202085154', '2019-12-30 15:03:43')  [2019-12-30 01:03:43]
+CREATE TABLE `m_uoms` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Name` Varchar(100) NOT NULL  
+,`Description` Varchar(100) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:43]
+INSERT INTO migrations VALUES(null, '20191202091013', '2019-12-30 15:03:43')  [2019-12-30 01:03:43]
+CREATE TABLE `t_itemstocks` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`TransNo` varchar(50) NOT NULL  
+,`TransDate` datetime NOT NULL  
+,`Status` int(11) DEFAULT NULL  
+,`Recipient` varchar(50) DEFAULT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:43]
+CREATE TABLE `t_itemstockdetails` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`T_Itemstock_Id` int(11) NOT NULL  
+,`M_Item_Id` int(11) NOT NULL  
+,`M_Uom_Id` int(11) NOT NULL  
+,`M_Warehouse_Id` int(11) DEFAULT NULL  
+,`Qty` decimal(18,2) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `t_itemstockdetails_T_Itemstock_Id_fk` (`T_Itemstock_Id`)
+,CONSTRAINT `t_itemstockdetails_T_Itemstock_Id_fk` FOREIGN KEY (`T_Itemstock_Id`) REFERENCES `t_itemstocks` (`Id`) ON UPDATE CASCADE ON DELETE CASCADE
+,KEY `t_itemstockdetails_M_Uom_Id_fk` (`M_Uom_Id`)
+,CONSTRAINT `t_itemstockdetails_M_Uom_Id_fk` FOREIGN KEY (`M_Uom_Id`) REFERENCES `m_uoms` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+,KEY `t_itemstockdetails_M_Warehouse_Id_fk` (`M_Warehouse_Id`)
+,CONSTRAINT `t_itemstockdetails_M_Warehouse_Id_fk` FOREIGN KEY (`M_Warehouse_Id`) REFERENCES `m_warehouses` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+,KEY `t_itemstockdetails_M_Item_Id_fk` (`M_Item_Id`)
+,CONSTRAINT `t_itemstockdetails_M_Item_Id_fk` FOREIGN KEY (`M_Item_Id`) REFERENCES `m_items` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:43]
+INSERT INTO migrations VALUES(null, '20191203090325', '2019-12-30 15:03:44')  [2019-12-30 01:03:44]
+ALTER TABLE `g_transactionnumbers` ADD COLUMN `Branch` int(11) DEFAULT NULL   AFTER `TypeTrans`
+   [2019-12-30 01:03:44]
+INSERT INTO migrations VALUES(null, '20191206043016', '2019-12-30 15:03:44')  [2019-12-30 01:03:44]
+ALTER TABLE `t_itemstocks` ADD COLUMN `M_Shop_Id` int(11) DEFAULT NULL   AFTER `Recipient`
+,ADD CONSTRAINT `t_itemstocks_M_Shop_Id_fk` FOREIGN KEY (`M_Shop_Id`) REFERENCES `m_shops` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+   [2019-12-30 01:03:44]
+INSERT INTO migrations VALUES(null, '20191206044414', '2019-12-30 15:03:45')  [2019-12-30 01:03:45]
+ALTER TABLE `t_itemtransfers` ADD COLUMN `ReceivedDate` datetime DEFAULT NULL   AFTER `TransDate`
+   [2019-12-30 01:03:45]
+INSERT INTO migrations VALUES(null, '20191223053506', '2019-12-30 15:03:45')  [2019-12-30 01:03:45]
+CREATE TABLE `m_shops` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Code` varchar(50) NOT NULL  
+,`Name` varchar(50) NOT NULL  
+,`Address1` varchar(1000) DEFAULT NULL  
+,`Address2` varchar(1000) DEFAULT NULL  
+,`Email` varchar(50) DEFAULT NULL  
+,`Phone` varchar(50) DEFAULT NULL  
+,`City` varchar(50) DEFAULT NULL  
+,`Province` varchar(50) DEFAULT NULL  
+,`PostCode` varchar(50) DEFAULT NULL  
+,`Country` varchar(50) DEFAULT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:45]
+INSERT INTO migrations VALUES(null, '20191206033329', '2019-12-30 15:03:45')  [2019-12-30 01:03:45]
+ALTER TABLE `m_itemstocks` ADD COLUMN `M_Shop_Id` int(11) DEFAULT NULL   AFTER `Id`
+,ADD CONSTRAINT `m_itemstocks_M_Shop_Id_fk` FOREIGN KEY (`M_Shop_Id`) REFERENCES `m_shops` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+   [2019-12-30 01:03:45]
+INSERT INTO migrations VALUES(null, '20191206080643', '2019-12-30 15:03:45')  [2019-12-30 01:03:45]
+ALTER TABLE `t_itemtransfers` ADD COLUMN `TransitDate` datetime DEFAULT NULL   AFTER `ReceivedDate`
+   [2019-12-30 01:03:45]
+INSERT INTO migrations VALUES(null, '20191226092711', '2019-12-30 15:03:45')  [2019-12-30 01:03:45]
+CREATE TABLE `m_uomconversions` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`M_Item_Id` int(11) NOT NULL  
+,`M_Uom_Id_From` int(11) NOT NULL  
+,`M_Uom_Id_To` int(11) NOT NULL  
+,`Qty` Decimal(18,2) NOT NULL  
+,`Ordering` int(11) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_uomconversions_M_Uom_Id_From_fk` (`M_Uom_Id_From`)
+,CONSTRAINT `m_uomconversions_M_Uom_Id_From_fk` FOREIGN KEY (`M_Uom_Id_From`) REFERENCES `m_uoms` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+,KEY `m_uomconversions_M_Uom_Id_To_fk` (`M_Uom_Id_To`)
+,CONSTRAINT `m_uomconversions_M_Uom_Id_To_fk` FOREIGN KEY (`M_Uom_Id_To`) REFERENCES `m_uoms` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:45]
+INSERT INTO migrations VALUES(null, '20191203043932', '2019-12-30 15:03:45')  [2019-12-30 01:03:45]
+CREATE TABLE `t_itemtransfers` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`TransNo` varchar(50) NOT NULL  
+,`TransDate` datetime NOT NULL  
+,`M_Shop_Id_From` int(11) NOT NULL  
+,`M_Shop_Id_To` int(11) NOT NULL  
+,`Status` int(11) DEFAULT NULL  
+,`Sender` varchar(50) DEFAULT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `t_itemtransfers_M_Shop_Id_From_fk` (`M_Shop_Id_From`)
+,CONSTRAINT `t_itemtransfers_M_Shop_Id_From_fk` FOREIGN KEY (`M_Shop_Id_From`) REFERENCES `m_shops` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+,KEY `t_itemtransfers_M_Shop_Id_To_fk` (`M_Shop_Id_To`)
+,CONSTRAINT `t_itemtransfers_M_Shop_Id_To_fk` FOREIGN KEY (`M_Shop_Id_To`) REFERENCES `m_shops` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:45]
+CREATE TABLE `t_itemtransferdetails` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`T_Itemtransfer_Id` int(11) NOT NULL  
+,`M_Item_Id` int(11) NOT NULL  
+,`M_Uom_Id` int(11) NOT NULL  
+,`M_Warehouse_Id` int(11) DEFAULT NULL  
+,`Qty` decimal(18,2) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `t_itemtransferdetails_T_Itemtransfer_Id_fk` (`T_Itemtransfer_Id`)
+,CONSTRAINT `t_itemtransferdetails_T_Itemtransfer_Id_fk` FOREIGN KEY (`T_Itemtransfer_Id`) REFERENCES `t_itemtransfers` (`Id`) ON UPDATE CASCADE ON DELETE CASCADE
+,KEY `t_itemtransferdetails_M_Uom_Id_fk` (`M_Uom_Id`)
+,CONSTRAINT `t_itemtransferdetails_M_Uom_Id_fk` FOREIGN KEY (`M_Uom_Id`) REFERENCES `m_uoms` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+,KEY `t_itemtransferdetails_M_Warehouse_Id_fk` (`M_Warehouse_Id`)
+,CONSTRAINT `t_itemtransferdetails_M_Warehouse_Id_fk` FOREIGN KEY (`M_Warehouse_Id`) REFERENCES `m_warehouses` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+,KEY `t_itemtransferdetails_M_Item_Id_fk` (`M_Item_Id`)
+,CONSTRAINT `t_itemtransferdetails_M_Item_Id_fk` FOREIGN KEY (`M_Item_Id`) REFERENCES `m_items` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:46]
+INSERT INTO migrations VALUES(null, '20191208144818', '2019-12-30 15:03:46')  [2019-12-30 01:03:46]
+ALTER TABLE `m_users` ADD COLUMN `M_Shop_Id` int(11) DEFAULT NULL   AFTER `Language`
+,ADD CONSTRAINT `m_users_M_Shop_Id_fk` FOREIGN KEY (`M_Shop_Id`) REFERENCES `m_shops` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+   [2019-12-30 01:03:46]
+INSERT INTO migrations VALUES(null, '20191206041539', '2019-12-30 15:03:48')  [2019-12-30 01:03:48]
+CREATE TABLE `m_categories` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Code` Varchar(100) NOT NULL  
+,`Name` Varchar(100) NOT NULL  
+,`Description` Varchar(100) NOT NULL  
+,`PhotoUrl` Varchar(1000) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:48]
+INSERT INTO migrations VALUES(null, '20191129093829', '2019-12-30 15:03:48')  [2019-12-30 01:03:48]
+CREATE TABLE `m_items` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Code` Varchar(100) NOT NULL  
+,`Name` Varchar(100) NOT NULL  
+,`M_Category_Id` int NOT NULL  
+,`Cost` decimal(18,2) DEFAULT NULL  
+,`Price` decimal(18,2) DEFAULT NULL  
+,`PhotoUrl` Varchar(1000) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `m_items_M_Category_Id_fk` (`M_Category_Id`)
+,CONSTRAINT `m_items_M_Category_Id_fk` FOREIGN KEY (`M_Category_Id`) REFERENCES `m_categories` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:48]
+INSERT INTO migrations VALUES(null, '20191129094027', '2019-12-30 15:03:48')  [2019-12-30 01:03:48]
+ALTER TABLE `t_itemreceives` ADD COLUMN `M_Shop_Id` int(11) DEFAULT NULL   AFTER `TransDate`
+,ADD CONSTRAINT `t_itemreceives_M_Shop_Id_fk` FOREIGN KEY (`M_Shop_Id`) REFERENCES `m_shops` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+   [2019-12-30 01:03:48]
+INSERT INTO migrations VALUES(null, '20191226105206', '2019-12-30 15:03:48')  [2019-12-30 01:03:48]
+ALTER TABLE `m_items` ADD COLUMN `M_Uom_Id` int(11) DEFAULT NULL   AFTER `M_Category_Id`
+,ADD CONSTRAINT `m_items_M_Uom_Id_fk` FOREIGN KEY (`M_Uom_Id`) REFERENCES `m_uoms` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+   [2019-12-30 01:03:48]
+INSERT INTO migrations VALUES(null, '20191203030739', '2019-12-30 15:03:49')  [2019-12-30 01:03:49]
+CREATE TABLE `t_itemreceives` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`TransNo` varchar(50) NOT NULL  
+,`TransDate` datetime NOT NULL  
+,`Status` int(11) DEFAULT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:49]
+CREATE TABLE `t_itemreceivedetails` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`T_Itemtransfer_Id` int(11) NOT NULL  
+,`T_Itemreceive_Id` int(11) NOT NULL  
+,`CreatedBy` Varchar(50) DEFAULT NULL  
+,`ModifiedBy` Varchar(50) DEFAULT NULL  
+,`Created` datetime DEFAULT NULL  
+,`Modified` datetime DEFAULT NULL  
+,PRIMARY KEY ( Id ),KEY `t_itemreceivedetails_T_Itemtransfer_Id_fk` (`T_Itemtransfer_Id`)
+,CONSTRAINT `t_itemreceivedetails_T_Itemtransfer_Id_fk` FOREIGN KEY (`T_Itemtransfer_Id`) REFERENCES `t_itemtransfers` (`Id`) ON UPDATE CASCADE ON DELETE RESTRICT
+,KEY `t_itemreceivedetails_T_Itemreceive_Id_fk` (`T_Itemreceive_Id`)
+,CONSTRAINT `t_itemreceivedetails_T_Itemreceive_Id_fk` FOREIGN KEY (`T_Itemreceive_Id`) REFERENCES `t_itemreceives` (`Id`) ON UPDATE CASCADE ON DELETE CASCADE
+ ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:49]
+INSERT INTO migrations VALUES(null, '20191226093022', '2019-12-30 15:03:50')  [2019-12-30 01:03:50]
+SELECT count(*) as Count
+        FROM information_schema.TABLES
+        WHERE (TABLE_SCHEMA = 'pos') AND (TABLE_NAME = 'seeds')  [2019-12-30 01:03:59]
+CREATE TABLE `seeds` ( `Id` int(11) NOT NULL  AUTO_INCREMENT
+,`Version` Varchar(50) DEFAULT NULL  
+,`ExecutedAt` DATETIME DEFAULT NULL  
+,PRIMARY KEY ( Id ) ) ENGINE = InnoDB DEFAULT CHARSET = utf8  [2019-12-30 01:03:59]
+SELECT * FROM seeds  [2019-12-30 01:04:00]
+SELECT * FROM m_forms where FormName = 't_itemreceives'  [2019-12-30 01:04:00]
+INSERT INTO `m_formsettings` ( `M_Form_Id`,`Value`,`Name` ) VALUES ( '','1','NUMBERING_FORMAT' )  [2019-12-30 01:04:00]
+INSERT INTO seeds VALUES(null, '20191226095012', '2019-12-30 15:04:00')  [2019-12-30 01:04:00]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_groupusers','Group User','Grup Pengguna','Master User','Form.groupuser','mgroupuser' )  [2019-12-30 01:04:00]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_users','User','Pengguna','Master User','Form.user','muser' )  [2019-12-30 01:04:00]
+INSERT INTO seeds VALUES(null, '20190619110706', '2019-12-30 15:04:00')  [2019-12-30 01:04:00]
+SELECT MAX(id) Id FROM m_enums  [2019-12-30 01:04:00]
+INSERT INTO `m_enums` ( `Name` ) VALUES ( 'ItemtransferStatus' )  [2019-12-30 01:04:00]
+INSERT INTO `m_enumdetails` ( `M_Enum_Id`,`Value`,`EnumName`,`Ordering`,`Resource` ) VALUES ( '1','1','Baru','1','Form.new' )  [2019-12-30 01:04:00]
+INSERT INTO `m_enumdetails` ( `M_Enum_Id`,`Value`,`EnumName`,`Ordering`,`Resource` ) VALUES ( '1','2','Sedang Transit','2','Form.intransit' )  [2019-12-30 01:04:00]
+INSERT INTO `m_enumdetails` ( `M_Enum_Id`,`Value`,`EnumName`,`Ordering`,`Resource` ) VALUES ( '1','3','Rilis','3','Form.release' )  [2019-12-30 01:04:00]
+INSERT INTO `m_enumdetails` ( `M_Enum_Id`,`Value`,`EnumName`,`Ordering`,`Resource` ) VALUES ( '1','4','Batal','4','Form.cancel' )  [2019-12-30 01:04:00]
+INSERT INTO seeds VALUES(null, '20191208145247', '2019-12-30 15:04:00')  [2019-12-30 01:04:00]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 't_itemstocks','Item Stock','Stok Barang','Transaction','Form.itemstock','titemstock' )  [2019-12-30 01:04:00]
+INSERT INTO seeds VALUES(null, '20191203093311', '2019-12-30 15:04:00')  [2019-12-30 01:04:00]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_shops','Shop','Toko','Master General','Form.shop','mshop' )  [2019-12-30 01:04:00]
+INSERT INTO seeds VALUES(null, '20191206034337', '2019-12-30 15:04:00')  [2019-12-30 01:04:00]
+SELECT MAX(id) Id FROM m_enums  [2019-12-30 01:04:00]
+INSERT INTO `m_enums` ( `Name` ) VALUES ( 'ItemstockStatus' )  [2019-12-30 01:04:00]
+INSERT INTO `m_enumdetails` ( `M_Enum_Id`,`Value`,`EnumName`,`Ordering`,`Resource` ) VALUES ( '2','1','Baru','1','Form.new' )  [2019-12-30 01:04:00]
+INSERT INTO `m_enumdetails` ( `M_Enum_Id`,`Value`,`EnumName`,`Ordering`,`Resource` ) VALUES ( '2','2','Rilis','2','Form.release' )  [2019-12-30 01:04:00]
+INSERT INTO `m_enumdetails` ( `M_Enum_Id`,`Value`,`EnumName`,`Ordering`,`Resource` ) VALUES ( '2','3','Batal','3','Form.cancel' )  [2019-12-30 01:04:00]
+INSERT INTO seeds VALUES(null, '20191204075700', '2019-12-30 15:04:00')  [2019-12-30 01:04:00]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 't_pos','POS','POS','Transaction','Form.pos','pos' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20191206030734', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_uoms','UoM','Unit','Master General','Form.uom','muom' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20191202091055', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_warehouses','Warehouse','Gudang','Master General','Form.warehouse','mwarehouse' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20191202085253', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+SELECT MAX(id) Id FROM m_enums  [2019-12-30 01:04:01]
+INSERT INTO `m_enums` ( `Name` ) VALUES ( 'ItemreceiveStatus' )  [2019-12-30 01:04:01]
+INSERT INTO `m_enumdetails` ( `M_Enum_Id`,`Value`,`EnumName`,`Ordering`,`Resource` ) VALUES ( '3','1','Baru','1','Form.new' )  [2019-12-30 01:04:01]
+INSERT INTO `m_enumdetails` ( `M_Enum_Id`,`Value`,`EnumName`,`Ordering`,`Resource` ) VALUES ( '3','2','Diterima','2','Form.received' )  [2019-12-30 01:04:01]
+INSERT INTO `m_enumdetails` ( `M_Enum_Id`,`Value`,`EnumName`,`Ordering`,`Resource` ) VALUES ( '3','3','Batal','3','Form.cancel' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20191226094358', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 't_itemtransfers','Item Transfer','Transfer Barang','Transaction','Form.itemtransfer','titemtransfer' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20191208145132', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+INSERT INTO `m_users` ( `Username`,`Password` ) VALUES ( 'superadmin','b6b370cc69bcccdd8fa30f665f735b6a' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20190619100642', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_categories','Category','Kategori','Master Item','Form.category','mcategory' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20191129094036', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_items','Item','Barang','Master Item','Form.item','mitem' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20191202091718', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 'm_formsettings','Setting','Pengaturan','Setting','Form.setting','setting' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20190620050358', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+INSERT INTO `m_forms` ( `FormName`,`AliasName`,`LocalName`,`ClassName`,`Resource`,`IndexRoute` ) VALUES ( 't_itemreceives','Item Receive','Terima Barang','Transaction','Form.itemreceive','titemreceive' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20191226094259', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+SELECT * FROM m_forms where FormName = 't_itemtransfers'  [2019-12-30 01:04:01]
+INSERT INTO `m_formsettings` ( `M_Form_Id`,`Value`,`Name` ) VALUES ( '8','1','NUMBERING_FORMAT' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20191208145412', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+SELECT * FROM m_forms where FormName = 't_itemstocks'  [2019-12-30 01:04:01]
+INSERT INTO `m_formsettings` ( `M_Form_Id`,`Value`,`Name` ) VALUES ( '3','1','NUMBERING_FORMAT' )  [2019-12-30 01:04:01]
+INSERT INTO seeds VALUES(null, '20191203094924', '2019-12-30 15:04:01')  [2019-12-30 01:04:01]
+DESC m_users  [2019-12-30 09:16:50]
+select m_users.* from m_users  WHERE `password`='b6b370cc69bcccdd8fa30f665f735b6a'  [2019-12-30 09:16:50]
+DESC m_forms  [2019-12-30 09:16:50]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('t_pos')  [2019-12-30 09:16:50]
+DESC m_forms  [2019-12-30 09:16:53]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-12-30 09:16:53]
+DESC m_forms  [2019-12-30 09:16:53]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('t_pos')  [2019-12-30 09:16:53]
+DESC m_forms  [2019-12-30 09:16:53]
+select m_forms.* from m_forms  WHERE `FormName`='m_groupusers'  [2019-12-30 09:16:53]
+DESC m_groupusers  [2019-12-30 09:16:53]
+select m_groupusers.* from m_groupusers  ORDER BY Description DESC LIMIT 0, 5  [2019-12-30 09:16:53]
+DESC m_groupusers  [2019-12-30 09:16:53]
+SELECT COUNT(*) as Counted FROM m_groupusers  ORDER BY Description DESC  [2019-12-30 09:16:53]
+DESC m_users  [2019-12-30 10:17:40]
+select m_users.* from m_users  WHERE `password`='b6b370cc69bcccdd8fa30f665f735b6a'  [2019-12-30 10:17:40]
+DESC m_forms  [2019-12-30 10:17:40]
+select m_forms.* from m_forms  WHERE `FormName` NOT IN ('t_pos')  [2019-12-30 10:17:40]
