@@ -152,7 +152,7 @@ class T_itemtransfers extends Base_Model {
 		}
 
 		if ($id)
-			return true;
+			return $id;
 		return false;
 	}
 

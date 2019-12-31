@@ -102,7 +102,7 @@
                                         <i class="material-icons">search</i>
                                     </span> -->
                                     <div class="input-group-append">
-                                      <button id="btnGroupModal" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalUom"><i class="fa fa-search"></i></button>
+                                      <button id="btnUom" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalUom"><i class="fa fa-search"></i></button>
                                     </div>
                                   </div>
                                 </div>
@@ -180,13 +180,18 @@
       
         $(document).ready(function() {   
           
-          
+          // init();
         });
       
        
-      
-        function init(){
+        $("#btnUom").on('click', function(){
+          loadUom();
+        })
+        function loadUom(){
           
+          var itemid = $("#M_Item_Id").val();
+          if(itemid)
+            setUomUrl("muom/getModalByItem/" + itemid);
         }
       </script>
             

@@ -45,10 +45,16 @@
   var tableUom ;
   var uomid = "M_Uom_Id";
   var uomname = "uomname";
+  var url = "{{  baseUrl('muom/getDataModal') }}";
 
   $(document).ready(function() {  
     loadModalUom();
   });
+
+  function setUomUrl(newurl){
+    url = "{{  baseUrl("+newurl+") }}";
+    console.log(url);
+  }
 
   function uomModalSet(id, name){
     uomid = id;
@@ -78,7 +84,7 @@
         "processing": true,
         "serverSide": true,
         ajax:{
-            url : "{{  baseUrl('muom/getDataModal') }}",
+            url : url,
             dataSrc : 'data'
         },
         stateSave: true

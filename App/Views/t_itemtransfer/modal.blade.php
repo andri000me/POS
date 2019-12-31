@@ -21,11 +21,15 @@
                         
                         <th># </th>
                         <th>{{   lang('Form.name')}}</th>
+                        <th>{{   lang('Form.date')}}</th>
+                        <th>{{   lang('Form.shopfrom')}}</th>
                     </thead>
                     <tfoot class=" text-default">
                       <tr role = "row">
                         <th># </th>
                         <th>{{   lang('Form.name')}}</th>
+                        <th>{{   lang('Form.date')}}</th>
+                        <th>{{   lang('Form.shopfrom')}}</th>
                       </tr>
                     </tfoot>
                     <tbody>
@@ -43,9 +47,14 @@
 </div>
 <script type = "text/javascript">
   var tableItemtransfer ;
+  var purpose = 'input';
   $(document).ready(function() {  
     loadModalItemtransfer();
   });
+
+  function setModalItemtransferPurpose(newpurpose){
+    purpose = newpurpose;
+  }
 
   function loadModalItemtransfer(){
     tableItemtransfer  = $("#tableModalItemtransfer").DataTable({
@@ -83,9 +92,13 @@
         var data = tableItemtransfer.row($tr).data();
         var id = $tr.attr('id');
 
-        $("#T_Itemtransfer_Id").val(data[0]);
-        $("#itemtransfername").val(data[1]);
-        $('#modalItemtransfer').modal('hide');
+        if(purpose = 'input'){
+          $("#T_Itemtransfer_Id").val(data[0]);
+          $("#itemtransfername").val(data[1]);
+          $('#modalItemtransfer').modal('hide');
+        } else {
+
+        }
      } );
   }
 

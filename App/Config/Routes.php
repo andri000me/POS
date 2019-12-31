@@ -106,6 +106,7 @@ $route->group('/muom', function () {
     $this->post('/delete', 'App\Controllers\M_uom@delete');
     $this->get('/getAllData', 'App\Controllers\M_uom@getAllData');
     $this->get('/getDataModal', 'App\Controllers\M_uom@getDataModal');
+    $this->get('/getModalByItem/?', 'App\Controllers\M_uom@getModalByItem');
 });
 
 $route->group('/mitem', function () {

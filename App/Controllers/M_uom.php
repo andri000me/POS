@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\M_uoms;
 use App\Controllers\Base_Controller;
+use App\Models\M_items;
+use App\Models\M_uomconversions;
 use Core\Nayo_Exception;
 use Core\Libraries\Datatables;
 use Core\Session;
@@ -168,8 +170,23 @@ class M_uom extends Base_Controller
 
     public function getDataModal()
     {
+        $this->getAllDataModal();
+    }
 
-        $datatable = new Datatables('M_uoms');
+    private function getModalByItem($item){
+        $this->getAllDataModal($item);
+    }
+
+    private function getAllDataModal($item = null){
+        $params = [];
+        
+        if($item){
+            $itemuomlist  = M_items::get($item)->getUomsArList();
+            $params['whereIn'] = [
+                'Id' => $itemuomlist
+            ];
+        }
+        $datatable = new Datatables('M_uoms', $params);
         $datatable
             ->addDtRowClass("rowdetail")
             ->addColumn(

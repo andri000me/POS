@@ -26,8 +26,8 @@
                                 <h3 class="card-title">{{lang('Form.edit')}}</h3>
                             </div>
                             <div class = "col-6 text-right">
-                                <a class = "link-action" href="{{ baseUrl("titemreceive/copy/$model->Id")}}"><i class = "fa fa-clone"></i> {{ lang('Form.copy')}}</a>
-                              <a class = "link-action" href="{{ baseUrl("titemreceivedetail/$model->Id")}}"><i class = "fa fa-plus"></i> {{ lang('Form.detail')}}</a>
+                                <a class = "link-action" href='{{ baseUrl("titemreceive/copy/$model->Id")}}'><i class = "fa fa-clone"></i> {{ lang('Form.copy')}}</a>
+                              <!-- <a class = "link-action" href="{{ baseUrl("titemreceivedetail/$model->Id")}}"><i class = "fa fa-plus"></i> {{ lang('Form.detail')}}</a> -->
                           </div>
                         </div>
                     </div>
@@ -76,8 +76,8 @@
                                 </div>
                                 <div class="form-group">
                                   <div class="required">
-                                    <?= formLabel(lang('Form.type')) ?>
-                                    <?= formSelect(
+                                    {!! formLabel(lang('Form.type')) !!}
+                                    {!!  formSelect(
                                       $model->getEnumStatus(),
                                       "Value",
                                       "EnumName",
@@ -87,7 +87,7 @@
                                         "name" => "Status",
                                         "value" => $model->Status
                                       )
-                                    ) ?>
+                                    ) !!}
                                   </div>
                                 </div>
                                 <div class="form-group">
@@ -122,6 +122,8 @@
                               <tr role = "row">
                               <th># </th>
                               <th>{{  lang('Form.number')}}</th>
+                              <th>{{  lang('Form.date')}}</th>
+                              <th>{{  lang('Form.shopfrom')}}</th>
                               <th class="disabled-sorting text-right">{{  lang('Form.actions')}}</th>
                               </tr>
                           </thead>
@@ -129,6 +131,8 @@
                               <tr role = "row">
                               <th># </th>
                               <th>{{  lang('Form.number')}}</th>
+                              <th>{{  lang('Form.date')}}</th>
+                              <th>{{  lang('Form.shopfrom')}}</th>
                               <th class="disabled-sorting text-right">{{  lang('Form.actions')}}</th>
                               </tr>
                           </tfoot>
@@ -172,13 +176,15 @@
               },
               {
                   "className": "td-actions text-right", 
-                  "targets": [ 2 ] 
+                  "targets": [ 4 ] 
               }
             ],
             columns: [
               { responsivePriority: 3},
               { responsivePriority: 1},
               { responsivePriority: 2},
+              { responsivePriority: 4},
+              { responsivePriority: 5},
             ],
             "processing": true,
             "serverSide": true,

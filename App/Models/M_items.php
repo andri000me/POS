@@ -71,4 +71,23 @@ class M_items extends Base_Model {
         return $warning;
 	}
 
+	public function getUomsArList(){
+		$uomlist = [];
+		$uomparams = [
+            'where' =>[
+                'M_Item_Id' => $this->Id
+            ]
+        ];
+
+        foreach(M_uomconversions::getAll($uomparams) as $uomitem){
+            if(!in_array($uomitem->M_Uom_Id_From, $uomlist))
+                $uomlist[] = $uomitem->M_Uom_Id_From;
+            if(!in_array($uomitem->M_Uom_Id_To, $uomlist))
+                $uomlist[] = $uomitem->M_Uom_Id_To;
+            
+		}   
+
+		return $uomlist;
+	}
+
 }

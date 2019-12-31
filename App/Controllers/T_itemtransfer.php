@@ -45,11 +45,11 @@ class T_itemtransfer extends Base_Controller
             DbTrans::beginTransaction();
             try { 
                 $itemtransfers->validate();
-
-                if($itemtransfers->savedata()){
+                $id = $itemtransfers->savedata();
+                if($id){
                     DbTrans::commit();
                     Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                    redirect('titemtransfer/add')->go();
+                    redirect("titemtransfer/edit/{$id}")->go();
                 } 
             } catch (Nayo_Exception $e) {
 
@@ -231,6 +231,16 @@ class T_itemtransfer extends Base_Controller
             
             'where' => [
                 'M_Shop_Id_To' => isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null
+            ],
+            'join' => [
+                'm_shops' => [
+                    [
+                        'as' => 'shopfrom',
+                        'table' => 't_itemtransfers',
+                        'column' => 'M_shop_Id_From',
+                        'type' =>'LEFT'
+                    ]
+                ]
             ]
         ];
 
@@ -238,23 +248,23 @@ class T_itemtransfer extends Base_Controller
         $datatable
             ->addDtRowClass("rowdetail")
             ->addColumn(
-                'Id',
-                function ($row) {
-                    return $row->Id;
-                },
+                't_itemtransfers.Id',
+                null,
                 false,
                 false
             )->addColumn(
-                'TransNo',
-                function ($row) {
-                    return $row->TransNo;
-                }
+                't_itemtransfers.TransNo',
             )->addColumn(
-                'TransDate',
+                't_itemtransfers.TransDate',
                 function ($row) {
                     return get_formated_date($row->TransDate, "d-m-Y");
                 },
                 false
+            )->addColumn(
+                'shopfrom.Code',
+                function($row){
+                    return $row->get_M_Shop('From')->Code;
+                }
             );
 
         echo json_encode($datatable->populate());

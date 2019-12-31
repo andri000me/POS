@@ -161,7 +161,7 @@ class T_itemreceivedetail extends Base_Controller
                 'join' => [
                     't_itemtransfers' => [
                         [
-                            'table' => 'T_itemreceivedetails',
+                            'table' => 't_itemreceivedetails',
                             'column' => 'T_Itemtransfer_Id',
                             'type' => 'left'
                         ]
@@ -184,6 +184,14 @@ class T_itemreceivedetail extends Base_Controller
                     function ($row) {
                         return $row->get_T_Itemtransfer()->TransNo;
                     }
+                )->addColumn(
+                    't_itemtransfers.TransNo',
+                )->addColumn(
+                    't_itemtransfers.TransDate',
+                    function ($row) {
+                        return get_formated_date($row->TransDate, "d-m-Y");
+                    },
+                    false
                 )->addColumn(
                     'Action',
                     function ($row) {
