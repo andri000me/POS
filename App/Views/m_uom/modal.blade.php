@@ -52,8 +52,8 @@
   });
 
   function setUomUrl(newurl){
-    url = "{{  baseUrl("+newurl+") }}";
-    console.log(url);
+    url = " {{ baseUrl() }}" + newurl;
+    tableUom.ajax.url(url).load();
   }
 
   function uomModalSet(id, name){

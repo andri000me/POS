@@ -173,7 +173,7 @@ class M_uom extends Base_Controller
         $this->getAllDataModal();
     }
 
-    private function getModalByItem($item){
+    public function getModalByItem($item){
         $this->getAllDataModal($item);
     }
 
