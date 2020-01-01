@@ -18,15 +18,18 @@
                 <div class="table-responsive">
                   <table data-page-length="5" id = "tableModalItemtransfer" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                     <thead class=" text-default">
-                        
+
                         <th># </th>
+                        <th> </th>
                         <th>{{   lang('Form.name')}}</th>
                         <th>{{   lang('Form.date')}}</th>
                         <th>{{   lang('Form.shopfrom')}}</th>
                     </thead>
                     <tfoot class=" text-default">
                       <tr role = "row">
-                        <th># </th>
+
+                      <th># </th>
+                        <th> </th>
                         <th>{{   lang('Form.name')}}</th>
                         <th>{{   lang('Form.date')}}</th>
                         <th>{{   lang('Form.shopfrom')}}</th>
@@ -64,25 +67,36 @@
       language: {
       search: "_INPUT_",
       "search": "{{  lang('Form.search')}}"+" : ",
-    },
-        "columnDefs": [ 
+      },
+      "columnDefs": [ 
         {
+          className: 'select-checkbox',
           targets: 'disabled-sorting', 
           orderable: false
         },
         {
-              "targets": [ 0 ],
-              "visible": false,
-              "searchable": false
-          }
-        ],
-        "processing": true,
-        "serverSide": true,
-        ajax:{
-            url : "{{  baseUrl('titemtransfer/getDataModal') }}",
-            dataSrc : 'data'
+            "targets": [0],
+            "visible": false,
+            "searchable": false,
         },
-        stateSave: true
+        {
+          orderable: false,
+          className: 'select-checkbox',
+          targets:  1
+        }
+      ],
+
+      select: {
+          style:    'os',
+          selector: 'td:first-child'
+      },
+      "processing": true,
+      "serverSide": true,
+      ajax:{
+          url : "{{  baseUrl('titemtransfer/getDataModal') }}",
+          dataSrc : 'data'
+      },
+      stateSave: true
     });
     // console.log(tableItemtransfer);
      // Edit record
@@ -94,7 +108,7 @@
 
         if(purpose = 'input'){
           $("#T_Itemtransfer_Id").val(data[0]);
-          $("#itemtransfername").val(data[1]);
+          $("#itemtransfername").val(data[0]);
           $('#modalItemtransfer').modal('hide');
         } else {
 

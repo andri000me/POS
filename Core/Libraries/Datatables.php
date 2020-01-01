@@ -140,6 +140,7 @@ class Datatables
             $i = 0;
             foreach ($this->column as $column) {
                 $rowdata = null;
+                
                 if(!is_null($column['callback']))
                     $rowdata = $column['callback']($data);
                 else {
@@ -193,20 +194,23 @@ class Datatables
     }
 
     private function getColValue($column, $data){
-        $col = explode(".", $column['column']);
-        if(count($col) == 2){
-            if(lcfirst($this->entity) != $col[0]){
-                $table = explode("_", $col[0]);
-                $relatedTable = "get_".ucfirst($table[0])."_".singularize(ucfirst($table[1]));
-                $selectedColumn = $col[1];
-                return $data->$relatedTable()->$selectedColumn;
+        if(!is_null($column['column'])){
+            $col = explode(".", $column['column']);
+            if(count($col) == 2){
+                if(lcfirst($this->entity) != $col[0]){
+                    $table = explode("_", $col[0]);
+                    $relatedTable = "get_".ucfirst($table[0])."_".singularize(ucfirst($table[1]));
+                    $selectedColumn = $col[1];
+                    return $data->$relatedTable()->$selectedColumn;
+                } else {
+                    $selectedColumn = $col[1];
+                    return $data->$selectedColumn;
+                }
             } else {
-                $selectedColumn = $col[1];
+                $selectedColumn = $col[0];
                 return $data->$selectedColumn;
             }
-        } else {
-            $selectedColumn = $col[0];
-            return $data->$selectedColumn;
         }
+        return null;
     }
 }

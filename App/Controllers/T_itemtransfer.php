@@ -251,7 +251,10 @@ class T_itemtransfer extends Base_Controller
                 't_itemtransfers.Id',
                 null,
                 false,
-                false
+                false,
+                true
+            )
+            ->addColumn(null, null, false, false
             )->addColumn(
                 't_itemtransfers.TransNo',
             )->addColumn(
