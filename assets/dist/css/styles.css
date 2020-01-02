@@ -177,3 +177,7 @@ table th {
   background-color: #00a65a;
   border-color: #00a65a;
 } */
+
+table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected{
+  background-color: #00a65a;
+}

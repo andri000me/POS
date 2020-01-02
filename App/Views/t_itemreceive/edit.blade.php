@@ -152,6 +152,7 @@
         var tablereceivedetail;
         $(document).ready(function() {   
           dataTable();
+          loadModalSelectItemtransfer();
         });
       
         function dataTable(){
@@ -196,9 +197,9 @@
           }); 
 
             // Delete a record
-            table.on( 'click', '.delete', function (e) {
+            tablereceivedetail.on( 'click', '.delete', function (e) {
               $tr = $(this).closest('tr');
-              var data = table.row($tr).data();
+              var data = tablereceivedetail.row($tr).data();
               var id = data['0'] + '~a';
               var name = document.getElementById(id).innerHTML;
               deleteData(name, function(result){
@@ -224,7 +225,7 @@
                             var message = status['msg'][i];
                             setNotification(message, 2, "bottom", "right");
                           }
-                          table.row($tr).remove().draw();
+                          tablereceivedetail.row($tr).remove().draw();
                           e.preventDefault();
                         }
                       }

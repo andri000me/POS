@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="{{ baseUrl('assets/dist/plugins/all/css/bootstrap-datetimepicker.min.css')}}">
   <link rel="stylesheet" href="{{ baseUrl('assets/dist/plugins/all/css/bootstrap-datepicker3.css')}}">
   <link rel="stylesheet" href="{{ baseUrl('assets/dist/plugins/all/css/bootstrap-select.min.css')}}">
+  <link rel="stylesheet" href="{{ baseUrl('assets/dist/plugins/datatables-select/css/select.bootstrap4.css')}}">
   <link rel="stylesheet" href="{{ baseUrl('assets/dist/css/styles.css')}}">
   <script src="{{ baseUrl('assets/dist/plugins/jquery/jquery.min.js')}}"></script>
   <!-- Google Font: Source Sans Pro -->

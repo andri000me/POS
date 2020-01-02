@@ -20,7 +20,6 @@
                     <thead class=" text-default">
 
                         <th># </th>
-                        <th> </th>
                         <th>{{   lang('Form.name')}}</th>
                         <th>{{   lang('Form.date')}}</th>
                         <th>{{   lang('Form.shopfrom')}}</th>
@@ -29,7 +28,6 @@
                       <tr role = "row">
 
                       <th># </th>
-                        <th> </th>
                         <th>{{   lang('Form.name')}}</th>
                         <th>{{   lang('Form.date')}}</th>
                         <th>{{   lang('Form.shopfrom')}}</th>
@@ -51,72 +49,38 @@
 <script type = "text/javascript">
   var tableItemtransfer ;
   var purpose = 'input';
-  $(document).ready(function() {  
-    loadModalItemtransfer();
+  $(document).ready(function() {
+    // loadModalItemtransfer();
   });
 
   function setModalItemtransferPurpose(newpurpose){
     purpose = newpurpose;
   }
 
-  function loadModalItemtransfer(){
-    tableItemtransfer  = $("#tableModalItemtransfer").DataTable({
-      "pagingType": "full_numbers",
-      "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
-      responsive: true,
-      language: {
-      search: "_INPUT_",
-      "search": "{{  lang('Form.search')}}"+" : ",
-      },
-      "columnDefs": [ 
-        {
-          className: 'select-checkbox',
-          targets: 'disabled-sorting', 
-          orderable: false
-        },
-        {
-            "targets": [0],
-            "visible": false,
-            "searchable": false,
-        },
-        {
-          orderable: false,
-          className: 'select-checkbox',
-          targets:  1
-        }
-      ],
+  function loadModalInputItemtransfer(){
+    loadModalInputDataTable("tableModalItemtransfer", 
+    "modalItemtransfer",
+    "{{  baseUrl('titemtransfer/getDataModal') }}", 
+    "{{  lang('Form.search')}}", 
+    "T_Itemtransfer_Id",
+    "itemtransfername"
+    )
+    
+  }
 
-      select: {
-          style:    'os',
-          selector: 'td:first-child'
-      },
-      "processing": true,
-      "serverSide": true,
-      ajax:{
-          url : "{{  baseUrl('titemtransfer/getDataModal') }}",
-          dataSrc : 'data'
-      },
-      stateSave: true
-    });
-    // console.log(tableItemtransfer);
-     // Edit record
-     tableItemtransfer.on( 'click', '.rowdetail', function () {
-        $tr = $(this).closest('tr');
-
-        var data = tableItemtransfer.row($tr).data();
-        var id = $tr.attr('id');
-
-        if(purpose = 'input'){
-          $("#T_Itemtransfer_Id").val(data[0]);
-          $("#itemtransfername").val(data[0]);
-          $('#modalItemtransfer').modal('hide');
-        } else {
-
-        }
-     } );
+  function loadModalSelectItemtransfer(){
+    loadModalSelectDataTable("tableModalItemtransfer", 
+    "modalItemtransfer",
+    "{{  baseUrl('titemtransfer/getDataModal') }}", 
+    "{{  lang('Form.search')}}", 
+    "T_Itemtransfer_Id",
+    "itemtransfername"
+    )
+    
   }
 
   $('#tableModalItemtransfer').on('show.bs.modal', function (e) {
-      tableItemtransfer.ajax.reload(null, true);
-    })
+    console.log("aaaa");
+    tableItemtransfer.ajax.reload(null, true);
+  })
 </script>
