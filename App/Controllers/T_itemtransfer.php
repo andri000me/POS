@@ -248,11 +248,7 @@ class T_itemtransfer extends Base_Controller
         $datatable
             ->addDtRowClass("rowdetail")
             ->addColumn(
-                't_itemtransfers.Id',
-                null,
-                false,
-                false,
-                true
+                't_itemtransfers.Id'
             )->addColumn(
                 't_itemtransfers.TransNo',
             )->addColumn(

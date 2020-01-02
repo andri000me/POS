@@ -69,13 +69,21 @@
 </div>
   <script>
   
-    $(document).ready(function() {   
-      
+    $(document).ready(function() { 
+      var columns = [
+          { responsivePriority: 7},
+          { responsivePriority: 1},
+          { responsivePriority: 3},
+          { responsivePriority: 4},
+          { responsivePriority: 5},
+          { responsivePriority: 6},
+          { responsivePriority: 2}
+      ];
       loadIndexDataTable('tableitemstock', 
       "{{ baseUrl('titemstock/getAllData') }}", 
       "{{ lang('Form.search')}}",
-      "{{ baseUrl('titemstock/delete')}}"
-      );
+      "{{ baseUrl('titemstock/delete')}}",
+      columns);
     });
   
   </script>

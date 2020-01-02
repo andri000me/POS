@@ -179,8 +179,8 @@ function setNotification(message, title, position = "bottom", align = "right") {
   });
 
   //datatables
-
-  function loadIndexDataTable(table, sourceUrl, searchCaption,  deleteUrl = null){
+  var selectedDataSelect = [];
+  function loadIndexDataTable(table, sourceUrl, searchCaption,  deleteUrl = null, columns = []){
     var indexTable = $("#"+table).DataTable({
         "pagingType": "full_numbers",
         "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
@@ -202,18 +202,10 @@ function setNotification(message, title, position = "bottom", align = "right") {
           },
           {
              "className": "td-actions text-right", 
-             "targets": [ 6 ] 
+             "targets": columns.length - 1
           }
         ],
-        columns: [
-          { responsivePriority: 6},
-          { responsivePriority: 1},
-          { responsivePriority: 2},
-          { responsivePriority: 4},
-          { responsivePriority: 5},
-          { responsivePriority: 7},
-          { responsivePriority: 2}
-        ],
+        columns: columns,
         "processing": true,
         "serverSide": true,
         ajax:{
@@ -274,15 +266,14 @@ function setNotification(message, title, position = "bottom", align = "right") {
         },
         "columnDefs": [ 
           {
-            className: 'select-checkbox',
             targets: 'disabled-sorting', 
             orderable: false
           },
           {
-              "targets": [ 1 ],
-              "visible": false,
-              "searchable": false,
-          }
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }
         ],
         "processing": true,
         "serverSide": true,
@@ -300,13 +291,9 @@ function setNotification(message, title, position = "bottom", align = "right") {
           var data = modalTable.row($tr).data();
           var id = $tr.attr('id');
   
-          if(purpose = 'input'){
             $("#"+inputId).val(data[0]);
             $("#"+inputName).val(data[1]);
             $('#'+modalId).modal('hide');
-          } else {
-  
-          }
        } );
   }
 
@@ -349,13 +336,17 @@ function setNotification(message, title, position = "bottom", align = "right") {
   
           var data = modalTable.row($tr).data();
           var id = $tr.attr('id');
-  
-          if(purpose = 'input'){
-            $("#"+inputId).val(data[0]);
-            $("#"+inputName).val(data[1]);
-            // $('#'+modalId).modal('hide');
-          } else {
-  
-          }
+          selectedDataSelect.push(data[0]);
+          
        } );
+
+      $("#"+table).on('show.bs.modal', function (e) {
+        modalTable.ajax.reload(null, true);
+      });
+
+       
+  }
+
+  function getSelectedModalData(){
+    return selectedDataSelect;
   }

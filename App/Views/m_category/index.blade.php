@@ -72,101 +72,22 @@
     });
   
     function dataTable(){
-      var table = $('#tablecategory').DataTable({
-        "pagingType": "full_numbers",
-        "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
-        "order" : [[2, "desc"]],
-        responsive: true,
-        language: {
-        search: "_INPUT_",
-        "search": "{{ lang('Form.search')}}"+" : "
-        },
-        "columnDefs": [ 
-          {
-            targets: 'disabled-sorting', 
-            orderable: false
-          },
-          {
-            "targets": [ 0 ],
-            "visible": false,
-            "searchable": false
-          },
-          {
-             "className": "td-actions text-right", 
-             "targets": [ 4 ] 
-          }
-        ],
-        columns: [
+      var columns = [
           { responsivePriority: 5},
           { responsivePriority: 1},
-          { responsivePriority: 2},
+          { responsivePriority: 3},
           { responsivePriority: 4},
           { responsivePriority: 2}
-        ],
-        "processing": true,
-        "serverSide": true,
-        ajax:{
-          url : "{{ baseUrl('mcategory/getAllData')}}",
-          dataSrc : 'data'
-        },
-        stateSave: true
-      }); 
-  
-       // Delete a record
-       table.on( 'click', '.delete', function (e) {
-          $tr = $(this).closest('tr');
-          var data = table.row($tr).data();
-          var id = data['0'] + "~a";
-          var name = document.getElementById(id).innerHTML;
-          deleteData(name, function(result){
-            if (result==true)
-            {
-              $.ajax({
-                type : "POST",
-                url : "{{ baseUrl('mcategory/delete/')}}",
-                data : {id : data['0']},
-                success : function(data){
-                  console.log(data);
-                  var status = $.parseJSON(data);
-                  if(status['isforbidden']){
-                    window.location = "{{ baseUrl('Forbidden')}}";
-                  } else {
-                    if(!status['status']){
-                      for(var i=0 ; i< status['msg'].length; i++){
-                        var message = status['msg'][i];
-                        setNotification(message, 3, "bottom", "right");
-                      }
-                    } else {
-                      for(var i=0 ; i< status['msg'].length; i++){
-                        var message = status['msg'][i];
-                        setNotification(message, 2, "bottom", "right");
-                      }
-                      table.row($tr).remove().draw();
-                      e.preventDefault();
-                    }
-                  }
-                }
-              });
-            }
-          });
-       });
-  
-      //Like record
-      table.on( 'click', '.role', function () {
-          $tr = $(this).closest('tr');
-          var data = table.row($tr).data();
-          var id = data['Id'];
-          window.location = "{{ baseUrl('mcategory/editrole/')}}" + id;
-      });
-  
-      table.on( 'click', '.reportrole', function () {
-          $tr = $(this).closest('tr');
-          var data = table.row($tr).data();;
-          var id = data['Id'];
-          window.location = "{{ baseUrl('mcategory/editreportrole/')}}" + id;
-      });
+      ];
+
+      loadIndexDataTable("tablecategory", 
+      "{{ baseUrl('mcategory/getAllData')}}", 
+      "{{ lang('Form.search')}}", 
+      "{{ baseUrl('mcategory/delete/')}}",
+      columns
+      );
+      
     }
-  
     function init(){
       
     }

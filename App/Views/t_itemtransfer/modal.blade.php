@@ -18,16 +18,14 @@
                 <div class="table-responsive">
                   <table data-page-length="5" id = "tableModalItemtransfer" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                     <thead class=" text-default">
-
                         <th># </th>
-                        <th>{{   lang('Form.name')}}</th>
+                        <th>{{   lang('Form.name')}}</sh>
                         <th>{{   lang('Form.date')}}</th>
                         <th>{{   lang('Form.shopfrom')}}</th>
                     </thead>
                     <tfoot class=" text-default">
                       <tr role = "row">
-
-                      <th># </th>
+                        <th># </th>
                         <th>{{   lang('Form.name')}}</th>
                         <th>{{   lang('Form.date')}}</th>
                         <th>{{   lang('Form.shopfrom')}}</th>
@@ -79,8 +77,5 @@
     
   }
 
-  $('#tableModalItemtransfer').on('show.bs.modal', function (e) {
-    console.log("aaaa");
-    tableItemtransfer.ajax.reload(null, true);
-  })
+  
 </script>
