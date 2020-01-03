@@ -43,7 +43,6 @@ class M_category extends Base_Controller
 
             try {
                 $categories->validate();
-
                 $categories->save();
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
                 redirect('mcategory/add')->go();

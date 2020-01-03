@@ -83,31 +83,28 @@ class T_itemreceives extends Base_Model {
 			} else {
 				$params = []; 
 				$id = $this->save();
-				foreach ($this->get_list_T_Itemstockdetail() as $detail) {
-					$params = [
-						'where' => [
-							'M_Item_Id' => $detail->M_Item_Id,
-							'M_Shop_Id' => isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null
-						]
-					];
-					
-					if ($detail->M_Warehouse_Id)
-						$params['where']['M_Warehouse_Id'] = $detail->M_Warehouse_Id;
-					else
-						$params['where']['M_Warehouse_Id'] = "null";
+				foreach ($this->get_list_T_Itemreceivedetail() as $t) {
+					$transfer = T_itemtransfers::get($t->T_Itemtransfer_Id);
+					echo json_encode($transfer);
+					foreach($transfer->get_list_T_Itemtransferdetail() as $detail){
+						if ($detail->M_Warehouse_Id)
+							$params['where']['M_Warehouse_Id'] = $detail->M_Warehouse_Id;
+						else
+							$params['where']['M_Warehouse_Id'] = "null";
 
-					$item = M_items::get($detail->M_Item_Id);
-					$itemstock = M_itemstocks::getOne($params);
-					if ($itemstock) {
-						$itemstock->Qty += $detail->Qty * M_uomconversions::getQtyConversion($detail->M_Item_Id, $detail->M_Uom_Id, $item->M_Uom_Id);
-						$itemstock->save();
-					} else {
-						$newstock = new M_itemstocks();
-						$newstock->M_Item_Id = $detail->M_Item_Id;
-						$newstock->M_Uom_Id = $item->M_Uom_Id;
-						$newstock->M_Warehouse_Id = $detail->M_Warehouse_Id;
-						$newstock->Qty = $detail->Qty * M_uomconversions::getQtyConversion($detail->M_Item_Id, $detail->M_Uom_Id, $item->M_Uom_Id);
-						$newstock->save();
+						$item = M_items::get($detail->M_Item_Id);
+						$itemstock = M_itemstocks::getOne($params);
+						if ($itemstock) {
+							$itemstock->Qty += $detail->Qty * M_uomconversions::getQtyConversion($detail->M_Item_Id, $detail->M_Uom_Id, $item->M_Uom_Id);
+							$itemstock->save();
+						} else {
+							$newstock = new M_itemstocks();
+							$newstock->M_Item_Id = $detail->M_Item_Id;
+							$newstock->M_Uom_Id = $item->M_Uom_Id;
+							$newstock->M_Warehouse_Id = $detail->M_Warehouse_Id;
+							$newstock->Qty = $detail->Qty * M_uomconversions::getQtyConversion($detail->M_Item_Id, $detail->M_Uom_Id, $item->M_Uom_Id);
+							$newstock->save();
+						}
 					}
 				}
 			}
@@ -115,35 +112,6 @@ class T_itemreceives extends Base_Model {
 			$this->setToOriginal();
 			$this->Status = T_itemreceivestatus::CANCEL;
 			$id = $this->save();
-			// $params = [];
-			// $id = $this->save();
-			// foreach ($this->get_list_T_Itemstockdetail() as $detail) {
-			// 	$params = [
-			// 		'where' => [
-			// 			'M_Item_Id' => $detail->M_Item_Id,
-			// 			'M_Shop_Id' => isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null
-			// 		]
-			// 	];
-
-			// 	if ($detail->M_Warehouse_Id)
-			// 		$params['where']['M_Warehouse_Id'] = $detail->M_Warehouse_Id;
-			// 	else
-			// 		$params['where']['M_Warehouse_Id'] = "null";
-
-			// 	$item = M_items::get($detail->M_Item_Id);
-			// 	$itemstock = M_itemstocks::getOne($params);
-			// 	if ($itemstock) {
-			// 		$itemqty = $detail->Qty * M_uomconversions::getQtyConversion($detail->M_Item_Id, $detail->M_Uom_Id, $item->M_Uom_Id);
-			// 		if ($itemqty > $itemstock->Qty) {
-			// 			Nayo_Exception::throw(lang('Error.qty_is_not_enough') . " : {$item->Code} ~ $item->Name", $oldmodel);
-			// 		}
-
-			// 		$itemstock->Qty -= $itemqty;
-			// 		$itemstock->save();
-			// 	} else {
-			// 		Nayo_Exception::throw(lang('Error.item_not_available') . " : {$item->Code} ~ $item->Name", $oldmodel);
-			// 	}
-			// }
 		}
 
 		if ($id)

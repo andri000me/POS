@@ -27,7 +27,6 @@
 <script src="{{ baseUrl('assets/dist/plugins/all/js/bootstrap-datetimepicker.min.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/jquery.mask.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/jasny-bootstrap.min.js')}}"></script>
-<script src="{{ baseUrl('assets/dist/js/app.js')}}"></script>
 
 {{-- <!-- <script src="{{ baseUrl('assets/bootstrapdashboard/vendor/jquery/jquery.min.js')}}"></script> --> --}}
 {{-- <script src="{{ baseUrl('assets/js/popper.min.js')}}"></script>
@@ -61,6 +60,7 @@
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 
+<script src="{{ baseUrl('assets/dist/js/app.js')}}"></script>
   <script>
       <?php 
         if(Core\Session::isFlashExist('success_msg')){

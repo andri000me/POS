@@ -66,13 +66,15 @@
     
   }
 
-  function loadModalSelectItemtransfer(){
+  function loadModalSelectItemtransfer(callback){
     loadModalSelectDataTable("tableModalItemtransfer", 
-    "modalItemtransfer",
-    "{{  baseUrl('titemtransfer/getDataModal') }}", 
-    "{{  lang('Form.search')}}", 
-    "T_Itemtransfer_Id",
-    "itemtransfername"
+      "modalItemtransfer",
+      "{{  baseUrl('titemtransfer/getDataModal') }}", 
+      "{{  lang('Form.search')}}",
+      function(modalId, selected){
+        callback(modalId, selected)
+      }
+      
     )
     
   }

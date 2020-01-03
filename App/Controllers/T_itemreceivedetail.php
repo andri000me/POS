@@ -8,6 +8,7 @@ use App\Enums\T_itemreceivestatus;
 use Core\Libraries\Datatables;
 use App\Models\T_itemreceives;
 use App\Models\M_enumdetails;
+use Core\Database\DbTrans;
 use Core\Nayo_Exception;
 use Core\Session;
 
@@ -166,7 +167,15 @@ class T_itemreceivedetail extends Base_Controller
                             'type' => 'left'
                         ]
 
+                    ], 
+                    'm_shops' => [
+                        [
+                            'table' => 't_itemtransfers',
+                            'column' => 'M_Shop_Id_From',
+                            'type' => 'left'
+                        ]
                     ]
+
                 ]
             ];
             $datatable = new Datatables('T_itemreceivedetails', $params);
@@ -181,17 +190,19 @@ class T_itemreceivedetail extends Base_Controller
                     false
                 )->addColumn(
                     't_itemtransfers.TransNo',
-                    function ($row) {
-                        return $row->get_T_Itemtransfer()->TransNo;
+                    function($row){
+                        return "<div id = {$row->Id}~a>". $row->get_T_Itemtransfer()->TransNo . "</div>";
                     }
                 )->addColumn(
-                    't_itemtransfers.TransNo',
-                )->addColumn(
                     't_itemtransfers.TransDate',
-                    function ($row) {
-                        return get_formated_date($row->TransDate, "d-m-Y");
-                    },
-                    false
+                    function($row){
+                        return get_formated_date($row->get_T_Itemtransfer()->TransDate, 'd-m-Y');
+                    }
+                )->addColumn(
+                    'm_shops.Code',
+                    function($row){
+                        return $row->get_T_Itemtransfer()->get_M_Shop('From')->Code;
+                    }
                 )->addColumn(
                     'Action',
                     function ($row) {
@@ -266,6 +277,34 @@ class T_itemreceivedetail extends Base_Controller
                 echo json_encode($data);
             } else {
                 echo json_encode(deleteStatus("", FALSE, TRUE));
+            }
+        }
+    }
+
+    public function addDetailJson(){
+        $id = $this->request->post("id");
+        $detail = $this->request->post("detail");
+        if(!empty($detail)){
+            DbTrans::beginTransaction();
+            try {
+                foreach($detail as $d){
+                    $details = new T_itemreceivedetails();
+                    $details->T_Itemreceive_Id = $id;
+                    $details->T_Itemtransfer_Id = $d;
+                    $newid = $details->save();
+                    if($newid){
+                    
+                    }
+                    else {
+                        Nayo_Exception::throw("Gagal Menambah Data");
+                    }
+                }
+
+                DbTrans::commit();
+                echo "true";
+            } catch (Nayo_Exception $e){
+                DbTrans::rollback();
+                echo "false";
             }
         }
     }

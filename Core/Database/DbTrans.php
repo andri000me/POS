@@ -31,13 +31,13 @@ class DbTrans {
         
     }
 
-    public function rollback(){
+    public static function rollback(){
         
         self::$instance = self::getInstance();
         self::$instance->db->rollback();
     }
 
-    public function commit(){
+    public static function commit(){
         
         self::$instance = self::getInstance();
         self::$instance->db->commit();

@@ -111,7 +111,9 @@
                               <h3 class="card-title">{{lang('Form.detail')}}</h3>
                           </div>
                           <div class = "col-6 text-right">
-                            <a data-toggle="modal" data-target="#modalItemtransfer"><i class = "fa fa-plus"></i></a>
+
+                            <!-- <a id = "btnSaveDetail" href="#" data-toggle="modal" class = "btn-just-icon link-action"><i class = "fa fa-save"></i></a> -->
+                            <a href="#" data-toggle="modal" data-target="#modalItemtransfer" class = "btn-just-icon link-action"><i class = "fa fa-plus"></i></a>
                         </div>
                       </div>
                   </div>
@@ -150,90 +152,59 @@
     <?php  Core\View::presentBlade('t_itemtransfer.modal'); ?>
       <script>
         var tablereceivedetail;
+        var detailsadd = [];
         $(document).ready(function() {   
           dataTable();
-          loadModalSelectItemtransfer();
+          loadModalSelectItemtransfer(function(modalId, modaltable){
+            modalId.on('hide.bs.modal', function () {
+                var selected = modaltable.rows({ selected: true }).data();
+                if(selected.length > 0){
+                  for (var i=0; i < selected.length ;i++){
+                    detailsadd.push(selected[i][0]);
+                  }
+                  addDetail();
+                }
+            });
+
+            modalId.on('show.bs.modal', function () {
+                modaltable.ajax.url('{{ baseUrl("titemtransfer/getDataModalItemTransfer/$model->Id") }}').load();
+            });
+          });
         });
-      
-        function dataTable(){
-          var tablereceivedetail = $('#tableitemreceive').DataTable({
-            "pagingType": "full_numbers",
-            "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
-            "order" : [[2, "desc"]],
-            responsive: true,
-            language: {
-            search: "_INPUT_",
-            "search": "{{ lang('Form.search')}}"+" : "
-            },
-            "columnDefs": [ 
-              {
-                targets: 'disabled-sorting', 
-                orderable: false
-              },
-              {
-                "targets": [ 0 ],
-                "visible": false,
-                "searchable": false
-              },
-              {
-                  "className": "td-actions text-right", 
-                  "targets": [ 4 ] 
+
+    
+
+        function addDetail(){
+          $.ajax({
+            url : "{{baseUrl('titemreceivedetail/addDetailJson')}}",
+            type : "POST",
+            data : {id: "{{$model->Id}}", detail : detailsadd},
+            success : function (result){
+              if(result == "true"){
+                tablereceivedetail.ajax.reload(null, true);
               }
-            ],
-            columns: [
+            }
+          })
+        }
+
+        function dataTable(){
+          var columns = [
               { responsivePriority: 3},
               { responsivePriority: 1},
               { responsivePriority: 2},
               { responsivePriority: 4},
               { responsivePriority: 5},
-            ],
-            "processing": true,
-            "serverSide": true,
-            ajax:{
-              url : '{{ baseUrl("titemreceivedetail/getAllData/$model->Id")}}',
-              dataSrc : 'data'
-            },
-            stateSave: true
-          }); 
+          ];
 
-            // Delete a record
-            tablereceivedetail.on( 'click', '.delete', function (e) {
-              $tr = $(this).closest('tr');
-              var data = tablereceivedetail.row($tr).data();
-              var id = data['0'] + '~a';
-              var name = document.getElementById(id).innerHTML;
-              deleteData(name, function(result){
-                if (result==true)
-                {
-                  $.ajax({
-                    type : "POST",
-                    url : "{{ baseUrl('titemreceivedetail/delete/')}}",
-                    data : {id : data['0']},
-                    success : function(data){
-                      console.log(data);
-                      var status = $.parseJSON(data);
-                      if(status['isforbidden']){
-                        window.location = "{{ baseUrl('Forbidden')}}";
-                      } else {
-                        if(!status['status']){
-                          for(var i=0 ; i< status['msg'].length; i++){
-                            var message = status['msg'][i];
-                            setNotification(message, 3, "bottom", "right");
-                          }
-                        } else {
-                          for(var i=0 ; i< status['msg'].length; i++){
-                            var message = status['msg'][i];
-                            setNotification(message, 2, "bottom", "right");
-                          }
-                          tablereceivedetail.row($tr).remove().draw();
-                          e.preventDefault();
-                        }
-                      }
-                    }
-                  });
-                }
-              });
-            });
+          loadIndexDataTable("tableitemreceive", 
+            '{{ baseUrl("titemreceivedetail/getAllData/$model->Id")}}', 
+            "{{ lang('Form.search')}}", 
+            '{{ baseUrl("titemreceivedetail/delete/")}}',
+            columns,
+            function(indextable){
+              tablereceivedetail = indextable;
+            }
+          );
         }
       </script>
             

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\T_itemtransfers;
 use App\Controllers\Base_Controller;
 use App\Models\M_enumdetails;
+use App\Models\T_itemreceivedetails;
 use Core\Database\DbTrans;
 use Core\Libraries\Datatables;
 use Core\Nayo_Exception;
@@ -223,6 +224,62 @@ class T_itemtransfer extends Base_Controller
 
             echo json_encode($datatable->populate());
         }
+    }
+
+    public function getDataModalItemTransfer($id)
+    {
+       
+        $params = [
+            
+            'where' => [
+                't_itemtransfers.Status' => 2,
+                't_itemtransfers.M_Shop_Id_To' => isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null
+            ],
+            'join' => [
+                'm_shops' => [
+                    [
+                        'as' => 'shopfrom',
+                        'table' => 't_itemtransfers',
+                        'column' => 'M_shop_Id_From',
+                        'type' =>'LEFT'
+                    ]
+                ]
+            ],
+        ];
+
+        $transferid = [];
+        $receiveparams = ['where' => ['T_Itemreceive_Id' => $id]];
+        $itemreceivedetail = T_itemreceivedetails::getAll($receiveparams);
+        if($itemreceivedetail){
+            foreach($itemreceivedetail as $det){
+                $transferid[] = $det->T_Itemtransfer_Id;
+            }
+            $params['whereNotIn']['t_itemtransfers.Id'] = $transferid;
+
+        }
+
+
+        $datatable = new Datatables('T_itemtransfers', $params);
+        $datatable
+            ->addDtRowClass("rowdetail")
+            ->addColumn(
+                't_itemtransfers.Id'
+            )->addColumn(
+                't_itemtransfers.TransNo',
+            )->addColumn(
+                't_itemtransfers.TransDate',
+                function ($row) {
+                    return get_formated_date($row->TransDate, "d-m-Y");
+                },
+                false
+            )->addColumn(
+                'shopfrom.Code',
+                function($row){
+                    return $row->get_M_Shop('From')->Code;
+                }
+            );
+
+        echo json_encode($datatable->populate());
     }
 
     public function getDataModal()

@@ -166,6 +166,7 @@ $route->group('/titemtransfer', function () {
     $this->post('/delete', 'App\Controllers\T_itemtransfer@delete');
     $this->get('/getAllData', 'App\Controllers\T_itemtransfer@getAllData');
     $this->get('/getDataModal', 'App\Controllers\T_itemtransfer@getDataModal');
+    $this->get('/getDataModalItemTransfer/?', 'App\Controllers\T_itemtransfer@getDataModalItemTransfer');
 });
 
 $route->group('/titemtransferdetail', function () {
@@ -201,6 +202,7 @@ $route->group('/titemreceivedetail', function () {
     $this->post('/delete', 'App\Controllers\T_itemreceivedetail@delete');
     $this->get('/getAllData/?', 'App\Controllers\T_itemreceivedetail@getAllData');
     $this->get('/getDataModal', 'App\Controllers\T_itemreceivedetail@getDataModal');
+    $this->post('/addDetailJson', 'App\Controllers\T_itemreceivedetail@addDetailJson');
 });
 
 $route->group('/mshop', function () {

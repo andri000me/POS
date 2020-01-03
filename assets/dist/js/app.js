@@ -179,8 +179,7 @@ function setNotification(message, title, position = "bottom", align = "right") {
   });
 
   //datatables
-  var selectedDataSelect = [];
-  function loadIndexDataTable(table, sourceUrl, searchCaption,  deleteUrl = null, columns = []){
+  function loadIndexDataTable(table, sourceUrl, searchCaption,  deleteUrl = null, columns = [], callback = null){
     var indexTable = $("#"+table).DataTable({
         "pagingType": "full_numbers",
         "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
@@ -214,7 +213,9 @@ function setNotification(message, title, position = "bottom", align = "right") {
         },
         stateSave: true
       }); 
-  
+      if(callback != null){
+        callback(indexTable);
+      }
        // Delete a record
        indexTable.on( 'click', '.delete', function (e) {
           $tr = $(this).closest('tr');
@@ -229,7 +230,6 @@ function setNotification(message, title, position = "bottom", align = "right") {
                 url : deleteUrl,
                 data : {id : data['0']},
                 success : function(data){
-                  console.log(data);
                   var status = $.parseJSON(data);
                   if(status['isforbidden']){
                     window.location = "{{ baseUrl('Forbidden')}}";
@@ -297,7 +297,7 @@ function setNotification(message, title, position = "bottom", align = "right") {
        } );
   }
 
-  function loadModalSelectDataTable(table, modalId, sourceUrl, searchCaption, inputId, inputName){
+  function loadModalSelectDataTable(table, modalId, sourceUrl, searchCaption, callback){
     var modalTable  = $("#"+table).DataTable({
         "pagingType": "full_numbers",
         "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
@@ -336,15 +336,10 @@ function setNotification(message, title, position = "bottom", align = "right") {
   
           var data = modalTable.row($tr).data();
           var id = $tr.attr('id');
-          selectedDataSelect.push(data[0]);
           
        } );
 
-      $("#"+table).on('show.bs.modal', function (e) {
-        modalTable.ajax.reload(null, true);
-      });
-
-       
+       callback($('#'+modalId), modalTable);
   }
 
   function getSelectedModalData(){

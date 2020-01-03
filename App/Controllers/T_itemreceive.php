@@ -86,10 +86,11 @@ class T_itemreceive extends Base_Controller
             DbTrans::beginTransaction();
             try {
                 $itemreceives->validate($oldmodel);
-                if($itemreceives->savedata($oldmodel)){
+                $id = $itemreceives->savedata($oldmodel);
+                if($id){
                     DbTrans::commit();
-                    Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                    redirect('titemreceive')->go();
+                    // Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
+                    // redirect('titemreceive')->go();
                 }
             } catch (Nayo_Exception $e) {
                 DbTrans::rollback();
