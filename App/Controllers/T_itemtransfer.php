@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\T_itemtransfers;
 use App\Controllers\Base_Controller;
 use App\Models\M_enumdetails;
-use App\Models\T_itemreceivedetails;
+use App\Models\T_itemreceivingdetails;
 use Core\Database\DbTrans;
 use Core\Libraries\Datatables;
 use Core\Nayo_Exception;
@@ -248,10 +248,10 @@ class T_itemtransfer extends Base_Controller
         ];
 
         $transferid = [];
-        $receiveparams = ['where' => ['T_Itemreceive_Id' => $id]];
-        $itemreceivedetail = T_itemreceivedetails::getAll($receiveparams);
-        if($itemreceivedetail){
-            foreach($itemreceivedetail as $det){
+        $receivingparams = ['where' => ['T_Itemreceiving_Id' => $id]];
+        $itemreceivingdetail = T_itemreceivingdetails::getAll($receivingparams);
+        if($itemreceivingdetail){
+            foreach($itemreceivingdetail as $det){
                 $transferid[] = $det->T_Itemtransfer_Id;
             }
             $params['whereNotIn']['t_itemtransfers.Id'] = $transferid;

@@ -8,7 +8,7 @@ class migration_20191226105206 {
         
 
         $table = new Table();
-        $table->table('t_itemreceives');
+        $table->table('t_itemreceivings');
         $table->addColumn("M_Shop_Id", "int", "11", true, null, false, false, "TransDate");
         $table->addForeignKey("M_Shop_Id", "m_shops", "Id");
         $table->alter();

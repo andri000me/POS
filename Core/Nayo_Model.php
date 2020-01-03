@@ -674,7 +674,6 @@ class Nayo_Model
             $params = isset($argument[0]) ? $argument[0] : null;
 
             $entity = 'App\\Models\\' . table(substr($name, 9));
-            echo entity($this->table);
             $field = entity($this->table) . '_Id';
             if (!empty($this->Id)) {
                 $entityobject = $entity;

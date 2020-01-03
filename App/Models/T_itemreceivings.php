@@ -1,13 +1,13 @@
 <?php  
 namespace App\Models;
 
-use App\Enums\T_itemreceivestatus;
+use App\Enums\T_itemreceivingstatus;
 use App\Libraries\ResponseCode;
 use App\Models\Base_Model;
 use Core\Nayo_Exception;
 use Core\Session;
 
-class T_itemreceives extends Base_Model {
+class T_itemreceivings extends Base_Model {
 
 	public $Id;
 	public $TransNo;
@@ -20,12 +20,12 @@ class T_itemreceives extends Base_Model {
 	public $Modified;
 
     
-    protected $table = "t_itemreceives";
+    protected $table = "t_itemreceivings";
 
     public function __construct(){
 		parent::__construct();
 		$this->TransDate = get_current_date("d-m-Y");
-		$this->Status = T_itemreceivestatus::NEW;
+		$this->Status = T_itemreceivingstatus::NEW;
 		$this->M_Shop_Id = isset(Session::get(get_variable() . 'userdata')['M_Shop_Id']) ? Session::get(get_variable() . 'userdata')['M_Shop_Id'] : null;
 	
 	}
@@ -55,35 +55,35 @@ class T_itemreceives extends Base_Model {
 
 	public function getEnumStatus()
 	{
-		if ($this->Status == T_itemreceivestatus::NEW || is_null($this->Status)) {
-			return M_enumdetails::getEnums("ItemreceiveStatus", [3]);
-		} else if ($this->Status == T_itemreceivestatus::RECEIVED) {
-			return M_enumdetails::getEnums("ItemreceiveStatus", [1,3]);
+		if ($this->Status == T_itemreceivingstatus::NEW || is_null($this->Status)) {
+			return M_enumdetails::getEnums("ItemreceivingStatus", [3]);
+		} else if ($this->Status == T_itemreceivingstatus::RECEIVED) {
+			return M_enumdetails::getEnums("ItemreceivingStatus", [1,3]);
 		} 
 
-		return M_enumdetails::getEnums("ItemreceiveStatus", [1, 2]);
+		return M_enumdetails::getEnums("ItemreceivingStatus", [1, 2]);
 	}
 
 	public function savedata($oldmodel = null)
 	{
 		$id = null;
-		$formid = M_forms::getFormId(form_paging()['t_itemreceive']);
+		$formid = M_forms::getFormId(form_paging()['t_itemreceiving']);
 
 		if (is_null($this->Id)) {
 			$this->TransNo = G_transactionnumbers::getLastNumberByFormId($formid);
 			G_transactionnumbers::updateLastNumber($formid);
 		}
 
-		if ($this->Status == T_itemreceivestatus::NEW) {
+		if ($this->Status == T_itemreceivingstatus::NEW) {
 			$id = $this->save();
-		} else if ($this->Status == T_itemreceivestatus::RECEIVED) {
+		} else if ($this->Status == T_itemreceivingstatus::RECEIVED) {
 
 			if ($this->Status == $oldmodel->Status) {
 				$id = $this->save();
 			} else {
 				$params = []; 
 				$id = $this->save();
-				foreach ($this->get_list_T_Itemreceivedetail() as $t) {
+				foreach ($this->get_list_T_Itemreceivingdetail() as $t) {
 					$transfer = T_itemtransfers::get($t->T_Itemtransfer_Id);
 					echo json_encode($transfer);
 					foreach($transfer->get_list_T_Itemtransferdetail() as $detail){
@@ -110,7 +110,7 @@ class T_itemreceives extends Base_Model {
 			}
 		} else {
 			$this->setToOriginal();
-			$this->Status = T_itemreceivestatus::CANCEL;
+			$this->Status = T_itemreceivingstatus::CANCEL;
 			$id = $this->save();
 		}
 

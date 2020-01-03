@@ -17,7 +17,7 @@ class seed_20191226094358 {
         
         $table = new Table();
         $table->table('m_enums');
-        $table->addSeed('Name', 'ItemreceiveStatus');
+        $table->addSeed('Name', 'ItemreceivingStatus');
         $table->seeds();
 
         $details = [

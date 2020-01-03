@@ -419,9 +419,9 @@ $lang =  [
     "itemtransfer" => "Item Transfer",
     "transactionitemtransfer" => "Transaction Item Transfer",
     "transactionitemtransferdetail" => "Transaction Item Transfer Detail",
-    "itemreceive" => "Item Receive",
-    "transactionitemreceive" => "Transaction Item Receive",
-    "transactionitemreceivedetail" => "Transaction Item Receive Detail",
+    "itemreceiving" => "Item Receive",
+    "transactionitemreceiving" => "Transaction Item Receive",
+    "transactionitemreceivingdetail" => "Transaction Item Receive Detail",
     "received" => "Received"
 ];
 

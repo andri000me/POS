@@ -181,28 +181,28 @@ $route->group('/titemtransferdetail', function () {
 });
 
 
-$route->group('/titemreceive', function () {
-    $this->get('/', 'App\Controllers\T_itemreceive@index');
-    $this->get('/add', 'App\Controllers\T_itemreceive@add');
-    $this->post('/addsave', 'App\Controllers\T_itemreceive@addsave');
-    $this->get('/edit/?', 'App\Controllers\T_itemreceive@edit');
-    $this->get('/copy/?', 'App\Controllers\T_itemreceive@copy');
-    $this->post('/editsave', 'App\Controllers\T_itemreceive@editsave');
-    $this->post('/delete', 'App\Controllers\T_itemreceive@delete');
-    $this->get('/getAllData', 'App\Controllers\T_itemreceive@getAllData');
-    $this->get('/getDataModal', 'App\Controllers\T_itemreceive@getDataModal');
+$route->group('/titemreceiving', function () {
+    $this->get('/', 'App\Controllers\T_itemreceiving@index');
+    $this->get('/add', 'App\Controllers\T_itemreceiving@add');
+    $this->post('/addsave', 'App\Controllers\T_itemreceiving@addsave');
+    $this->get('/edit/?', 'App\Controllers\T_itemreceiving@edit');
+    $this->get('/copy/?', 'App\Controllers\T_itemreceiving@copy');
+    $this->post('/editsave', 'App\Controllers\T_itemreceiving@editsave');
+    $this->post('/delete', 'App\Controllers\T_itemreceiving@delete');
+    $this->get('/getAllData', 'App\Controllers\T_itemreceiving@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\T_itemreceiving@getDataModal');
 });
 
-$route->group('/titemreceivedetail', function () {
-    $this->get('/?', 'App\Controllers\T_itemreceivedetail@index');
-    $this->get('/add/?', 'App\Controllers\T_itemreceivedetail@add');
-    $this->post('/addsave', 'App\Controllers\T_itemreceivedetail@addsave');
-    $this->get('/edit/?', 'App\Controllers\T_itemreceivedetail@edit');
-    $this->post('/editsave', 'App\Controllers\T_itemreceivedetail@editsave');
-    $this->post('/delete', 'App\Controllers\T_itemreceivedetail@delete');
-    $this->get('/getAllData/?', 'App\Controllers\T_itemreceivedetail@getAllData');
-    $this->get('/getDataModal', 'App\Controllers\T_itemreceivedetail@getDataModal');
-    $this->post('/addDetailJson', 'App\Controllers\T_itemreceivedetail@addDetailJson');
+$route->group('/titemreceivingdetail', function () {
+    $this->get('/?', 'App\Controllers\T_itemreceivingdetail@index');
+    $this->get('/add/?', 'App\Controllers\T_itemreceivingdetail@add');
+    $this->post('/addsave', 'App\Controllers\T_itemreceivingdetail@addsave');
+    $this->get('/edit/?', 'App\Controllers\T_itemreceivingdetail@edit');
+    $this->post('/editsave', 'App\Controllers\T_itemreceivingdetail@editsave');
+    $this->post('/delete', 'App\Controllers\T_itemreceivingdetail@delete');
+    $this->get('/getAllData/?', 'App\Controllers\T_itemreceivingdetail@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\T_itemreceivingdetail@getDataModal');
+    $this->post('/addDetailJson', 'App\Controllers\T_itemreceivingdetail@addDetailJson');
 });
 
 $route->group('/mshop', function () {

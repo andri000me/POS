@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>{{lang('Form.transactionitemreceive')}}</h1>
+            <h1>{{lang('Form.transactionitemreceiving')}}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -26,13 +26,13 @@
                             <h3 class="card-title">{{lang('Form.data')}}</h3>
                         </div>
                         <div class = "col-6 text-right">
-                            <a class = "" href="{{ baseUrl('titemreceive/add')}}"><i class = "fa fa-plus"></i></a>
+                            <a class = "" href="{{ baseUrl('titemreceiving/add')}}"><i class = "fa fa-plus"></i></a>
                         </div>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                        <table id = "tableitemreceive" style="width: 100%;" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed " role="grid">
+                        <table id = "tableitemreceiving" style="width: 100%;" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed " role="grid">
                         <thead class=" text-default">
                             <tr role = "row">
                             <th># </th>
@@ -68,7 +68,7 @@
   
 </div>
   <script>
-    var tableitemreceive;
+    var tableitemreceiving;
     $(document).ready(function() {   
       
       init();
@@ -76,7 +76,7 @@
     });
   
     function dataTable(){
-      var tableitemreceive = $('#tableitemreceive').DataTable({
+      var tableitemreceiving = $('#tableitemreceiving').DataTable({
         "pagingType": "full_numbers",
         "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
         "order" : [[2, "desc"]],
@@ -112,16 +112,16 @@
         "processing": true,
         "serverSide": true,
         ajax:{
-          url : "{{ baseUrl('titemreceive/getAllData')}}",
+          url : "{{ baseUrl('titemreceiving/getAllData')}}",
           dataSrc : 'data'
         },
         stateSave: true
       }); 
   
        // Delete a record
-       tableitemreceive.on( 'click', '.delete', function (e) {
+       tableitemreceiving.on( 'click', '.delete', function (e) {
           $tr = $(this).closest('tr');
-          var data = tableitemreceive.row($tr).data();
+          var data = tableitemreceiving.row($tr).data();
           var id = data['0'] + '~a';
           var name = document.getElementById(id).innerHTML;
           deleteData(name, function(result){
@@ -129,7 +129,7 @@
             {
               $.ajax({
                 type : "POST",
-                url : "{{ baseUrl('titemreceive/delete/')}}",
+                url : "{{ baseUrl('titemreceiving/delete/')}}",
                 data : {id : data['0']},
                 success : function(data){
                   console.log(data);
@@ -147,7 +147,7 @@
                         var message = status['msg'][i];
                         setNotification(message, 2, "bottom", "right");
                       }
-                      tableitemreceive.row($tr).remove().draw();
+                      tableitemreceiving.row($tr).remove().draw();
                       e.preventDefault();
                     }
                   }

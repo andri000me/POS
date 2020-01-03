@@ -2,17 +2,17 @@
 
 namespace App\Controllers;
 
-use App\Models\T_itemreceivedetails;
+use App\Models\T_itemreceivingdetails;
 use App\Controllers\Base_Controller;
-use App\Enums\T_itemreceivestatus;
+use App\Enums\T_itemreceivingstatus;
 use Core\Libraries\Datatables;
-use App\Models\T_itemreceives;
+use App\Models\T_itemreceivings;
 use App\Models\M_enumdetails;
 use Core\Database\DbTrans;
 use Core\Nayo_Exception;
 use Core\Session;
 
-class T_itemreceivedetail extends Base_Controller
+class T_itemreceivingdetail extends Base_Controller
 {
 
     public function __construct()
@@ -25,17 +25,17 @@ class T_itemreceivedetail extends Base_Controller
         if ($this->hasPermission('m_item', 'Read')) {
 
             try {
-                $result = T_itemreceives::get($iditem);
-                // if ($result->Status != T_itemreceivestatus::NEW) {
-                //     Nayo_Exception::throw("{$result->TransNo} Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemreceiveStatus', $result->Status), $result);
+                $result = T_itemreceivings::get($iditem);
+                // if ($result->Status != T_itemreceivingstatus::NEW) {
+                //     Nayo_Exception::throw("{$result->TransNo} Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemreceivingStatus', $result->Status), $result);
                 // }
 
                 $data['model'] = $result;
 
-                $this->loadBlade('t_itemreceivedetail.index', lang('Form.itemreceive'), $data);
+                $this->loadBlade('t_itemreceivingdetail.index', lang('Form.itemreceiving'), $data);
             } catch (Nayo_Exception $e) {
                 Session::setFlash('add_warning_msg', array(0 => $e->messages));
-                redirect("titemreceive/edit/{$e->data->Id}")->with($e->data)->go();
+                redirect("titemreceiving/edit/{$e->data->Id}")->with($e->data)->go();
             }
         }
     }
@@ -44,20 +44,20 @@ class T_itemreceivedetail extends Base_Controller
     {
         if ($this->hasPermission('m_item', 'Write')) {
             try {
-                $result = T_itemreceives::get($iditem);
-                if ($result->Status != T_itemreceivestatus::NEW) {
-                    Nayo_Exception::throw("Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemreceiveStatus', $result->Status), $result);
+                $result = T_itemreceivings::get($iditem);
+                if ($result->Status != T_itemreceivingstatus::NEW) {
+                    Nayo_Exception::throw("Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemreceivingStatus', $result->Status), $result);
                 }
 
-                $itemreceives = new T_itemreceivedetails($iditem);
+                $itemreceivings = new T_itemreceivingdetails($iditem);
 
-                $data = setPageData_paging($itemreceives);
+                $data = setPageData_paging($itemreceivings);
 
                 $data['item'] = $result;
-                $this->loadBlade('t_itemreceivedetail.add', lang('Form.itemreceive'), $data);
+                $this->loadBlade('t_itemreceivingdetail.add', lang('Form.itemreceiving'), $data);
             } catch (Nayo_Exception $e) {
                 Session::setFlash('add_warning_msg', array(0 => $e->messages));
-                redirect("titemreceivedetail/{$e->data->Id}")->with($e->data)->go();
+                redirect("titemreceivingdetail/{$e->data->Id}")->with($e->data)->go();
             }
         }
     }
@@ -67,22 +67,22 @@ class T_itemreceivedetail extends Base_Controller
 
         if ($this->hasPermission('m_item', 'Write')) {
 
-            $itemreceives = new T_itemreceivedetails();
-            $itemreceives->parseFromRequest();
+            $itemreceivings = new T_itemreceivingdetails();
+            $itemreceivings->parseFromRequest();
             try {
-                $result = T_itemreceives::get($itemreceives->T_Itemreceive_Id);
-                if ($result->Status != T_itemreceivestatus::NEW) {
-                    Nayo_Exception::throw("Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemreceiveStatus', $result->Status), $result);
+                $result = T_itemreceivings::get($itemreceivings->T_Itemreceiving_Id);
+                if ($result->Status != T_itemreceivingstatus::NEW) {
+                    Nayo_Exception::throw("Tidak bisa menambah barang, Status : " . M_enumdetails::getEnumName('ItemreceivingStatus', $result->Status), $result);
                 }
-                $itemreceives->validate();
+                $itemreceivings->validate();
 
-                $itemreceives->save();
+                $itemreceivings->save();
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                redirect("titemreceivedetail/add/{$itemreceives->T_Itemreceive_Id}")->go();
+                redirect("titemreceivingdetail/add/{$itemreceivings->T_Itemreceiving_Id}")->go();
             } catch (Nayo_Exception $e) {
 
                 Session::setFlash('add_warning_msg', array(0 => $e->messages));
-                redirect("titemreceivedetail/add/{$itemreceives->T_Itemreceive_Id}")->with($itemreceives)->go();
+                redirect("titemreceivingdetail/add/{$itemreceivings->T_Itemreceiving_Id}")->with($itemreceivings)->go();
             }
         }
     }
@@ -92,13 +92,13 @@ class T_itemreceivedetail extends Base_Controller
         if ($this->hasPermission('m_item', 'Write')) {
 
 
-            $itemreceives = T_itemreceivedetails::get($id);
+            $itemreceivings = T_itemreceivingdetails::get($id);
 
-            $result = T_itemreceives::get($itemreceives->T_Itemreceive_Id);
+            $result = T_itemreceivings::get($itemreceivings->T_Itemreceiving_Id);
 
-            $data['model'] = $itemreceives;
+            $data['model'] = $itemreceivings;
             $data['item'] = $result;
-            $this->loadBlade('t_itemreceivedetail.edit', lang('Form.itemreceive'), $data);
+            $this->loadBlade('t_itemreceivingdetail.edit', lang('Form.itemreceiving'), $data);
         }
     }
 
@@ -109,20 +109,20 @@ class T_itemreceivedetail extends Base_Controller
 
             $id = $this->request->post('Id');
 
-            $itemreceives = T_itemreceivedetails::get($id);
-            $oldmodel = clone $itemreceives;
+            $itemreceivings = T_itemreceivingdetails::get($id);
+            $oldmodel = clone $itemreceivings;
 
-            $itemreceives->parseFromRequest();
+            $itemreceivings->parseFromRequest();
 
             try {
-                $itemreceives->validate($oldmodel);
-                $itemreceives->save();
+                $itemreceivings->validate($oldmodel);
+                $itemreceivings->save();
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                redirect("titemreceivedetail/$itemreceives->T_Itemreceive_Id")->go();
+                redirect("titemreceivingdetail/$itemreceivings->T_Itemreceiving_Id")->go();
             } catch (Nayo_Exception $e) {
 
                 Session::setFlash('edit_warning_msg', array(0 => $e->messages));
-                redirect("titemreceivedetail/edit/$id")->with($e->data)->go();
+                redirect("titemreceivingdetail/edit/$id")->with($e->data)->go();
             }
         }
     }
@@ -134,7 +134,7 @@ class T_itemreceivedetail extends Base_Controller
         $id = $this->request->post("id");
         if ($this->hasPermission('m_item', 'Delete')) {
 
-            $model = T_itemreceivedetails::get($id);
+            $model = T_itemreceivingdetails::get($id);
             $result = $model->delete();
             if (!is_bool($result)) {
                 $deletemsg = getDeleteErrorMessage();
@@ -150,19 +150,19 @@ class T_itemreceivedetail extends Base_Controller
         }
     }
 
-    public function getAllData($receiveid)
+    public function getAllData($receivingid)
     {
 
         if ($this->hasPermission('m_item', 'Read')) {
 
             $params = [
                 'where' => [
-                    'T_Itemreceive_Id' => $receiveid
+                    'T_Itemreceiving_Id' => $receivingid
                 ],
                 'join' => [
                     't_itemtransfers' => [
                         [
-                            'table' => 't_itemreceivedetails',
+                            'table' => 't_itemreceivingdetails',
                             'column' => 'T_Itemtransfer_Id',
                             'type' => 'left'
                         ]
@@ -178,11 +178,11 @@ class T_itemreceivedetail extends Base_Controller
 
                 ]
             ];
-            $datatable = new Datatables('T_itemreceivedetails', $params);
+            $datatable = new Datatables('T_itemreceivingdetails', $params);
             $datatable
                 ->addDtRowClass("rowdetail")
                 ->addColumn(
-                    't_itemreceivedetails.Id',
+                    't_itemreceivingdetails.Id',
                     function ($row) {
                         return $row->Id;
                     },
@@ -228,10 +228,10 @@ class T_itemreceivedetail extends Base_Controller
         if ($iditem > 0)
             $params = [
                 'where' => [
-                    'T_Itemreceive_Id' => $iditem
+                    'T_Itemreceiving_Id' => $iditem
                 ]
             ];
-        $datatable = new Datatables('T_itemreceivedetails', $params);
+        $datatable = new Datatables('T_itemreceivingdetails', $params);
         $datatable
             ->addDtRowClass("rowdetail")
             ->addColumn(
@@ -247,7 +247,7 @@ class T_itemreceivedetail extends Base_Controller
                     return $row->NIK;
                 }
             )->addColumn(
-                'T_Itemreceive_Id',
+                'T_Itemreceiving_Id',
                 function ($row) {
                     return $row->get_M_Item()->getHeadFamily();
                 }
@@ -268,7 +268,7 @@ class T_itemreceivedetail extends Base_Controller
         $role = $this->request->post("role");
         if ($this->hasPermission($role, 'Write')) {
 
-            $model = T_itemreceivedetails::get($id);
+            $model = T_itemreceivingdetails::get($id);
             if ($model) {
                 $data = [
                     'data' => $model
@@ -288,8 +288,8 @@ class T_itemreceivedetail extends Base_Controller
             DbTrans::beginTransaction();
             try {
                 foreach($detail as $d){
-                    $details = new T_itemreceivedetails();
-                    $details->T_Itemreceive_Id = $id;
+                    $details = new T_itemreceivingdetails();
+                    $details->T_Itemreceiving_Id = $id;
                     $details->T_Itemtransfer_Id = $d;
                     $newid = $details->save();
                     if($newid){

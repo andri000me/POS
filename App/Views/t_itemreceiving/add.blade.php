@@ -4,7 +4,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>{{lang('Form.transactionitemreceive')}}</h1>
+                <h1>{{lang('Form.transactionitemreceiving')}}</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -26,13 +26,13 @@
                                 <h3 class="card-title">{{lang('Form.add')}}</h3>
                             </div>
                             {{-- <div class = "col-6 text-right">
-                                <a class = "" href="{{ baseUrl('titemreceive/add')}}"><i class = "fa fa-plus"></i></a>
+                                <a class = "" href="{{ baseUrl('titemreceiving/add')}}"><i class = "fa fa-plus"></i></a>
                             </div> --}}
                         </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                            {!! formOpen(baseUrl('titemreceive/addsave'))!!}
+                            {!! formOpen(baseUrl('titemreceiving/addsave'))!!}
                                 <div class="form-group">
                                   <div class="required">
                                     <label>{{ lang('Form.number') }}</label>
@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="form-group">
                                   <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
-                                  <a href="{{ baseUrl('titemreceive') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
+                                  <a href="{{ baseUrl('titemreceiving') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
                                 </div>
                               
                             {!! formClose() !!}

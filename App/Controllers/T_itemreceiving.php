@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\T_itemreceives;
+use App\Models\T_itemreceivings;
 use App\Controllers\Base_Controller;
 use App\Models\M_enumdetails;
 use Core\Database\DbTrans;
@@ -10,7 +10,7 @@ use Core\Libraries\Datatables;
 use Core\Nayo_Exception;
 use Core\Session;
 
-class T_itemreceive extends Base_Controller
+class T_itemreceiving extends Base_Controller
 {
 
     public function __construct()
@@ -20,82 +20,82 @@ class T_itemreceive extends Base_Controller
 
     public function index()
     {
-        if ($this->hasPermission('t_itemreceive', 'Read')) {
-            $this->loadBlade('t_itemreceive.index', lang('Form.itemreceive'));
+        if ($this->hasPermission('t_itemreceiving', 'Read')) {
+            $this->loadBlade('t_itemreceiving.index', lang('Form.itemreceiving'));
         }
     }
 
     public function add()
     {
-        if ($this->hasPermission('t_itemreceive', 'Write')) {
-            $itemreceives = new T_itemreceives();
-            $data = setPageData_paging($itemreceives);
-            $this->loadBlade('t_itemreceive.add', lang('Form.itemreceive'), $data);
+        if ($this->hasPermission('t_itemreceiving', 'Write')) {
+            $itemreceivings = new T_itemreceivings();
+            $data = setPageData_paging($itemreceivings);
+            $this->loadBlade('t_itemreceiving.add', lang('Form.itemreceiving'), $data);
             // echo json_encode($data);
-            // echo \json_encode($itemreceives->getEnumStatus());
+            // echo \json_encode($itemreceivings->getEnumStatus());
         }
     }
 
     public function addsave()
     {
 
-        if ($this->hasPermission('t_itemreceive', 'Write')) {
+        if ($this->hasPermission('t_itemreceiving', 'Write')) {
 
-            $itemreceives = new T_itemreceives();
-            $itemreceives->parseFromRequest();
+            $itemreceivings = new T_itemreceivings();
+            $itemreceivings->parseFromRequest();
             DbTrans::beginTransaction();
             try {
-                $itemreceives->validate();
-                $id = $itemreceives->savedata();
+                $itemreceivings->validate();
+                $id = $itemreceivings->savedata();
                 if($id){
                     DbTrans::commit();
                     Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                    redirect("titemreceive/edit/{$id}")->go();
+                    redirect("titemreceiving/edit/{$id}")->go();
                 }
             } catch (Nayo_Exception $e) {
 
                 DbTrans::rollback();
                 Session::setFlash('add_warning_msg', array(0 => $e->messages));
-                redirect("titemreceive/add")->with($e->data)->go();
+                redirect("titemreceiving/add")->with($e->data)->go();
             }
         }
     }
 
     public function edit($id)
     {
-        if ($this->hasPermission('t_itemreceive', 'Write')) {
+        if ($this->hasPermission('t_itemreceiving', 'Write')) {
 
-            $itemreceives = T_itemreceives::get($id);
-            $data['model'] = $itemreceives;
-            $this->loadBlade('t_itemreceive.edit', lang('Form.itemreceive'), $data);
+            $itemreceivings = T_itemreceivings::get($id);
+            $data['model'] = $itemreceivings;
+            $this->loadBlade('t_itemreceiving.edit', lang('Form.itemreceiving'), $data);
         }
     }
 
     public function editsave()
     {
 
-        if ($this->hasPermission('t_itemreceive', 'Write')) {
+        if ($this->hasPermission('t_itemreceiving', 'Write')) {
             $id = $this->request->post('Id');
 
-            $itemreceives = T_itemreceives::get($id);
-            $oldmodel = clone $itemreceives;
+            $itemreceivings = T_itemreceivings::get($id);
+            $oldmodel = clone $itemreceivings;
 
-            $itemreceives->parseFromRequest();
-            // echo json_encode($itemreceives);
+            $itemreceivings->parseFromRequest();
+            // echo json_encode($itemreceivings);
 
             DbTrans::beginTransaction();
             try {
-                $itemreceives->validate($oldmodel);
-                $id = $itemreceives->savedata($oldmodel);
+                $itemreceivings->validate($oldmodel);
+                $id = $itemreceivings->savedata($oldmodel);
                 if($id){
                     DbTrans::commit();
                     // Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                    // redirect('titemreceive')->go();
+                    // redirect('titemreceiving')->go();
                 }
             } catch (Nayo_Exception $e) {
                 DbTrans::rollback();
                 Session::setFlash('edit_warning_msg', array(0 => $e->messages));
-                redirect("titemreceive/edit/{$id}")->with($e->data)->go();
+                redirect("titemreceiving/edit/{$id}")->with($e->data)->go();
             }
         }
     }
@@ -103,16 +103,16 @@ class T_itemreceive extends Base_Controller
     public function copy($id){
         DbTrans::beginTransaction();
         try {
-            $exist = T_itemreceives::get($id);
+            $exist = T_itemreceivings::get($id);
             $data = $exist->copyFrom();
             DbTrans::commit();
             Session::setFlash('success_msg', array(0 => lang('Info.success_to_copy')));
-            redirect("titemreceive/edit/{$data->Id}")->with($data)->go();
+            redirect("titemreceiving/edit/{$data->Id}")->with($data)->go();
 
         } catch (Nayo_Exception $e) {
             DbTrans::rollback();
             Session::setFlash('edit_warning_msg', array(0 => $e->messages));
-            redirect("titemreceive/edit/{$id}")->with($e->data)->go();
+            redirect("titemreceiving/edit/{$id}")->with($e->data)->go();
         }
     }
 
@@ -120,8 +120,8 @@ class T_itemreceive extends Base_Controller
     {
 
         $id = $this->request->post("id");
-        if ($this->hasPermission('t_itemreceive', 'Delete')) {
-            $model = T_itemreceives::get($id);
+        if ($this->hasPermission('t_itemreceiving', 'Delete')) {
+            $model = T_itemreceivings::get($id);
             $result = $model->delete();
             if (!is_bool($result)) {
                 $deletemsg = getDeleteErrorMessage();
@@ -140,51 +140,51 @@ class T_itemreceive extends Base_Controller
     public function getAllData()
     {
 
-        if ($this->hasPermission('t_itemreceive', 'Read')) {
+        if ($this->hasPermission('t_itemreceiving', 'Read')) {
 
             $params = [
                 'join' => [
                     'm_shops' => [
                         [
-                            'table' => 't_itemreceives',
-                            'column' => 'M_shop_Id',
+                            'table' => 't_itemreceivings',
+                            'column' => 'M_Shop_Id',
                             'type' =>'LEFT'
                         ]
                     ]
                 ]
             ];
             
-            $datatable = new Datatables('T_itemreceives', $params);
+            $datatable = new Datatables('T_itemreceivings', $params);
             $datatable
                 ->addDtRowClass("rowdetail")
                 ->addColumn(
-                    't_itemreceives.Id',
+                    't_itemreceivings.Id',
                     function ($row) {
                         return $row->Id;
                     },
                     false,
                     false
                 )->addColumn(
-                    't_itemreceives.TransNo',
+                    't_itemreceivings.TransNo',
                     function ($row) {
                         return
                             formLink($row->TransNo, array(
                                 "id" => $row->Id . "~a",
-                                "href" => baseUrl('titemreceive/edit/' . $row->Id),
+                                "href" => baseUrl('titemreceiving/edit/' . $row->Id),
                                 "class" => "text-muted"
                             ));
                     }
               
                 )->addColumn(
-                    't_itemreceives.TransDate',
+                    't_itemreceivings.TransDate',
                     function($row){
                         return get_formated_date($row->TransDate, "Y-m-d");
                     }
               
                 )->addColumn(
-                    't_itemreceives.Status',
+                    't_itemreceivings.Status',
                     function($row){
-                        return M_enumdetails::getEnumName('ItemreceiveStatus', $row->Status);
+                        return M_enumdetails::getEnumName('ItemreceivingStatus', $row->Status);
                     }
               
                 )->addColumn(
@@ -215,7 +215,7 @@ class T_itemreceive extends Base_Controller
     public function getDataModal()
     {
 
-        $datatable = new Datatables('T_itemreceives');
+        $datatable = new Datatables('T_itemreceivings');
         $datatable
             ->addDtRowClass("rowdetail")
             ->addColumn(

@@ -9,7 +9,7 @@ class seed_20191226095012 {
     public function up(){
         
         $builder = new DBBuilder();
-        $data = $builder->query("SELECT * FROM m_forms where FormName = 't_itemreceives'")->fetchObject();
+        $data = $builder->query("SELECT * FROM m_forms where FormName = 't_itemreceivings'")->fetchObject();
         $table = new Table();
         $table->table('m_formsettings');
         $table->addSeed('M_Form_Id', $data[0]->Id);

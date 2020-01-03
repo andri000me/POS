@@ -4,7 +4,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>{{lang('Form.transactionitemreceive')}}</h1>
+                <h1>{{lang('Form.transactionitemreceiving')}}</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -26,14 +26,14 @@
                                 <h3 class="card-title">{{lang('Form.edit')}}</h3>
                             </div>
                             <div class = "col-6 text-right">
-                                <a class = "link-action" href='{{ baseUrl("titemreceive/copy/$model->Id")}}'><i class = "fa fa-clone"></i> {{ lang('Form.copy')}}</a>
-                              <!-- <a class = "link-action" href="{{ baseUrl("titemreceivedetail/$model->Id")}}"><i class = "fa fa-plus"></i> {{ lang('Form.detail')}}</a> -->
+                                <a class = "link-action" href='{{ baseUrl("titemreceiving/copy/$model->Id")}}'><i class = "fa fa-clone"></i> {{ lang('Form.copy')}}</a>
+                              <!-- <a class = "link-action" href="{{ baseUrl("titemreceivingdetail/$model->Id")}}"><i class = "fa fa-plus"></i> {{ lang('Form.detail')}}</a> -->
                           </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                              {!! formOpen(baseUrl('titemreceive/editsave'))!!}
+                              {!! formOpen(baseUrl('titemreceiving/editsave'))!!}
                               {!! formInput(
                                 array(
                                   "id" => "Id",
@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="form-group">
                                   <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
-                                  <a href="{{ baseUrl('titemreceive') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
+                                  <a href="{{ baseUrl('titemreceiving') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
                                 </div>
                               {!! formClose() !!}
                         </div>
@@ -119,7 +119,7 @@
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
-                          <table id = "tableitemreceive" style="width: 100%;" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed " role="grid">
+                          <table id = "tableitemreceiving" style="width: 100%;" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed " role="grid">
                           <thead class=" text-default">
                               <tr role = "row">
                               <th># </th>
@@ -151,7 +151,7 @@
     </div>
     <?php  Core\View::presentBlade('t_itemtransfer.modal'); ?>
       <script>
-        var tablereceivedetail;
+        var tablereceivingdetail;
         var detailsadd = [];
         $(document).ready(function() {   
           dataTable();
@@ -176,12 +176,12 @@
 
         function addDetail(){
           $.ajax({
-            url : "{{baseUrl('titemreceivedetail/addDetailJson')}}",
+            url : "{{baseUrl('titemreceivingdetail/addDetailJson')}}",
             type : "POST",
             data : {id: "{{$model->Id}}", detail : detailsadd},
             success : function (result){
               if(result == "true"){
-                tablereceivedetail.ajax.reload(null, true);
+                tablereceivingdetail.ajax.reload(null, true);
               }
             }
           })
@@ -196,13 +196,13 @@
               { responsivePriority: 5},
           ];
 
-          loadIndexDataTable("tableitemreceive", 
-            '{{ baseUrl("titemreceivedetail/getAllData/$model->Id")}}', 
+          loadIndexDataTable("tableitemreceiving", 
+            '{{ baseUrl("titemreceivingdetail/getAllData/$model->Id")}}', 
             "{{ lang('Form.search')}}", 
-            '{{ baseUrl("titemreceivedetail/delete/")}}',
+            '{{ baseUrl("titemreceivingdetail/delete/")}}',
             columns,
             function(indextable){
-              tablereceivedetail = indextable;
+              tablereceivingdetail = indextable;
             }
           );
         }
