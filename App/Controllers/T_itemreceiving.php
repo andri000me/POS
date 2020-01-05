@@ -89,8 +89,8 @@ class T_itemreceiving extends Base_Controller
                 $id = $itemreceivings->savedata($oldmodel);
                 if($id){
                     DbTrans::commit();
-                    // Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                    // redirect('titemreceiving')->go();
+                    Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
+                    redirect('titemreceiving')->go();
                 }
             } catch (Nayo_Exception $e) {
                 DbTrans::rollback();

@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Enums\T_itemreceivingstatus;
+use App\Enums\T_itemtransferstatus;
 use App\Libraries\ResponseCode;
 use App\Models\Base_Model;
 use Core\Nayo_Exception;
@@ -85,8 +86,9 @@ class T_itemreceivings extends Base_Model {
 				$id = $this->save();
 				foreach ($this->get_list_T_Itemreceivingdetail() as $t) {
 					$transfer = T_itemtransfers::get($t->T_Itemtransfer_Id);
-					echo json_encode($transfer);
 					foreach($transfer->get_list_T_Itemtransferdetail() as $detail){
+						$params['where']['M_Shop_Id'] = $transfer->M_Shop_Id_To;
+						$params['where']['M_Item_Id'] = $detail->M_Item_Id;
 						if ($detail->M_Warehouse_Id)
 							$params['where']['M_Warehouse_Id'] = $detail->M_Warehouse_Id;
 						else
@@ -106,7 +108,11 @@ class T_itemreceivings extends Base_Model {
 							$newstock->save();
 						}
 					}
+					$transfer->Status = T_itemtransferstatus::RELEASE;
+					$transfer->ReceivedDate = get_current_date('Y-m-d H:i:s');
+					$transfer->save();
 				}
+
 			}
 		} else {
 			$this->setToOriginal();
