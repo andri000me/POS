@@ -4,3 +4,4 @@
 App/Config/Config.php
 App/Config/Database.php
 log.txt
+/assets/uploads

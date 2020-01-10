@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>{{lang('Form.mastermenucategory')}}</h1>
+          <h1>{{lang('Form.mastermenu')}}</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -26,13 +26,13 @@
                 <h3 class="card-title">{{lang('Form.edit')}}</h3>
               </div>
               {{-- <div class = "col-6 text-right">
-                                <a class = "" href="{{ baseUrl('mmenucategory/add')}}"><i class="fa fa-plus"></i></a>
+                                <a class = "" href="{{ baseUrl('mmenu/add')}}"><i class="fa fa-plus"></i></a>
             </div> --}}
           </div>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          {!! formOpenMultipart(baseUrl('mmenucategory/editsave'))!!}
+          {!! formOpenMultipart(baseUrl('mmenu/editsave'))!!}
           {!! formInput(
           array(
           "id" => "Id",
@@ -49,7 +49,7 @@
               array(
               "id" => "Name",
               "type" => "text",
-              "placeholder" => lang('Form.menucategory'),
+              "placeholder" => lang('Form.menu'),
               "class" => "form-control",
               "name" => "Name",
               "value" => $model->Name,
@@ -84,7 +84,7 @@
             array(
             "id" => "Description",
             "type" => "text",
-            "placeholder" => lang('Form.menucategory'),
+            "placeholder" => lang('Form.menu'),
             "class" => "form-control",
             "name" => "Description"
             )
@@ -92,7 +92,7 @@
           </div>
           <div class="form-group">
             <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
-            <a href="{{ baseUrl('mmenucategory') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
+            <a href="{{ baseUrl('mmenu') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
           </div>
           {!! formClose() !!}
         </div>

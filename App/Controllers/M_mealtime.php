@@ -184,6 +184,10 @@ class M_mealtime extends Base_Controller
                 function ($row) {
                     return $row->Name;
                 }
+            )->addColumn(
+                'StartTime'
+            )->addColumn(
+                'EndTime'
             );
 
         echo json_encode($datatable->populate());

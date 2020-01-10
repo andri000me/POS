@@ -44,11 +44,12 @@ class M_enumdetails extends Nayo_Model {
                 'Name' => $enumName
             ]
         ];
-
-        $detailParams = [
-            'whereNotIn' => [
-                'Value' => $except
-            ]
+        $detailParams = [];
+        if(!empty($except))
+            $detailParams = [
+                'whereNotIn' => [
+                    'Value' => $except
+                ]
             ];
 
         $enums = $enum->findOne($params)->get_list_M_Enumdetail($detailParams);

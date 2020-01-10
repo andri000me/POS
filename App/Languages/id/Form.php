@@ -447,4 +447,9 @@ $lang =  [
     "endtime" => "Bearkhir",
     "mastermenucategory" => "Master Menu Kategori",
     "menucategory" => "Menu Kategori",
+    "mastermenu" => "Master Menu",
+    "menu" => "Menu",
+    "deliveryonly" => "Kirim",
+    "collectiononly" => "Makan Ditempat",
+    "orderrestriction" => "Penyajian"
 ];

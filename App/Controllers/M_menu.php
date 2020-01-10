@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\M_menucategories;
+use App\Models\M_menus;
 use App\Controllers\Base_Controller;
 use Core\Database\DbTrans;
 use Core\Libraries\Datatables;
@@ -10,7 +10,7 @@ use Core\Libraries\File;
 use Core\Nayo_Exception;
 use Core\Session;
 
-class M_menucategory extends Base_Controller
+class M_menu extends Base_Controller
 {
 
     public function __construct()
@@ -20,96 +20,96 @@ class M_menucategory extends Base_Controller
 
     public function index()
     {
-        if ($this->hasPermission('m_menucategory', 'Read')) {
+        if ($this->hasPermission('m_menu', 'Read')) {
 
-            $this->loadBlade('m_menucategory.index', lang('Form.menucategory'));
+            $this->loadBlade('m_menu.index', lang('Form.menu'));
         }
     }
 
     public function add()
     {
-        if ($this->hasPermission('m_menucategory', 'Write')) {
-            $menucategories = new M_menucategories();
-            $data = setPageData_paging($menucategories);
-            $this->loadBlade('m_menucategory.add', lang('Form.menucategory'), $data);
+        if ($this->hasPermission('m_menu', 'Write')) {
+            $menus = new M_menus();
+            $data = setPageData_paging($menus);
+            $this->loadBlade('m_menu.add', lang('Form.menu'), $data);
         }
     }
 
     public function addsave()
     {
 
-        if ($this->hasPermission('m_menucategory', 'Write')) {
+        if ($this->hasPermission('m_menu', 'Write')) {
 
-            $menucategories = new M_menucategories();
-            $menucategories->parseFromRequest();
+            $menus = new M_menus();
+            $menus->parseFromRequest();
 
             try {
-                $menucategories->validate();
-                $file = new File("assets/uploads/menucategory",['jpg', 'png']);
+                $menus->validate();
+                $file = new File("assets/uploads/menu",['jpg', 'png']);
                 $files = $_FILES['photo'];
                 if($file->upload($files)){  
-                    $menucategories->PhotoUrl = $file->getFileUrl();
-                    $menucategories->save();
+                    $menus->PhotoUrl = $file->getFileUrl();
+                    $menus->save();
                 } else {
-                    Nayo_Exception::throw($file->getErrorMessage(), $menucategories);
+                    Nayo_Exception::throw($file->getErrorMessage(), $menus);
                 }
                 
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                redirect('mmenucategory/add')->go();
+                redirect('mmenu/add')->go();
             } catch (Nayo_Exception $e) {
 
                 Session::setFlash('add_warning_msg', array(0 => $e->messages));
-                redirect("mmenucategory/add")->with($menucategories)->go();
+                redirect("mmenu/add")->with($menus)->go();
             }
         }
     }
 
     public function edit($id)
     {
-        if ($this->hasPermission('m_menucategory', 'Write')) {
+        if ($this->hasPermission('m_menu', 'Write')) {
 
-            $menucategories = M_menucategories::get($id);
+            $menus = M_menus::get($id);
 
-            $data['model'] = $menucategories;
-            $this->loadBlade('m_menucategory.edit', lang('Form.menucategory'), $data);
+            $data['model'] = $menus;
+            $this->loadBlade('m_menu.edit', lang('Form.menu'), $data);
         }
     }
 
     public function editsave()
     {
 
-        if ($this->hasPermission('m_menucategory', 'Write')) {
+        if ($this->hasPermission('m_menu', 'Write')) {
 
             $id = $this->request->post('Id');
 
-            $menucategories = M_menucategories::get($id);
-            $oldmodel = clone $menucategories;
+            $menus = M_menus::get($id);
+            $oldmodel = clone $menus;
 
-            $menucategories->parseFromRequest();
+            $menus->parseFromRequest();
             DbTrans::beginTransaction();
             try {
-                $menucategories->validate($oldmodel);
-                $file = new File("assets/uploads/menucategory",['jpg', 'png']);
+                $menus->validate($oldmodel);
+                $file = new File("assets/uploads/menu",['jpg', 'png']);
                 $files = $_FILES['photo'];
                 if($file->upload($files)){  
-                    $menucategories->PhotoUrl = $file->getFileUrl();
-                    $ids = $menucategories->save();
+                    $menus->PhotoUrl = $file->getFileUrl();
+                    $ids = $menus->save();
                     if($ids){
                         unlink($oldmodel->PhotoUrl);
                     } else {
-                        Nayo_Exception::throw("Gagal Menyimpan Data", $menucategories);
+                        Nayo_Exception::throw("Gagal Menyimpan Data", $menus);
                     }
                 } else {
-                    Nayo_Exception::throw($file->getErrorMessage(), $menucategories);
+                    Nayo_Exception::throw($file->getErrorMessage(), $menus);
                 }
                 
                 DbTrans::commit();
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                redirect("mmenucategory/edit/{$id}")->go();
+                redirect("mmenu/edit/{$id}")->go();
             } catch (Nayo_Exception $e) {
                 DbTrans::rollback();
                 Session::setFlash('edit_warning_msg', array(0 => $e->messages));
-                redirect("mmenucategory/edit/{$id}")->with($menucategories)->go();
+                redirect("mmenu/edit/{$id}")->with($menus)->go();
             }
         }
     }
@@ -119,9 +119,9 @@ class M_menucategory extends Base_Controller
     {
 
         $id = $this->request->post("id");
-        if (isPermitted_paging($_SESSION[get_variable() . 'userdata']['M_Groupuser_Id'], form_paging()['m_menucategory'], 'Delete')) {
+        if (isPermitted_paging($_SESSION[get_variable() . 'userdata']['M_Groupuser_Id'], form_paging()['m_menu'], 'Delete')) {
 
-            $model = M_menucategories::get($id);
+            $model = M_menus::get($id);
 
             $result = $model->delete();
             if (!is_bool($result)) {
@@ -141,9 +141,19 @@ class M_menucategory extends Base_Controller
     public function getAllData()
     {
 
-        if ($this->hasPermission('m_menucategory', 'Read')) {
-
-            $datatable = new Datatables('M_menucategories');
+        if ($this->hasPermission('m_menu', 'Read')) {
+            $params = [
+                'join' => [
+                    'm_menucategories' =>[
+                        [
+                            'table' => 'm_menus',
+                            'column' => 'M_Menucategory_Id',
+                            'type' => 'Left'
+                        ]
+                    ]
+                ]
+            ];
+            $datatable = new Datatables('M_menus', $params);
             $datatable
                 ->addDtRowClass("rowdetail")
                 ->addColumn(
@@ -157,12 +167,22 @@ class M_menucategory extends Base_Controller
                         return
                             formLink($row->Name, array(
                                 "id" => $row->Id . "~a",
-                                "href" => baseUrl('mmenucategory/edit/' . $row->Id),
+                                "href" => baseUrl('mmenu/edit/' . $row->Id),
                                 "class" => "text-muted"
                             ));
                     }
                 )->addColumn(
-                    'Description'
+                    'm_menucategories.Name'
+                )->addColumn(
+                    'Price'
+                )->addColumn(
+                    'Status',
+                    function ($row) {
+                        if ($row->Status)
+                            return "<td><a><i class='fa fa-check'></i></a></td>";
+                        else
+                            return "<td><a><i class='fa fa-close'></i></a></td>";
+                    }
                 )->addColumn(
                     'Created',
                     null,
@@ -188,7 +208,7 @@ class M_menucategory extends Base_Controller
     public function getDataModal()
     {
 
-        $datatable = new Datatables('M_menucategories');
+        $datatable = new Datatables('M_menus');
         $datatable
             ->addDtRowClass("rowdetail")
             ->addColumn(

@@ -17,7 +17,7 @@ class DbTrans {
         
     }
 
-    public static function getInstance(){
+    private static function getInstance(){
         if(!self::$instance)    
             self::$instance = new static;
         

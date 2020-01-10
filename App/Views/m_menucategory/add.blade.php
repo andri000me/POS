@@ -33,7 +33,7 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                               
-                              {!! formOpen(baseUrl('mmenucategory/addsave'))!!}
+                              {!! formOpenMultipart(baseUrl('mmenucategory/addsave'))!!}
                                 <div class="form-group">
                                   <div class="required">
                                     <label>{{ lang('Form.name') }}</label>

@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="form-group">
                                   <div class="required">
-                                    <?= formLabel(lang('Form.type')) ?>
+                                    <?= formLabel(lang('Form.status')) ?>
                                     <?= formSelect(
                                       $model->getEnumStatus(),
                                       "Value",

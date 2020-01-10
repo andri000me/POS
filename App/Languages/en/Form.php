@@ -430,5 +430,10 @@ $lang =  [
     "endtime" => "End",
     "mastermenucategory" => "Master Menu Category",
     "menucategory" => "Menu Category",
+    "mastermenu" => "Master Menu",
+    "menu" => "Menu",
+    "deliveryonly" => "Delivery Only",
+    "collectiononly" => "Collection Only",
+    "orderrestriction" => "Order Restriction"
 ];
 
