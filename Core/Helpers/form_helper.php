@@ -47,6 +47,7 @@ function formInput($props = array())
     $inputProp = "";
     $sesdata = null;
     $datavalue = null;
+    $checked = "";
     if (\Core\Session::get('data')) {
         $sesdata = \Core\Session::get('data');
     }
@@ -58,10 +59,21 @@ function formInput($props = array())
             }
         }
 
+        
+
         foreach ($props as $key => $val) {
             $newvalue = null;
             if ($key == "value" && !is_null($datavalue)) {
-                $newvalue = htmlspecialchars($datavalue, ENT_QUOTES);
+                
+                // if (key_exists('type', $props)){
+                //     if($props['type'] == "checkbox"){
+                //         if($props['value']){
+                //             $checked = "checked";
+                //         }
+                //     }
+                // } else {
+                    $newvalue = htmlspecialchars($datavalue, ENT_QUOTES);
+                // }
             } else {
                 $newvalue = htmlspecialchars($val, ENT_QUOTES);
             }
@@ -73,7 +85,7 @@ function formInput($props = array())
         }
     }
 
-    return "<input {$inputProp}> ";
+    return "<input $checked {$inputProp}> ";
 }
 
 function formSelect($datas, $value, $name, $props = array())
@@ -98,11 +110,14 @@ function formSelect($datas, $value, $name, $props = array())
     //     foreach ($datas as $data)
     //         $option .= "<option value = {$data[$value]}>{$data[$name]} </option> ";
     // } else {
-
+    
     foreach ($datas as $data)
-        if(isset($props['value']))
-            if($props['value'] == $data->$value)
+        if(isset($props['value'])){
+            if($props['value'] == $data->$value){
+
                 $option .= "<option value = {$data->$value} selected>{$data->$name} </option> ";
+            }
+        }
         else 
             $option .= "<option value = {$data->$value}>{$data->$name} </option> ";
     // }

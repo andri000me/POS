@@ -43,21 +43,30 @@ class M_menu extends Base_Controller
             $menus = new M_menus();
             $menus->parseFromRequest();
 
+            DbTrans::beginTransaction();
             try {
                 $menus->validate();
                 $file = new File("assets/uploads/menu",['jpg', 'png']);
                 $files = $_FILES['photo'];
-                if($file->upload($files)){  
-                    $menus->PhotoUrl = $file->getFileUrl();
-                    $menus->save();
+                $id = $menus->save();
+                if($id){
+                    $menus->Id = $id;
+                    if($file->upload($files)){  
+                        $menus->PhotoUrl = $file->getFileUrl();
+                        $menus->save();
+                    } else {
+                        Nayo_Exception::throw($file->getErrorMessage(), $menus);
+                    }
                 } else {
-                    Nayo_Exception::throw($file->getErrorMessage(), $menus);
+                    Nayo_Exception::throw(DbTrans::getCurrentErrorNumber(), $menus);
                 }
                 
+                DbTrans::commit();
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
                 redirect('mmenu/add')->go();
             } catch (Nayo_Exception $e) {
 
+                DbTrans::rollback();
                 Session::setFlash('add_warning_msg', array(0 => $e->messages));
                 redirect("mmenu/add")->with($menus)->go();
             }

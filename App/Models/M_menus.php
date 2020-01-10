@@ -28,7 +28,8 @@ class M_menus extends Base_Model {
 
     public function __construct(){
 		parent::__construct();
-		$this->Status = OrderRestriction::NONE;
+        $this->OrderRestriction = OrderRestriction::NONE;
+        $this->Status = 1;
 	}
 	
 	public function validate(self $oldmodel = null){

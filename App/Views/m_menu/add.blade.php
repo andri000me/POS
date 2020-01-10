@@ -78,7 +78,14 @@
                                       <div class="required">
                                         <label>{{ lang('Form.menucategory') }}</label>
                                         <div class="input-group has-success">
-
+                                          {!! formInput(
+                                            array(
+                                              "id" => "M_Menucategory_Id",
+                                              "name" => "M_Menucategory_Id",
+                                              "value" => $model->M_Menucategory_Id,
+                                              "hidden" => ""
+                                            )
+                                          ) !!}
                                           {!! formInput(
                                           array(
                                             "id" => "menucategoryname",
@@ -103,7 +110,14 @@
                                       <div class="required">
                                         <label>{{ lang('Form.mealtime') }}</label>
                                         <div class="input-group has-success">
-
+                                        {!! formInput(
+                                            array(
+                                              "id" => "M_Mealtime_Id",
+                                              "name" => "M_Mealtime_Id",
+                                              "value" => $model->M_Mealtime_Id,
+                                              "hidden" => ""
+                                            )
+                                          ) !!}
                                           {!! formInput(
                                           array(
                                             "id" => "mealtimename",
@@ -124,38 +138,58 @@
                                     </div>
                                   </div>
                                 </div>
-                                <div class="form-group">
-                                  <div class="required">
-                                    <?= formLabel(lang('Form.orderrestriction')) ?>
-                                    <?= formSelect(
-                                      App\Models\M_enumdetails::getEnums('OrderRestriction'),
-                                      "Value",
-                                      "EnumName",
-                                      array(
-                                        "id" => "OrderRestriction",
-                                        "class" => "selectpicker form-control",
-                                        "name" => "OrderRestriction",
-                                        'value' => $model->OrderRestriction
-                                      )
-                                    ) ?>
+                                <div class="row">
+                                  <div class="col-12 col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                      <div class="required">
+                                        {!! formLabel(lang('Form.orderrestriction')) !!}
+                                        {!! formSelect(
+                                          $model->getEnumOrder(),
+                                          "Value",
+                                          "EnumName",
+                                          array(
+                                            "id" => "OrderRestriction",
+                                            "class" => "selectpicker form-control",
+                                            "name" => "OrderRestriction",
+                                            "value" => $model->OrderRestriction
+                                          )
+                                        ) !!}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-12 col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                      <div class="required">
+                                        <label>{{ lang('Form.shop') }}</label>
+                                        <div class="input-group has-success">
+                                        {!! formInput(
+                                            array(
+                                              "id" => "M_Shop_Id",
+                                              "name" => "M_Shop_Id",
+                                              "value" => $model->M_Shop_Id,
+                                              "hidden" => ""
+                                            )
+                                          ) !!}
+                                          {!! formInput(
+                                          array(
+                                            "id" => "shopname",
+                                            "type" => "text",
+                                            "placeholder" => lang('Form.shop'),
+                                            "class" => "form-control custom-readonly clearable",
+                                            "name" => "shopname",
+                                            "value" => $model->get_M_Shop()->Name,
+                                            "readonly" => ""
+                                          )
+                                        )
+                                        !!}
+                                          <div class="input-group-append">
+                                            <button id="btnShop" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalShop"><i class="fa fa-search"></i></button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                                <!-- <div class="form-group">
-                                  <div class="required">
-                                    {!! formLabel(lang('Form.status')) !!}
-                                    {!! formSelect(
-                                      $model->getEnumOrder(),
-                                      "Value",
-                                      "EnumName",
-                                      array(
-                                        "id" => "OrderRestriction",
-                                        "class" => "selectpicker form-control",
-                                        "name" => "OrderRestriction",
-                                        'value' => $model->OrderRestriction
-                                      )
-                                    ) !!}
-                                  </div>
-                                </div> -->
                                 <div class="form-group">
                                   <label for="photo">{{ lang('Form.picture') }}</label>
                                   <div class="input-group">
@@ -174,6 +208,21 @@
                                     <div class="input-group-append">
                                       <span class="input-group-text" id="">Upload</span>
                                     </div>
+                                  </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                  <div class="icheck-primary icheck-default d-inline">
+                                    {!! formInput(
+                                      array(
+                                        "id" => "Status",
+                                        "class" => "checkbox",
+                                        "type" => "checkbox",
+                                        "value" => $model->Status
+                                      ) 
+                                    ) !!}
+                                  <label for="Status"> {{lang('Form.isactive')}}
+                                  </label>
+                                    
                                   </div>
                                 </div>
                                 <div class="form-group">
@@ -203,6 +252,7 @@
     </div>
     <?php Core\View::presentBlade("m_menucategory.modal") ?>
     <?php Core\View::presentBlade("m_mealtime.modal") ?>
+    <?php Core\View::presentBlade("m_shop.modal") ?>
       <script>
       
         $(document).ready(function() {   

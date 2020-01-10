@@ -43,4 +43,15 @@ class DbTrans {
         self::$instance->db->commit();
         // self::$instance->db->close();
     }
+
+    public static function getCurrentError(){
+
+        self::$instance = self::getInstance();
+        return self::$instance->db->error();
+    }
+
+    public static function getCurrentErrorNumber(){
+        self::$instance = self::getInstance();
+        return self::$instance->db->errno();
+    }
 }

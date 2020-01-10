@@ -65,7 +65,6 @@ $lang =  [
     'katholik' => "Katholik",
     'hindu' => "Hindu",
     'budha' => "Budha",
-    'none' => "None",
 
     'lasteducation' => "Pendidikan Terakhir",
     'job' => "Pekerjaan",
@@ -394,7 +393,7 @@ $lang =  [
     'department' => "Departemen",
     'mastersubvillage' => 'Master Dusun',
     'subvillage' => "Dusun",
-    'none' => "Tidak",
+    'none' => "Tidak/None",
     'distancefrommerapi' => "Jarak Dari Merapi",
     'isneedlogistic' => "Butuh Logistik?",
     'logistic' => "Logistik",
