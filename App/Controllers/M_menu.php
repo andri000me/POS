@@ -58,7 +58,7 @@ class M_menu extends Base_Controller
                         Nayo_Exception::throw($file->getErrorMessage(), $menus);
                     }
                 } else {
-                    Nayo_Exception::throw(DbTrans::getCurrentErrorNumber(), $menus);
+                    Nayo_Exception::throw(DbTrans::getCurrentError(), $menus);
                 }
                 
                 DbTrans::commit();

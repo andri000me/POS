@@ -22,7 +22,7 @@ class migration_20200110131645 {
         $table->addColumn("ModifiedBy", "Varchar", "50", true);
         $table->addColumn("Created", "datetime", "", true);
         $table->addColumn("Modified", "datetime", "", true);
-        $table->addForeignKey("M_Menucategory_Id", "m_categories", "Id");
+        $table->addForeignKey("M_Menucategory_Id", "m_menucategories", "Id");
         $table->addForeignKey("M_Mealtime_Id", "m_mealtimes", "Id");
         $table->addForeignKey("M_Shop_Id", "m_shops", "Id");
         $table->create();
