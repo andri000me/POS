@@ -422,6 +422,13 @@ $lang =  [
     "itemreceiving" => "Item Receive",
     "transactionitemreceiving" => "Transaction Item Receive",
     "transactionitemreceivingdetail" => "Transaction Item Receive Detail",
-    "received" => "Received"
+    "received" => "Received",
+    "masterkitchen" => "Master Kitchen",
+    "mastermealtime" => "Master Mealtime",
+    "mealtime" => "Mealtime",
+    "starttime" => "Start",
+    "endtime" => "End",
+    "mastermenucategory" => "Master Menu Category",
+    "menucategory" => "Menu Category",
 ];
 

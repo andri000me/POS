@@ -177,6 +177,11 @@ function setNotification(message, title, position = "bottom", align = "right") {
   $('.percent').mask('##0,00 %', {
     reverse: true
   });
+  // customfile input
+  $(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  });
 
   //datatables
   function loadIndexDataTable(table, sourceUrl, searchCaption,  deleteUrl = null, columns = [], callback = null){

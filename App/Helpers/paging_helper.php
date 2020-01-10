@@ -27,6 +27,8 @@ function form_paging(){
         'm_uom' => 'm_uoms',
         'm_item' => 'm_items',
         'm_shop' => 'm_shops',
+        'm_mealtime' => 'm_mealtimes',
+        'm_menucategory' => 'm_menucategories',
         't_itemstock' => 't_itemstocks',
         't_itemtransfer' => 't_itemtransfers',
         't_itemreceiving' => 't_itemreceivings',

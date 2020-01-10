@@ -217,4 +217,26 @@ $route->group('/mshop', function () {
     $this->get('/getItemTransferShopModal', 'App\Controllers\M_shop@getItemTransferShopModal');
 });
 
+$route->group('/mmealtime', function () {
+    $this->get('/', 'App\Controllers\M_mealtime@index');
+    $this->get('/add', 'App\Controllers\M_mealtime@add');
+    $this->post('/addsave', 'App\Controllers\M_mealtime@addsave');
+    $this->get('/edit/?', 'App\Controllers\M_mealtime@edit');
+    $this->post('/editsave', 'App\Controllers\M_mealtime@editsave');
+    $this->post('/delete', 'App\Controllers\M_mealtime@delete');
+    $this->get('/getAllData', 'App\Controllers\M_mealtime@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\M_mealtime@getDataModal');
+});
+
+$route->group('/mmenucategory', function () {
+    $this->get('/', 'App\Controllers\M_menucategory@index');
+    $this->get('/add', 'App\Controllers\M_menucategory@add');
+    $this->post('/addsave', 'App\Controllers\M_menucategory@addsave');
+    $this->get('/edit/?', 'App\Controllers\M_menucategory@edit');
+    $this->post('/editsave', 'App\Controllers\M_menucategory@editsave');
+    $this->post('/delete', 'App\Controllers\M_menucategory@delete');
+    $this->get('/getAllData', 'App\Controllers\M_menucategory@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\M_menucategory@getDataModal');
+});
+
 $route->end();

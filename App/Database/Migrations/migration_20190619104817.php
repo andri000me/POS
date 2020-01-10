@@ -15,6 +15,7 @@ class migration_20190619104817 {
         $table->addColumn("ClassName", "Varchar", "100");
         $table->addColumn("Resource", "Varchar", "100", true);
         $table->addColumn("IndexRoute", "Varchar", "100", true);
+        $table->addColumn("Icon", "Varchar", "100", true);
         $table->create();
 
         $table1 = new Table();

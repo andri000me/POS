@@ -11,6 +11,7 @@ class M_forms extends Nayo_Model {
     public $ClassName;
     public $Resource;
     public $IndexRoute;
+    public $Icon;
 
     
     protected $table = "m_forms";

@@ -38,6 +38,7 @@ class Base_Controller extends Nayo_Controller
         $item = Helper::arr_filter($allmenu, "ClassName", "Master Item");
         $transaction = Helper::arr_filter($allmenu, "ClassName", "Transaction");
         $broadcast = Helper::arr_filter($allmenu, "ClassName", "Master Broadcast");
+        $kitchen = Helper::arr_filter($allmenu, "ClassName", "Master Kitchen");
 
 
 
@@ -49,6 +50,16 @@ class Base_Controller extends Nayo_Controller
                 $usermenu .= "<li class = 'active'><a href='" . baseUrl($menu->IndexRoute) . "'>" . lang($menu->Resource) . "</a></li>";
             } else {
                 $usermenu .= "<li><a href='" . baseUrl($menu->IndexRoute) . "'>" . lang($menu->Resource) . "</a></li>";
+            }
+        }
+
+        $kithcenmenu = "";
+        foreach ($kitchen as $menu) {
+            if (lang($menu->Resource) == $title) {
+                $expandfound = "generalexpand";
+                $kithcenmenu .= "<li class = 'active'><a href='" . baseUrl($menu->IndexRoute) . "'>" . lang($menu->Resource) . "</a></li>";
+            } else {
+                $kithcenmenu .= "<li><a href='" . baseUrl($menu->IndexRoute) . "'>" . lang($menu->Resource) . "</a></li>";
             }
         }
 
@@ -114,6 +125,7 @@ class Base_Controller extends Nayo_Controller
 
         $expndas = [
             "userexpand" =>  [$usermenu, "fa fa-user", lang('Form.masteruser')],
+            "kitchenexpand" =>  [$kithcenmenu, "fa fa-archive", lang('Form.masterkitchen')],
             "generalexpand" =>  [$generalmenu, "fa fa-archive", lang('Form.mastergeneral')],
             "areaexpand" =>  [$areamenu, "fa fa-archive", lang('Form.masterarea')],
             "broadcastexpand" =>  [$broadcastmenu, "fa fa-archive", "Master Broadcast"],
@@ -201,6 +213,7 @@ class Base_Controller extends Nayo_Controller
         $item = Helper::arr_filter($allmenu, "ClassName", "Master Item");
         $transaction = Helper::arr_filter($allmenu, "ClassName", "Transaction");
         $broadcast = Helper::arr_filter($allmenu, "ClassName", "Master Broadcast");
+        $kitchen = Helper::arr_filter($allmenu, "ClassName", "Master Kitchen");
 
 
         $menudata = [];
@@ -213,7 +226,7 @@ class Base_Controller extends Nayo_Controller
                 $expandfound = "userexpand";
                 $usermenu .= "<li class = 'nav-item'>
                     <a class = 'nav-link active' href='" . baseUrl($menu->IndexRoute) . "'>
-                        <i class='nav-icon fas fa-file'></i>
+                        <i class='nav-icon ".$menu->Icon."'></i>
                         <p>".lang($menu->Resource)."
                             
                            
@@ -223,7 +236,33 @@ class Base_Controller extends Nayo_Controller
             } else {
                 $usermenu .= "<li class = 'nav-item'>
                 <a class = 'nav-link' href='" . baseUrl($menu->IndexRoute) . "'>
-                    <i class='nav-icon fas fa-file'></i>
+                    <i class='nav-icon ".$menu->Icon."'></i>
+                    <p>".lang($menu->Resource).
+                        
+                        "
+                    </p>
+                </a>
+            </li>";
+            }
+        }
+
+        $kitchenmenu = "";
+        foreach ($kitchen as $menu) {
+            if (lang($menu->Resource) == $title) {
+                $expandfound = "kitchenexpand";
+                $kitchenmenu .= "<li class = 'nav-item'>
+                    <a class = 'nav-link active' href='" . baseUrl($menu->IndexRoute) . "'>
+                        <i class='nav-icon ".$menu->Icon."'></i>
+                        <p>".lang($menu->Resource)."
+                            
+                           
+                        </p>
+                    </a>
+                </li>";
+            } else {
+                $kitchenmenu .= "<li class = 'nav-item'>
+                <a class = 'nav-link' href='" . baseUrl($menu->IndexRoute) . "'>
+                    <i class='nav-icon ".$menu->Icon."'></i>
                     <p>".lang($menu->Resource).
                         
                         "
@@ -342,6 +381,7 @@ class Base_Controller extends Nayo_Controller
         }
         $expndas = [
             "userexpand" =>  [$usermenu, "nav-icon fas fa fa-user", lang('Form.masteruser')],
+            "kitchenexpand" =>  [$kitchenmenu, " nav-icon fas fa-utensils", lang('Form.masterkitchen')],
             "generalexpand" =>  [$generalmenu, " nav-icon fa fa-archive", lang('Form.mastergeneral')],
             // "areaexpand" =>  [$areamenu, "fa fa-archive", lang('Form.masterarea')],
             // "broadcastexpand" =>  [$broadcastmenu, "fa fa-archive", "Master Broadcast"],

@@ -93,7 +93,7 @@
                           <div class="card-header" role="tab" id="headingOne">
                             <h5 class="mb-0">
                               <a data-toggle="collapse" href="#transitemreceive" aria-expanded="false" aria-controls="transitemreceive" class="collapsed">
-                                <?= lang('Form.transaction') . " / " . lang('Form.itemreceive') ?>
+                                <?= lang('Form.transaction') . " / " . lang('Form.itemreceiving') ?>
                               </a>
                             </h5>
                           </div>

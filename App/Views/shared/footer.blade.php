@@ -27,6 +27,7 @@
 <script src="{{ baseUrl('assets/dist/plugins/all/js/bootstrap-datetimepicker.min.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/jquery.mask.js')}}"></script>
 <script src="{{ baseUrl('assets/dist/plugins/all/js/jasny-bootstrap.min.js')}}"></script>
+<script src="{{ baseUrl('assets/dist/plugins/bs-custom-file-input/bs-custom-file-input.js')}}"></script>
 
 {{-- <!-- <script src="{{ baseUrl('assets/bootstrapdashboard/vendor/jquery/jquery.min.js')}}"></script> --> --}}
 {{-- <script src="{{ baseUrl('assets/js/popper.min.js')}}"></script>

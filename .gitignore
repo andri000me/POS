@@ -1,2 +1,6 @@
 /vendor/
 /App/Cache/
+/.vscode/
+App/Config/Config.php
+App/Config/Database.php
+log.txt

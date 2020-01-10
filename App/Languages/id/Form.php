@@ -439,5 +439,12 @@ $lang =  [
     "itemreceiving" => "Terima Barang",
     "transactionitemreceiving" => "Transaksi Terima Barang",
     "transactionitemreceivingdetail" => "Transaksi Item Terima Detail",
-    "received" => "Di Terima"
+    "received" => "Di Terima",
+    "masterkitchen" => "Master Dapur",
+    "mastermealtime" => "Master Waktu Makan",
+    "mealtime" => "Waktu Makan",
+    "starttime" => "Mulai",
+    "endtime" => "Bearkhir",
+    "mastermenucategory" => "Master Menu Kategori",
+    "menucategory" => "Menu Kategori",
 ];
