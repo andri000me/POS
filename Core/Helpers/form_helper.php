@@ -59,21 +59,19 @@ function formInput($props = array())
             }
         }
 
-        
+        if (key_exists('type', $props)){
+            if($props['type'] == "checkbox"){
+                if($props['value']){
+                    $checked = "checked=''";
+                }
+            }
+        }
 
         foreach ($props as $key => $val) {
             $newvalue = null;
             if ($key == "value" && !is_null($datavalue)) {
-                
-                // if (key_exists('type', $props)){
-                //     if($props['type'] == "checkbox"){
-                //         if($props['value']){
-                //             $checked = "checked";
-                //         }
-                //     }
-                // } else {
-                    $newvalue = htmlspecialchars($datavalue, ENT_QUOTES);
-                // }
+               
+                $newvalue = htmlspecialchars($datavalue, ENT_QUOTES);
             } else {
                 $newvalue = htmlspecialchars($val, ENT_QUOTES);
             }

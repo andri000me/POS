@@ -217,7 +217,9 @@
                                         "id" => "Status",
                                         "class" => "checkbox",
                                         "type" => "checkbox",
-                                        "value" => $model->Status
+                                        "name" => "Status",
+                                        "value" => $model->Status,
+
                                       ) 
                                     ) !!}
                                   <label for="Status"> {{lang('Form.isactive')}}

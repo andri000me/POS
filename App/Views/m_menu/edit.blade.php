@@ -236,6 +236,21 @@
                                       </div>
                                     </div>
                                   </div>
+                                  <div class="form-group clearfix">
+                                    <div class="icheck-primary icheck-default d-inline">
+                                      {!! formInput(
+                                        array(
+                                          "id" => "Status",
+                                          "class" => "checkbox",
+                                          "type" => "checkbox",
+                                          "value" => $model->Status
+                                        ) 
+                                      ) !!}
+                                    <label for="Status"> {{lang('Form.isactive')}}
+                                    </label>
+                                      
+                                    </div>
+                                  </div>
                                   <div class="form-group">
                                     <label>{{ lang('Form.description') }}</label>
                                     {!! formTextArea($model->Description,

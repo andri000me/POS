@@ -46,10 +46,10 @@ class M_menu extends Base_Controller
             DbTrans::beginTransaction();
             try {
                 $menus->validate();
-                $file = new File("assets/uploads/menu",['jpg', 'png']);
-                $files = $_FILES['photo'];
                 $id = $menus->save();
                 if($id){
+                    $file = new File("assets/uploads/menu",['jpg', 'png']);
+                    $files = $_FILES['photo'];
                     $menus->Id = $id;
                     if($file->upload($files)){  
                         $menus->PhotoUrl = $file->getFileUrl();
@@ -63,7 +63,7 @@ class M_menu extends Base_Controller
                 
                 DbTrans::commit();
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                redirect('mmenu/add')->go();
+                redirect('mmenu/edit/'.$id)->go();
             } catch (Nayo_Exception $e) {
 
                 DbTrans::rollback();
@@ -183,7 +183,10 @@ class M_menu extends Base_Controller
                 )->addColumn(
                     'm_menucategories.Name'
                 )->addColumn(
-                    'Price'
+                    'Price',
+                    function($row){
+                        return money_currency($row->Price);
+                    }
                 )->addColumn(
                     'Status',
                     function ($row) {

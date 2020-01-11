@@ -19,6 +19,8 @@ function setisnull($data){
         return $data;
 }
 
+
+
 function setisdecimal($data){
     if(empty($data))
         return 0.00;
