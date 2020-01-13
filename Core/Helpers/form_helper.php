@@ -115,6 +115,8 @@ function formSelect($datas, $value, $name, $props = array())
 
                 $option .= "<option value = {$data->$value} selected>{$data->$name} </option> ";
             }
+            else 
+                $option .= "<option value = {$data->$value}>{$data->$name} </option> ";
         }
         else 
             $option .= "<option value = {$data->$value}>{$data->$name} </option> ";
