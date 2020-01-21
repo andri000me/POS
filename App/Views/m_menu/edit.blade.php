@@ -325,14 +325,17 @@
             dataType: "json",
             success : function(result){
               if(result.Status.Code == 1000){
-                if(result.Result.length == 0){
-                  $('#MenuOption').selectpicker('val', ['Mustard','Relish']);
-$('#MenuOption').selectpicker('refresh');
-                  // var meneuoptionselect = $('#MenuOption');
-                  // console.log(meneuoptionselect);
-                  // meneuoptionselect.find("option").remove();
-                  // meneuoptionselect.append('<option value="whatever">text</option>')
-                  // .val('whatever')
+                if(result.Result.length > 0){
+                  // $('#MenuOption').selectpicker('val', ['Mustard','Relish']);
+
+                  var meneuoptionselect = $('#MenuOption');
+                  console.log(result);
+                  meneuoptionselect.find("option").remove();
+                  result.Result.forEach(function(item, index){
+                    meneuoptionselect.append("<option value="+item.Id+">"+item.Name+"</option>");
+                  });
+                  
+                  $('#MenuOption').selectpicker('refresh');
                 } else {
 
                 }
