@@ -450,5 +450,8 @@ $lang =  [
     "menu" => "Menu",
     "deliveryonly" => "Kirim",
     "collectiononly" => "Makan Ditempat",
-    "orderrestriction" => "Penyajian"
+    "orderrestriction" => "Penyajian",
+    "mastermenuoption" => "Master Menu Opsi",
+    "menuoption" => "Menu Opsi",
+    "option" => "Opsi"
 ];

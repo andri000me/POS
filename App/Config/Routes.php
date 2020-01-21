@@ -239,6 +239,19 @@ $route->group('/mmenucategory', function () {
     $this->get('/getDataModal', 'App\Controllers\M_menucategory@getDataModal');
 });
 
+
+$route->group('/mmenuoption', function () {
+    $this->any('/', 'App\Controllers\M_menuoption@index');
+    $this->get('/add', 'App\Controllers\M_menuoption@add');
+    $this->post('/addsave', 'App\Controllers\M_menuoption@addsave');
+    $this->get('/edit/?', 'App\Controllers\M_menuoption@edit');
+    $this->post('/editsave', 'App\Controllers\M_menuoption@editsave');
+    $this->post('/delete', 'App\Controllers\M_menuoption@delete');
+    $this->get('/getAllData', 'App\Controllers\M_menuoption@getAllData');
+    $this->get('/getDataModal', 'App\Controllers\M_menuoption@getDataModal');
+    $this->get('/getDataJson', 'App\Controllers\M_menuoption@getDataJson');
+});
+
 $route->group('/mmenu', function () {
     $this->get('/', 'App\Controllers\M_menu@index');
     $this->get('/add', 'App\Controllers\M_menu@add');

@@ -5,15 +5,18 @@ namespace App\Controllers;
 use Core\Nayo_Controller;
 use Core\Libraries\Helper;
 use App\Models\M_forms;
+use Core\Rest\Response;
 use Core\Session;
 use Core\View;
 
 class Base_Controller extends Nayo_Controller
 {
-
+    public $response = false;
     public function __construct()
     {
         parent::__construct();
+        // if(!$this->response)
+        //     $this->response = new Response;
     }
 
     public function loadView($url,  $title = "", $datas = array())

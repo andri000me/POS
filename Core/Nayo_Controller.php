@@ -16,6 +16,7 @@ class Nayo_Controller{
 
         if(!$this->request)
             $this->request = Request::getInstance();
+        
         // if(!$this->session)
         //     $this->session = Session::getInstance();
 

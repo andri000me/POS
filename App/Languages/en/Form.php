@@ -434,6 +434,9 @@ $lang =  [
     "menu" => "Menu",
     "deliveryonly" => "Delivery Only",
     "collectiononly" => "Collection Only",
-    "orderrestriction" => "Order Restriction"
+    "orderrestriction" => "Order Restriction",
+    "mastermenuoption" => "Master Menu Option",
+    "menuoption" => "Menu Option",
+    "option" => "Option"
 ];
 
