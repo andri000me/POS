@@ -30,6 +30,7 @@ function form_paging(){
         'm_mealtime' => 'm_mealtimes',
         'm_menucategory' => 'm_menucategories',
         'm_menu' => 'm_menus',
+        'm_menuoption' => 'm_menuoptions',
         't_itemstock' => 't_itemstocks',
         't_itemtransfer' => 't_itemtransfers',
         't_itemreceiving' => 't_itemreceivings',

@@ -4,7 +4,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>{{lang('Form.mastercategory')}}</h1>
+                <h1>{{lang('Form.mastermenuoption')}}</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -26,14 +26,14 @@
                                 <h3 class="card-title">{{lang('Form.add')}}</h3>
                             </div>
                             {{-- <div class = "col-6 text-right">
-                                <a class = "" href="{{ baseUrl('mcategory/add')}}"><i class = "fa fa-plus"></i></a>
+                                <a class = "" href="{{ baseUrl('mmenuoption/add')}}"><i class = "fa fa-plus"></i></a>
                             </div> --}}
                         </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                               
-                              {!! formOpen(baseUrl('mcategory/addsave'))!!}
+                              {!! formOpen(baseUrl('mmenuoption/addsave'))!!}
                                 <div class="form-group">
                                   <div class="required">
                                     <label>{{ lang('Form.name') }}</label>
@@ -41,7 +41,7 @@
                                       array(
                                         "id" => "Name",
                                         "type" => "text",
-                                        "placeholder" => lang('Form.category'),
+                                        "placeholder" => lang('Form.menuoption'),
                                         "class" => "form-control",
                                         "name" => "Name",
                                         "value" => $model->Name,
@@ -56,7 +56,7 @@
                                       array(
                                         "id" => "Description",
                                         "type" => "text",
-                                        "placeholder" => lang('Form.category'),
+                                        "placeholder" => lang('Form.menuoption'),
                                         "class" => "form-control",
                                         "name" => "Description"
                                       )
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="form-group">
                                   <input type="submit" value="{{ lang('Form.save') }}" class="btn btn-primary">
-                                  <a href="{{ baseUrl('mcategory') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
+                                  <a href="{{ baseUrl('mmenuoption') }}" value="{{ lang('Form.cancel') }}" class="btn btn-primary">{{ lang('Form.cancel') }}</a>
                                 </div>
                               {!! formClose() !!}
                         </div>

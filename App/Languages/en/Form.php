@@ -437,6 +437,7 @@ $lang =  [
     "orderrestriction" => "Order Restriction",
     "mastermenuoption" => "Master Menu Option",
     "menuoption" => "Menu Option",
-    "option" => "Option"
+    "option" => "Option",
+    
 ];
 

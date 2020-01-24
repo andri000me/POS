@@ -284,13 +284,17 @@
                                           <button id="btnMenuCategory" data-toggle="modal" type="button" class="btn btn-secondary" data-target="#modalMenucategory"><i class="fa fa-arrow-down"></i> {{lang('Form.add')}}</button>
                                         </div>
 
-                                        <div class="input-group-append">
+                                        <!-- <div class="input-group-append">
                                           <button id="btnMenuCategoryAdd" data-toggle="modal" type="button" class="btn btn-info" data-target="#modalMenuoptionAdd"><i class="fa fa-plus"></i> {{lang('Form.option')}}</button>
+                                        </div> -->
+                                        <div class="input-group-append">
+                                          <button id="btnOptionRefresh" data-toggle="modal" type="button" class="btn btn-info" ><i class="fa fa-sync"></i></button>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
+                                
                               </div>
                           {!! formOpenMultipart(baseUrl('mmenu/addsave'))!!}
                           
@@ -310,7 +314,6 @@
     <?php Core\View::presentBlade("m_menucategory.modal") ?>
     <?php Core\View::presentBlade("m_mealtime.modal") ?>
     <?php Core\View::presentBlade("m_shop.modal") ?>
-    <?php Core\View::presentBlade("m_menuoption.add") ?>
       <script>
       
         $(document).ready(function() {   

@@ -72,6 +72,8 @@ viewMode: "years",
 minViewMode: "years"
 });
 
+$(".sortable").sortable({});
+
 //alert
 function setNotification(message, title, position = "bottom", align = "right") {
   
@@ -227,6 +229,7 @@ function setNotification(message, title, position = "bottom", align = "right") {
           var data = indexTable.row($tr).data();
           var id = data['0'] + '~a';
           var name = document.getElementById(id).innerHTML;
+          console.log(data);
           deleteData(name, function(result){
             if (result==true)
             {
@@ -234,8 +237,9 @@ function setNotification(message, title, position = "bottom", align = "right") {
                 type : "POST",
                 url : deleteUrl,
                 data : {id : data['0']},
-                success : function(data){
-                  var status = $.parseJSON(data);
+                success : function(s){
+                  var status = $.parseJSON(s);
+                  console.log(status);
                   if(status['isforbidden']){
                     window.location = "{{ baseUrl('Forbidden')}}";
                   } else {

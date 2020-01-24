@@ -7,6 +7,7 @@ use App\Controllers\Base_Controller;
 use App\Libraries\ResponseCode;
 use Core\Libraries\Datatables;
 use Core\Nayo_Exception;
+use Core\Request;
 use Core\Session;
 use GuzzleHttp\Psr7\Response;
 
@@ -41,13 +42,30 @@ class M_menuoption extends Base_Controller
         if ($this->hasPermission('m_menu', 'Write')) {
 
             $menuoptions = new M_menuoptions();
-            $menuoptions->parseFromRequest();
+
+            if(Request::get('json')){
+                $menuoptions->Name = Request::post('NameOption');
+                $menuoptions->Description = Request::post('DescriptionOption');
+            } else {
+                $menuoptions->parseFromRequest();
+            }
 
             try {
                 $menuoptions->validate();
                 $menuoptions->save();
                 Session::setFlash('success_msg', array(0 => lang('Form.datasaved')));
-                redirect('mmenuoption/add')->go();
+                // 
+                if(Request::get('json')){
+                    $result = [
+                        'Message' => lang('Form.success'),
+                        'Result' => $menuoptions,
+                        'Status' => ResponseCode::OK
+                    ];
+
+                    echo json_encode($result);
+                } else {
+                    redirect('mmenuoption/add')->go();
+                }
             } catch (Nayo_Exception $e) {
 
                 Session::setFlash('add_warning_msg', array(0 => $e->messages));
@@ -140,10 +158,6 @@ class M_menuoption extends Base_Controller
                                 "class" => "text-muted"
                             ));
                     }
-                )->addColumn(
-                    'StartTime'
-                )->addColumn(
-                    'EndTime'
                 )->addColumn(
                     'Description'
                 )->addColumn(
