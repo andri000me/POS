@@ -259,13 +259,16 @@ class Nayo_Model
         $wheres = array();
         foreach ($where as $k => $v) {
             if (!empty($v)) {
-                if($v != 'null'){
+                if($v == 'null'){
+                    array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
+                    array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
+                } else if ($v == 'not null'){
+                    array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NOT NULL");
+                    array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NOT NULL");
+                } else {
                     $newVal = escapeString($v);
                     array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark) . "'{$newVal}'");
                     array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark) . "'{$newVal}'");
-                } else {
-                    array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
-                    array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
                 }
             }
         }
@@ -317,13 +320,16 @@ class Nayo_Model
 
         foreach ($orwhere as $k => $v) {
             if (!empty($v)) {
-                if($v != 'null'){
-                    $newVal = escapeString($v);
-                    array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark) . "'{$newVal}'");
-                    array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark) . "'{$newVal}'"); 
-                } else {
+                if($v == 'null'){
                     array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
                     array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
+                } else if ($v == 'not null'){
+                    array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NOT NULL");
+                    array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NOT NULL");
+                } else {
+                    $newVal = escapeString($v);
+                    array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark) . "'{$newVal}'");
+                    array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark) . "'{$newVal}'");
                 }
             }
         }
@@ -518,13 +524,16 @@ class Nayo_Model
 
             foreach ($where as $k => $v) {
                 if (!empty($v)) {
-                    if($v != 'null'){
+                    if($v == 'null'){
+                        array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
+                        array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
+                    } else if ($v == 'not null'){
+                        array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NOT NULL");
+                        array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NOT NULL");
+                    } else {
                         $newVal = escapeString($v);
                         array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark) . "'{$newVal}'");
                         array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark) . "'{$newVal}'");
-                    } else {
-                        array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
-                        array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
                     }
                 }
             }
@@ -546,13 +555,16 @@ class Nayo_Model
 
             foreach ($orwhere as $k => $v) {
                 if (!empty($v)) {
-                    if($v != 'null'){
+                    if($v == 'null'){
+                        array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
+                        array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
+                    } else if ($v == 'not null'){
+                        array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NOT NULL");
+                        array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NOT NULL");
+                    } else {
                         $newVal = escapeString($v);
                         array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark) . "'{$newVal}'");
                         array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark) . "'{$newVal}'");
-                    } else {
-                        array_push($this->where, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
-                        array_push($wheres, $this->columnOpenMark . columnValidate($k, $this->columnOpenMark, $this->columnCloseMark, false) . " IS NULL");
                     }
                 }
             }

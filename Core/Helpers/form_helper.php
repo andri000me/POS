@@ -12,7 +12,12 @@ function formOpen($action = "", $props = array(), $method = "POST")
         }
     }
 
-    $form = "<form method = '{$method}' action='{$action}' {$property}> ";
+    $act="";
+    if(!empty($action)){
+        $act = "action='{$action}'";
+    }
+    
+    $form = "<form method = '{$method}' {$act} {$property}> ";
     if ($GLOBALS['config']['csrf_security']) {
         $form .= "<input hidden name='{$_SESSION['csrfName']}' value = '{$_SESSION['csrfToken']}'>";
     }
@@ -28,8 +33,13 @@ function formOpenMultipart($action = "", $props = array(), $method = "POST")
             $property .= "{$key} = '{$prop}'";
         }
     }
+    
+    $act="";
+    if(!empty($action)){
+        $act = "action='{$action}'";
+    }
 
-    $form = "<form method = '{$method}' action='{$action}' {$property}  enctype='multipart/form-data'> ";
+    $form = "<form method = '{$method}' {$act} {$property}  enctype='multipart/form-data'> ";
     if ($GLOBALS['config']['csrf_security']) {
         $form .= "<input hidden name='{$_SESSION['csrfName']}' value = '{$_SESSION['csrfToken']}'>";
     }
@@ -61,7 +71,7 @@ function formInput($props = array())
 
         if (key_exists('type', $props)){
             if($props['type'] == "checkbox"){
-                if($props['value']){
+                if(isset($props['value'])){
                     $checked = "checked=''";
                 }
             }
